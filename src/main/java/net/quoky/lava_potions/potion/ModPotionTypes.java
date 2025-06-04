@@ -3,6 +3,9 @@ package net.quoky.lava_potions.potion;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -13,8 +16,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.quoky.lava_potions.Lava_Potions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModPotionTypes {
@@ -23,31 +24,14 @@ public class ModPotionTypes {
     // DeferredRegister for potions
     public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTIONS, Lava_Potions.MOD_ID);
     
-    // Register lava bottle as a potion type
+    // Only register the 2 base potion types - splash/lingering variants will be handled by vanilla system
     public static final RegistryObject<Potion> LAVA_BOTTLE = POTIONS.register("lava_bottle", 
         () -> new Potion());
         
-    // Register awkward lava potion
     public static final RegistryObject<Potion> AWKWARD_LAVA = POTIONS.register("awkward_lava", 
         () -> new Potion());
     
-    // Register splash variants
-    public static final RegistryObject<Potion> SPLASH_LAVA_BOTTLE = POTIONS.register("splash_lava_bottle", 
-        () -> new Potion());
-        
-    public static final RegistryObject<Potion> SPLASH_AWKWARD_LAVA = POTIONS.register("splash_awkward_lava", 
-        () -> new Potion());
-    
-    // Register lingering variants
-    public static final RegistryObject<Potion> LINGERING_LAVA_BOTTLE = POTIONS.register("lingering_lava_bottle", 
-        () -> new Potion());
-        
-    public static final RegistryObject<Potion> LINGERING_AWKWARD_LAVA = POTIONS.register("lingering_awkward_lava", 
-        () -> new Potion());
-    
-    // We'll add more potion types later once we have the effects registered
-    
-    // Collection of all potion types for creative tab
+    // Collection of base potion types for creative tab (only the 2 base types)
     public static final List<Potion> POTION_TYPES = new ArrayList<>();
     
     /**
@@ -81,59 +65,55 @@ public class ModPotionTypes {
     }
     
     /**
-     * Check if a potion is a splash variant
+     * Check if a potion is a splash variant (based on the item type, not potion type)
      */
     public static boolean isSplashPotion(Potion potion) {
-        String id = getPotionTypeId(potion);
-        return id.contains("splash");
+        // This method is now used differently - it checks if we're dealing with splash items
+        // The actual splash/lingering detection will be done at the item level
+        return false; // Base potion types are never splash
     }
     
     /**
-     * Check if a potion is a lingering variant
+     * Check if a potion is a lingering variant (based on the item type, not potion type)
      */
     public static boolean isLingeringPotion(Potion potion) {
-        String id = getPotionTypeId(potion);
-        return id.contains("lingering");
+        // This method is now used differently - it checks if we're dealing with lingering items
+        // The actual splash/lingering detection will be done at the item level
+        return false; // Base potion types are never lingering
     }
     
     /**
-     * Get the corresponding splash variant for a potion
+     * Check if this is a base lava bottle
      */
-    public static Potion getSplashVariant(Potion potion) {
-        if (potion == LAVA_BOTTLE.get()) {
-            return SPLASH_LAVA_BOTTLE.get();
-        } else if (potion == AWKWARD_LAVA.get()) {
-            return SPLASH_AWKWARD_LAVA.get();
-        }
-        // Add more mappings as needed
-        return potion; // Return the same potion if no splash variant exists
+    public static boolean isBaseLavaBottle(Potion potion) {
+        return potion == LAVA_BOTTLE.get();
     }
     
     /**
-     * Get the corresponding lingering variant for a splash potion
+     * Check if this is an awkward lava potion
      */
-    public static Potion getLingeringVariant(Potion potion) {
-        if (potion == SPLASH_LAVA_BOTTLE.get()) {
-            return LINGERING_LAVA_BOTTLE.get();
-        } else if (potion == SPLASH_AWKWARD_LAVA.get()) {
-            return LINGERING_AWKWARD_LAVA.get();
-        }
-        // Add more mappings as needed
-        return potion; // Return the same potion if no lingering variant exists
+    public static boolean isAwkwardLava(Potion potion) {
+        return potion == AWKWARD_LAVA.get();
+    }
+    
+    /**
+     * Check if this is any lava potion type
+     */
+    public static boolean isLavaPotion(Potion potion) {
+        return isBaseLavaBottle(potion) || isAwkwardLava(potion);
     }
     
     /**
      * Initializes the potion types list for creative tab
      */
     private static void initPotionTypes() {
-        LOGGER.info("Initializing potion types");
+        LOGGER.info("Initializing potion types - registering only 2 base types");
+        // Only add the 2 base potions - splash/lingering will be handled by vanilla system
         POTION_TYPES.add(LAVA_BOTTLE.get());
         POTION_TYPES.add(AWKWARD_LAVA.get());
-        POTION_TYPES.add(SPLASH_LAVA_BOTTLE.get());
-        POTION_TYPES.add(SPLASH_AWKWARD_LAVA.get());
-        POTION_TYPES.add(LINGERING_LAVA_BOTTLE.get());
-        POTION_TYPES.add(LINGERING_AWKWARD_LAVA.get());
-        // We'll add more when we register them
+        
+        LOGGER.info("Added {} base potion types to creative tab", POTION_TYPES.size());
+        LOGGER.info("Splash and lingering variants will be handled by vanilla brewing system");
     }
     
     /**

@@ -21,7 +21,7 @@ public class ModTags {
          * Creates a tag with the mod ID namespace
          */
         private static TagKey<Item> tag(String name) {
-            return ItemTags.create(new ResourceLocation(Lava_Potions.MOD_ID + ":" + name));
+            return ItemTags.create(ResourceLocation.tryParse(Lava_Potions.MOD_ID + ":" + name));
         }
     }
 } 

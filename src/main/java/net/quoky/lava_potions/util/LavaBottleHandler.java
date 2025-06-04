@@ -1,5 +1,8 @@
 package net.quoky.lava_potions.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
@@ -9,25 +12,32 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LayeredCauldronBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.quoky.lava_potions.Lava_Potions;
-import net.quoky.lava_potions.item.ModItems;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.quoky.lava_potions.block.ModBlocks;
+import net.quoky.lava_potions.potion.ModPotionTypes;
+import net.quoky.lava_potions.potion.VanillaPotionBrewingRecipes;
+import net.quoky.lava_potions.util.CreateCompat;
 
 /**
  * Handles filling glass bottles with lava
@@ -36,6 +46,10 @@ import org.slf4j.LoggerFactory;
 public class LavaBottleHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("LavaBottleHandler");
+    private static final boolean CREATE_LOADED = ModList.get().isLoaded("create");
+    private static final int LAVA_AMOUNT_TO_ADD = 250; // 250mb = 1/4 bucket when emptying a lava bottle
+
+
 
     /**
      * Handle right-clicking on blocks
@@ -50,43 +64,30 @@ public class LavaBottleHandler {
         Player player = event.getEntity();
         ItemStack heldItem = player.getItemInHand(event.getHand());
 
-        // Check if player is holding a glass bottle
-        if (heldItem.getItem() != Items.GLASS_BOTTLE) {
+        // Check if player is holding a glass bottle - for filling with lava
+        if (heldItem.getItem() == Items.GLASS_BOTTLE) {
+            handleFillingBottle(event, level, player, heldItem);
             return;
         }
-
-        // Check the block that was clicked
-        BlockPos clickedPos = event.getPos();
-        BlockState clickedState = level.getBlockState(clickedPos);
-
-        // Handle lava cauldron interaction
-        if (clickedState.is(Blocks.LAVA_CAULDRON)) {
-            createLavaBottle(level, player, event.getHand(), clickedPos);
-            // Lower the cauldron level or remove lava
-            level.setBlockAndUpdate(clickedPos, Blocks.CAULDRON.defaultBlockState());
-            level.gameEvent(null, GameEvent.BLOCK_CHANGE, clickedPos);
-            event.setCancellationResult(InteractionResult.SUCCESS);
-            event.setCanceled(true);
-            event.setUseItem(Event.Result.DENY);
+        
+        // Check if player is holding a lava bucket - for filling cauldrons with levels
+        if (heldItem.getItem() == Items.LAVA_BUCKET) {
+            handleLavaBucketUse(event, level, player, heldItem);
             return;
         }
-
-        if (clickedState.getBlock() == Blocks.LAVA && clickedState.getFluidState().isSource()) {
-            // Direct click on lava source
-            createLavaBottle(level, player, event.getHand(), clickedPos);
-            event.setCancellationResult(InteractionResult.SUCCESS);
-            event.setCanceled(true);
-            event.setUseItem(Event.Result.DENY);
-            return;
+        
+        // Check if player is holding a lava bottle - for emptying into blocks
+        if (VanillaPotionBrewingRecipes.isVanillaPotionWithLavaType(heldItem)) {
+            // Verify it's a lava bottle (not another potion type)
+            Potion potion = PotionUtils.getPotion(heldItem);
+            if (potion == ModPotionTypes.LAVA_BOTTLE.get()) {
+                handleEmptyingLavaBottle(event, level, player, heldItem);
+            }
         }
-
-        // Check if we're looking through lava
-        BlockPos lavaPos = findLavaInSight(level, player);
-        if (lavaPos != null) {
-            createLavaBottle(level, player, event.getHand(), lavaPos);
-            event.setCancellationResult(InteractionResult.SUCCESS);
-            event.setCanceled(true);
-            event.setUseItem(Event.Result.DENY);
+        
+        // Check if player is holding nothing - for checking lava cauldron level
+        if (heldItem.isEmpty()) {
+            handleEmptyHandInteraction(event, level, player);
         }
     }
 
@@ -114,6 +115,203 @@ public class LavaBottleHandler {
             createLavaBottle(level, player, event.getHand(), lavaPos);
             event.setCancellationResult(InteractionResult.SUCCESS);
             event.setCanceled(true);
+        }
+    }
+    
+    /**
+     * Handle filling a bottle with lava
+     */
+    private static void handleFillingBottle(PlayerInteractEvent.RightClickBlock event, 
+                                          Level level, Player player, ItemStack heldItem) {
+        // Check the block that was clicked
+        BlockPos clickedPos = event.getPos();
+        BlockState clickedState = level.getBlockState(clickedPos);
+
+        // Handle vanilla lava cauldron interaction - convert to layered system
+        if (clickedState.is(Blocks.LAVA_CAULDRON)) {
+            createLavaBottle(level, player, event.getHand(), clickedPos);
+            
+            // Convert vanilla lava cauldron to layered lava cauldron with level 2 (2/3 full)
+            level.setBlockAndUpdate(clickedPos, ModBlocks.LAVA_CAULDRON.get().defaultBlockState()
+                .setValue(net.minecraft.world.level.block.LayeredCauldronBlock.LEVEL, 2));
+            
+            level.gameEvent(null, GameEvent.BLOCK_CHANGE, clickedPos);
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+            event.setUseItem(Event.Result.DENY);
+            return;
+        }
+        
+        // Handle layered lava cauldron interaction - reduce level
+        if (clickedState.is(ModBlocks.LAVA_CAULDRON.get())) {
+            createLavaBottle(level, player, event.getHand(), clickedPos);
+            
+            int currentLevel = clickedState.getValue(net.minecraft.world.level.block.LayeredCauldronBlock.LEVEL);
+            currentLevel--;
+            
+            if (currentLevel > 0) {
+                // Still has lava, reduce the level
+                level.setBlockAndUpdate(clickedPos, clickedState.setValue(net.minecraft.world.level.block.LayeredCauldronBlock.LEVEL, currentLevel));
+            } else {
+                // No more lava, empty the cauldron
+                level.setBlockAndUpdate(clickedPos, Blocks.CAULDRON.defaultBlockState());
+            }
+            
+            level.gameEvent(null, GameEvent.BLOCK_CHANGE, clickedPos);
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+            event.setUseItem(Event.Result.DENY);
+            return;
+        }
+
+        if (clickedState.getBlock() == Blocks.LAVA && clickedState.getFluidState().isSource()) {
+            // Direct click on lava source
+            createLavaBottle(level, player, event.getHand(), clickedPos);
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+            event.setUseItem(Event.Result.DENY);
+            return;
+        }
+
+        // Check if we're looking through lava
+        BlockPos lavaPos = findLavaInSight(level, player);
+        if (lavaPos != null) {
+            createLavaBottle(level, player, event.getHand(), lavaPos);
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+            event.setUseItem(Event.Result.DENY);
+        }
+    }
+    
+    /**
+     * Handle right-clicking with empty hand to check lava cauldron level
+     */
+    private static void handleEmptyHandInteraction(PlayerInteractEvent.RightClickBlock event, 
+                                                 Level level, Player player) {
+        BlockPos clickedPos = event.getPos();
+        BlockState clickedState = level.getBlockState(clickedPos);
+
+        // Handle checking vanilla lava cauldron level
+        if (clickedState.is(Blocks.LAVA_CAULDRON)) {
+            if (!level.isClientSide) {
+                player.sendSystemMessage(net.minecraft.network.chat.Component.literal("Lava cauldron is full"));
+            }
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+        }
+        
+        // Handle checking layered lava cauldron level
+        if (clickedState.is(ModBlocks.LAVA_CAULDRON.get())) {
+            int currentLevel = clickedState.getValue(net.minecraft.world.level.block.LayeredCauldronBlock.LEVEL);
+            
+            if (!level.isClientSide) {
+                String levelText;
+                switch (currentLevel) {
+                    case 3:
+                        levelText = "full";
+                        break;
+                    case 2:
+                        levelText = "2/3 full";
+                        break;
+                    case 1:
+                        levelText = "1/3 full";
+                        break;
+                    default:
+                        levelText = "empty";
+                        break;
+                }
+                player.sendSystemMessage(net.minecraft.network.chat.Component.literal("Lava cauldron is " + levelText));
+            }
+            
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+        }
+    }
+    
+    /**
+     * Handle using a lava bucket on cauldrons to create leveled system
+     */
+    private static void handleLavaBucketUse(PlayerInteractEvent.RightClickBlock event, 
+                                          Level level, Player player, ItemStack heldItem) {
+        BlockPos clickedPos = event.getPos();
+        BlockState clickedState = level.getBlockState(clickedPos);
+
+        // Handle filling empty cauldron with lava bucket
+        if (clickedState.is(Blocks.CAULDRON)) {
+            // Fill cauldron with layered lava cauldron at level 3 (full)
+            level.setBlockAndUpdate(clickedPos, ModBlocks.LAVA_CAULDRON.get().defaultBlockState()
+                .setValue(net.minecraft.world.level.block.LayeredCauldronBlock.LEVEL, 3));
+            
+            // Play sound
+            level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                    SoundEvents.BUCKET_EMPTY_LAVA, SoundSource.BLOCKS, 1.0F, 1.0F);
+            
+            // Fire game event
+            level.gameEvent(player, GameEvent.FLUID_PLACE, clickedPos);
+            
+            // Give back empty bucket (if not in creative)
+            if (!player.getAbilities().instabuild) {
+                heldItem.shrink(1);
+                ItemStack emptyBucket = new ItemStack(Items.BUCKET);
+                if (heldItem.isEmpty()) {
+                    player.setItemInHand(event.getHand(), emptyBucket);
+                } else if (!player.getInventory().add(emptyBucket)) {
+                    player.drop(emptyBucket, false);
+                }
+            }
+            
+            event.setCancellationResult(InteractionResult.SUCCESS);
+            event.setCanceled(true);
+            event.setUseItem(Event.Result.DENY);
+            LOGGER.debug("Filled cauldron at {} with lava bucket, set to level 3", clickedPos);
+        }
+    }
+    
+    /**
+     * Handle emptying a lava bottle into a block
+     */
+    private static void handleEmptyingLavaBottle(PlayerInteractEvent.RightClickBlock event, 
+                                               Level level, Player player, ItemStack heldItem) {
+        BlockPos clickedPos = event.getPos();
+        BlockEntity blockEntity = level.getBlockEntity(clickedPos);
+        
+        // Try to empty into a Create basin if available
+        if (CREATE_LOADED && blockEntity != null && CreateCompat.isCreateBasin(level, clickedPos, blockEntity)) {
+            // Try to get fluid handler capability
+            blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler -> {
+                // Create a new FluidStack with lava
+                FluidStack lavaStack = new FluidStack(Fluids.LAVA, LAVA_AMOUNT_TO_ADD);
+                
+                // Check if the tank can accept this fluid
+                int filled = fluidHandler.fill(lavaStack, FluidAction.SIMULATE);
+                if (filled > 0) {
+                    // Actually fill the tank
+                    fluidHandler.fill(lavaStack, FluidAction.EXECUTE);
+                    
+                    // Play sound
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                            SoundEvents.BOTTLE_EMPTY, SoundSource.BLOCKS, 1.0F, 0.8F);
+                    
+                    // Fire game event
+                    level.gameEvent(player, GameEvent.FLUID_PLACE, clickedPos);
+                    
+                    // Give back empty bottle
+                    if (!player.getAbilities().instabuild) {
+                        heldItem.shrink(1);
+                        ItemStack emptyBottle = new ItemStack(Items.GLASS_BOTTLE);
+                        if (heldItem.isEmpty()) {
+                            player.setItemInHand(event.getHand(), emptyBottle);
+                        } else if (!player.getInventory().add(emptyBottle)) {
+                            player.drop(emptyBottle, false);
+                        }
+                    }
+                    
+                    // Cancel the event
+                    event.setCancellationResult(InteractionResult.SUCCESS);
+                    event.setCanceled(true);
+                    event.setUseItem(Event.Result.DENY);
+                }
+            });
         }
     }
 
@@ -181,10 +379,8 @@ public class LavaBottleHandler {
     private static void createLavaBottle(Level level, Player player, InteractionHand hand, BlockPos lavaPos) {
         ItemStack heldItem = player.getItemInHand(hand);
 
-        // Create lava bottle
-        ItemStack lavaBottle = new ItemStack(ModItems.LAVA_POTION.get());
-        CompoundTag tag = lavaBottle.getOrCreateTag();
-        tag.putString("Potion", Lava_Potions.MOD_ID + ":lava_bottle");
+        // Create vanilla lava bottle using our brewing recipes system
+        ItemStack lavaBottle = VanillaPotionBrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get());
 
         // Play sound
         level.playSound(null, player.getX(), player.getY(), player.getZ(),

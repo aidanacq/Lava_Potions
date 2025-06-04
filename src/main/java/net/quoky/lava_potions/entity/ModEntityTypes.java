@@ -21,7 +21,7 @@ public class ModEntityTypes {
                             .sized(0.25F, 0.25F) // Same size as vanilla thrown potions
                             .clientTrackingRange(4) // Same tracking range as vanilla thrown potions
                             .updateInterval(10) // Same update interval as vanilla thrown potions
-                            .build(new ResourceLocation(Lava_Potions.MOD_ID, "thrown_lava_potion").toString())
+                            .build(ResourceLocation.tryParse(Lava_Potions.MOD_ID + ":" + "thrown_lava_potion").toString())
             );
     
     /**

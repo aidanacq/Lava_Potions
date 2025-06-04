@@ -4,22 +4,27 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.quoky.lava_potions.block.ModBlocks;
 import net.quoky.lava_potions.effect.ModEffects;
 import net.quoky.lava_potions.entity.ModEntityTypes;
+import net.quoky.lava_potions.event.PotionReplacementHandler;
 import net.quoky.lava_potions.item.ModCreativeTabs;
 import net.quoky.lava_potions.item.ModItems;
-import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
+import net.quoky.lava_potions.potion.VanillaPotionBrewingRecipes;
+import net.quoky.lava_potions.util.CreateCompat;
 import net.quoky.lava_potions.util.LavaBottleHandler;
 
 /**
@@ -39,6 +44,9 @@ public class Lava_Potions {
         // Get the mod event bus
         IEventBus modEventBus = context.getModEventBus();
 
+        // Register blocks
+        ModBlocks.register(modEventBus);
+        
         // Register items
         ModItems.register(modEventBus);
         
@@ -62,6 +70,9 @@ public class Lava_Potions {
         
         // Register our lava bottle handler
         MinecraftForge.EVENT_BUS.register(LavaBottleHandler.class);
+        
+        // Register Create mod compatibility
+        MinecraftForge.EVENT_BUS.register(CreateCompat.class);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -71,7 +82,10 @@ public class Lava_Potions {
      * Common setup event handler - registers brewing recipes
      */
     private void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(BrewingRecipes::registerBrewingRecipes);
+        event.enqueueWork(() -> {
+            // Only register vanilla potion brewing recipes - custom item brewing removed
+            VanillaPotionBrewingRecipes.registerVanillaPotionBrewingRecipes();
+        });
         LOGGER.info("Lava Potions mod initialized!");
     }
 

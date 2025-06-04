@@ -1,0 +1,18 @@
+{
+  "item.lava_potions.lava_potion": "Lava Bottle",
+  "item.lava_potions.lava_bottle": "Lava Bottle",
+  "item.lava_potions.awkward_lava_potion": "Awkward Lava Potion",
+
+  "creativetab.lava_potions": "Lava Potions",
+
+  "potion.lava_potions.lava_bottle": "Lava Bottle",
+  "potion.lava_potions.awkward_lava": "Awkward Lava Potion",
+  
+  "potion.lava_potions.splash_lava_bottle": "Splash Lava Bottle",
+  "potion.lava_potions.splash_awkward_lava": "Splash Awkward Lava Potion",
+  
+  "potion.lava_potions.lingering_lava_bottle": "Lingering Lava Bottle",
+  "potion.lava_potions.lingering_awkward_lava": "Lingering Awkward Lava Potion",
+  
+  "entity.lava_potions.thrown_lava_potion": "Thrown Lava Potion"
+}

@@ -1,0 +1,21 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/potion_overlay",
+    "layer1": "lava_potions:item/lava_potion_base"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "lava_potions:potion_modifier": 1.0
+      },
+      "model": "lava_potions:item/splash_lava_potion"
+    },
+    {
+      "predicate": {
+        "lava_potions:potion_modifier": 2.0
+      },
+      "model": "lava_potions:item/lingering_lava_potion"
+    }
+  ]
+} 

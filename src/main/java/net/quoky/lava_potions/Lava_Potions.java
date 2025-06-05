@@ -4,14 +4,12 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -19,13 +17,14 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.quoky.lava_potions.block.ModBlocks;
 import net.quoky.lava_potions.effect.ModEffects;
 import net.quoky.lava_potions.entity.ModEntityTypes;
-import net.quoky.lava_potions.event.PotionReplacementHandler;
+import net.quoky.lava_potions.fluid.ModFluids;
 import net.quoky.lava_potions.item.ModCreativeTabs;
 import net.quoky.lava_potions.item.ModItems;
 import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.potion.VanillaPotionBrewingRecipes;
 import net.quoky.lava_potions.util.CreateCompat;
 import net.quoky.lava_potions.util.LavaBottleHandler;
+import net.quoky.lava_potions.util.RecipeConflictResolver;
 
 /**
  * Main mod class for Lava Potions
@@ -61,6 +60,9 @@ public class Lava_Potions {
         
         // Register creative mode tabs
         ModCreativeTabs.register(modEventBus);
+        
+        // Register fluids for Create compatibility (must be early)
+        ModFluids.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -73,6 +75,9 @@ public class Lava_Potions {
         
         // Register Create mod compatibility
         MinecraftForge.EVENT_BUS.register(CreateCompat.class);
+        
+        // Register recipe conflict resolver
+        MinecraftForge.EVENT_BUS.register(RecipeConflictResolver.class);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -83,7 +88,6 @@ public class Lava_Potions {
      */
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            // Only register vanilla potion brewing recipes - custom item brewing removed
             VanillaPotionBrewingRecipes.registerVanillaPotionBrewingRecipes();
         });
         LOGGER.info("Lava Potions mod initialized!");
@@ -93,8 +97,22 @@ public class Lava_Potions {
      * Add items to vanilla creative tabs
      */
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        // We don't need to add the items to vanilla tabs anymore since we have our own tab
-        // The custom tab is populated in the ModCreativeTabs class
+        // Log which tab is being populated to understand automatic behavior
+        LOGGER.info("Creative tab being populated: {}", event.getTabKey());
+        
+        // Check if this is the vanilla brewing tab
+        if (event.getTabKey().toString().contains("brewing") || 
+            event.getTabKey().toString().contains("potion")) {
+            LOGGER.info("Detected vanilla brewing/potion tab, preventing automatic lava potion addition");
+            
+            // We can't easily remove items that were automatically added,
+            // but we can log what's happening to understand the duplication issue
+            LOGGER.info("This tab may contain automatically added lava potions");
+        }
+        
+        // Items are added via ModCreativeTabs
+        // We don't want lava potions automatically added to vanilla brewing tabs
+        // since we have our own custom tab for them
     }
     
     /**

@@ -2,9 +2,6 @@ package net.quoky.lava_potions.entity;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
@@ -30,7 +27,6 @@ import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.potion.VanillaPotionBrewingRecipes;
 
 public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSupplier {
-    private static final Logger LOGGER = LoggerFactory.getLogger("ThrownLavaPotion");
     
     public ThrownLavaPotion(EntityType<? extends ThrownLavaPotion> entityType, Level level) {
         super(entityType, level);
@@ -46,7 +42,6 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
 
     @Override
     protected Item getDefaultItem() {
-        // Use vanilla potion item instead of custom lava potion
         return Items.POTION;
     }
 
@@ -80,10 +75,16 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
             for (LivingEntity entity : entitiesForDamage) {
                 // Skip applying damage to the thrower
                 if (entity != owner) {
-                    double distance = this.distanceToSqr(entity);
-                    if (distance < radius * radius) {
-                        // Apply 4 hit points (2 hearts) of damage
-                        entity.hurt(entity.damageSources().thrown(this, owner instanceof LivingEntity ? (LivingEntity) owner : null), 4.0F);
+                    double distanceSquared = this.distanceToSqr(entity);
+                    if (distanceSquared < radius * radius) {
+                        // Calculate distance-based damage
+                        // Direct hit (distance 0) = 8 hit points
+                        // Maximum range (distance 4) = 4 hit points
+                        // Damage decreases by 1 hit point per unit distance
+                        double distance = Math.sqrt(distanceSquared);
+                        float damage = Math.max(4.0F, 8.0F - (float)distance);
+                        
+                        entity.hurt(entity.damageSources().thrown(this, owner instanceof LivingEntity ? (LivingEntity) owner : null), damage);
                     }
                 }
             }
@@ -129,6 +130,10 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
         
         Entity target = hitResult.getEntity();
         if (target instanceof LivingEntity livingEntity) {
+            // Apply direct hit damage of 8 hit points (4 hearts)
+            Entity owner = this.getOwner();
+            livingEntity.hurt(livingEntity.damageSources().thrown(this, owner instanceof LivingEntity ? (LivingEntity) owner : null), 8.0F);
+            
             // Direct hit sets entity on fire for longer (10 seconds)
             ItemStack itemstack = this.getItem();
             Potion potion = PotionUtils.getPotion(itemstack);
@@ -149,21 +154,16 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
     }
     
     /**
-     * Check if this is a lingering potion based on custom logic
+     * Check if this is a lingering potion based on item type
      */
     private boolean isLingeringPotion(ItemStack itemStack) {
-        // Check NBT tag first (for converted vanilla potions)
-        if (itemStack.hasTag() && itemStack.getTag().getBoolean("IsLingering")) {
-            return true;
-        }
-        
         // Check if it's a vanilla lingering potion item
         return itemStack.getItem() == Items.LINGERING_POTION;
     }
     
     private void createAreaEffectCloud(ItemStack itemStack, Potion potion, Potion basePotion) {
         AreaEffectCloud cloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ()) {
-            // Override to set entities on fire when they're in the lingering cloud
+            // Override to set entities on fire and apply damage when they're in the lingering cloud
             @Override
             public void tick() {
                 super.tick();
@@ -173,7 +173,15 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                     List<LivingEntity> entitiesInCloud = this.level().getEntitiesOfClass(LivingEntity.class, 
                             this.getBoundingBox());
                     
+                    Entity owner = this.getOwner();
+                    
                     for (LivingEntity entity : entitiesInCloud) {
+                        // Skip applying damage to the owner
+                        if (entity != owner) {
+                            // Apply flat 2 hit points of damage for lingering cloud
+                            entity.hurt(entity.damageSources().magic(), 2.0F);
+                        }
+                        
                         // Different effects based on potion type
                         if (ModPotionTypes.isBaseLavaBottle(basePotion) || ModPotionTypes.isAwkwardLava(basePotion)) {
                             // Set entities on fire for 5 seconds
@@ -207,11 +215,7 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
         
         // Set the cloud color based on potion type
         ResourceLocation potionId = ForgeRegistries.POTIONS.getKey(basePotion);
-        if (potionId != null && potionId.getPath().contains("awkward")) {
-            cloud.setFixedColor(0xFF8800); // Darker orange for awkward
-        } else {
-            cloud.setFixedColor(0xFF5500); // Default orange color
-        }
+        cloud.setFixedColor(0xFF5500);
         
         this.level().addFreshEntity(cloud);
     }
@@ -233,14 +237,8 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                 double offsetY = this.random.nextGaussian() * 0.15;
                 double offsetZ = this.random.nextGaussian() * 0.15;
                 
-                // Different particle colors based on potion type
-                ParticleOptions particleType;
-                if (ModPotionTypes.isAwkwardLava(basePotion)) {
-                    // Alternate between flame and smoke for awkward lava
-                    particleType = i % 2 == 0 ? ParticleTypes.FLAME : ParticleTypes.LARGE_SMOKE;
-                } else {
-                    particleType = ParticleTypes.FLAME;
-                }
+                // Use flame particles for all lava potion types
+                ParticleOptions particleType = ParticleTypes.FLAME;
                 
                 this.level().addParticle(
                     particleType,
@@ -260,11 +258,8 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                 double x = Math.cos(angle) * radius;
                 double z = Math.sin(angle) * radius;
                 
-                // Different particle colors based on potion type
+                // Use lava particles for all lava potion types
                 ParticleOptions particleType = ParticleTypes.LAVA;
-                if (ModPotionTypes.isAwkwardLava(basePotion) && i % 3 == 0) {
-                    particleType = ParticleTypes.LARGE_SMOKE;
-                }
                 
                 this.level().addParticle(
                     particleType, 

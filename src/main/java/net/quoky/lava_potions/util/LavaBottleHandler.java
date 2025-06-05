@@ -1,7 +1,6 @@
 package net.quoky.lava_potions.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -39,21 +38,13 @@ import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.potion.VanillaPotionBrewingRecipes;
 import net.quoky.lava_potions.util.CreateCompat;
 
-/**
- * Handles filling glass bottles with lava
- */
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class LavaBottleHandler {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger("LavaBottleHandler");
     private static final boolean CREATE_LOADED = ModList.get().isLoaded("create");
-    private static final int LAVA_AMOUNT_TO_ADD = 250; // 250mb = 1/4 bucket when emptying a lava bottle
+    private static final int LAVA_AMOUNT_TO_ADD = 250;
 
 
 
-    /**
-     * Handle right-clicking on blocks
-     */
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (event.isCanceled() || event.getHand() != InteractionHand.MAIN_HAND) {
@@ -64,36 +55,28 @@ public class LavaBottleHandler {
         Player player = event.getEntity();
         ItemStack heldItem = player.getItemInHand(event.getHand());
 
-        // Check if player is holding a glass bottle - for filling with lava
         if (heldItem.getItem() == Items.GLASS_BOTTLE) {
             handleFillingBottle(event, level, player, heldItem);
             return;
         }
         
-        // Check if player is holding a lava bucket - for filling cauldrons with levels
         if (heldItem.getItem() == Items.LAVA_BUCKET) {
             handleLavaBucketUse(event, level, player, heldItem);
             return;
         }
         
-        // Check if player is holding a lava bottle - for emptying into blocks
         if (VanillaPotionBrewingRecipes.isVanillaPotionWithLavaType(heldItem)) {
-            // Verify it's a lava bottle (not another potion type)
             Potion potion = PotionUtils.getPotion(heldItem);
             if (potion == ModPotionTypes.LAVA_BOTTLE.get()) {
                 handleEmptyingLavaBottle(event, level, player, heldItem);
             }
         }
         
-        // Check if player is holding nothing - for checking lava cauldron level
         if (heldItem.isEmpty()) {
             handleEmptyHandInteraction(event, level, player);
         }
     }
 
-    /**
-     * Handle right-clicking in the air
-     */
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         if (event.isCanceled() || event.getHand() != InteractionHand.MAIN_HAND) {
@@ -104,12 +87,10 @@ public class LavaBottleHandler {
         Player player = event.getEntity();
         ItemStack heldItem = player.getItemInHand(event.getHand());
 
-        // Check if player is holding a glass bottle
         if (heldItem.getItem() != Items.GLASS_BOTTLE) {
             return;
         }
 
-        // Check if we're looking at lava
         BlockPos lavaPos = findLavaInSight(level, player);
         if (lavaPos != null) {
             createLavaBottle(level, player, event.getHand(), lavaPos);
@@ -263,7 +244,6 @@ public class LavaBottleHandler {
             event.setCancellationResult(InteractionResult.SUCCESS);
             event.setCanceled(true);
             event.setUseItem(Event.Result.DENY);
-            LOGGER.debug("Filled cauldron at {} with lava bucket, set to level 3", clickedPos);
         }
     }
     

@@ -33,11 +33,6 @@ public class ModCreativeTabs {
                             // Lingering potion
                             output.accept(VanillaPotionBrewingRecipes.createVanillaLingeringPotionWithLavaType(potion));
                         }
-                        
-                        // Only vanilla items with minecraft: IDs are shown
-                        
-                        // Add the layered lava cauldron
-                        // output.accept(ModItems.LAVA_CAULDRON.get());
                     })
                     .build());
 

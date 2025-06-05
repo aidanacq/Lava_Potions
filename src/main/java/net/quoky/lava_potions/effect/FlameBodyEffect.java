@@ -21,7 +21,7 @@ public class FlameBodyEffect extends MobEffect {
     
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
-        // Not needed for this effect, works through event handler
+        // Not needed for this effect
     }
     
     @Override

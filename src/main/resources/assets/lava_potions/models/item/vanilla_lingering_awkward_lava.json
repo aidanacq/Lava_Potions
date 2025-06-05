@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "minecraft:item/potion_overlay",
-    "layer1": "lava_potions:item/lingering_lava_potion_base"
+    "layer0": "lava_potions:item/lava_contents",
+    "layer1": "minecraft:item/lingering_potion"
   }
 } 

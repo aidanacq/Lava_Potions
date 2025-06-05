@@ -1,8 +1,5 @@
 package net.quoky.lava_potions.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -34,41 +31,26 @@ import net.quoky.lava_potions.item.ModItems;
 import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.potion.VanillaPotionBrewingRecipes;
 
-/**
- * Compatibility with Create mod
- * 
- * Create automatically detects all potions in ForgeRegistries.POTIONS and creates:
- * 1. Potion fluids for mixing recipes
- * 2. JEI integration (only for REGULAR bottle types, not splash/lingering)
- * 3. Automatic mixing recipes based on vanilla brewing recipes
- * 
- * Our lava potions (lava_bottle and awkward_lava) will be automatically detected
- * and integrated into Create's potion fluid system.
- */
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CreateCompat {
-    private static final Logger LOGGER = LoggerFactory.getLogger("CreateCompat");
     private static final boolean CREATE_LOADED = ModList.get().isLoaded("create");
-    private static final int LAVA_AMOUNT_REQUIRED = 250; // 250mb = 1/4 bucket
+    private static final boolean ALEXSMOBS_LOADED = ModList.get().isLoaded("alexsmobs");
+    private static final int LAVA_AMOUNT_REQUIRED = 250;
     
-    // Define Create registry paths as constants to avoid hard-coding them in multiple places
     private static final String CREATE_NAMESPACE = "create";
     private static final String BASIN_BLOCK_PATH = "basin";
     private static final String BASIN_BLOCKENTITY_PATH = "basin";
     private static final String BASIN_CLASS_IDENTIFIER = "Basin";
     
-    /**
-     * Log Create integration status on mod initialization
-     */
     static {
         if (CREATE_LOADED) {
-            LOGGER.info("Create mod detected! Lava potions will be automatically integrated:");
-            LOGGER.info("- Lava Bottle and Awkward Lava Potion will be available as potion fluids");
-            LOGGER.info("- Mixing recipes will be automatically generated");
-            LOGGER.info("- JEI integration will show lava potion fluids (regular variants only)");
-            LOGGER.info("- Basin interaction for filling lava bottles is enabled");
+            Lava_Potions.LOGGER.info("Create mod detected - lava potion integration enabled");
         } else {
-            LOGGER.info("Create mod not detected. Basin interaction disabled.");
+            Lava_Potions.LOGGER.info("Create mod not detected");
+        }
+        
+        if (ALEXSMOBS_LOADED) {
+            Lava_Potions.LOGGER.info("AlexsMobs detected - using priority mixins and recipes to override lava bottle conflicts");
         }
     }
     
@@ -104,21 +86,20 @@ public class CreateCompat {
             java.lang.reflect.Method ofMethod = potionFluidClass.getMethod("of", int.class, Potion.class, bottleTypeClass);
             FluidStack result = (FluidStack) ofMethod.invoke(null, amount, potion, regularBottleType);
             
-            LOGGER.debug("Created Create potion fluid for {}: {}mb", 
-                ForgeRegistries.POTIONS.getKey(potion), amount);
-            
             return result;
         } catch (Exception e) {
-            LOGGER.warn("Failed to create Create potion fluid for {}: {}", 
-                ForgeRegistries.POTIONS.getKey(potion), e.getMessage());
+            Lava_Potions.LOGGER.warn("Failed to create Create potion fluid: {}", e.getMessage());
             return FluidStack.EMPTY;
         }
     }
     
+
+    
     /**
      * Handle right-clicking on Create basin blocks to fill lava bottles
+     * Using HIGH priority to override AlexsMobs when both mods are present
      */
-    @SubscribeEvent(priority = EventPriority.NORMAL)
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (!CREATE_LOADED || event.isCanceled() || event.getHand() != InteractionHand.MAIN_HAND) {
             return;
@@ -147,8 +128,6 @@ public class CreateCompat {
             return;
         }
         
-        LOGGER.debug("Found Create basin at {}", pos);
-        
         // Try to get fluid handler capability
         blockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(fluidHandler -> {
             // Handle basin's fluid tanks (usually just one)
@@ -165,8 +144,6 @@ public class CreateCompat {
                     continue;
                 }
                 
-                LOGGER.debug("Basin contains lava: {}mb", fluid.getAmount());
-                
                 // Create a vanilla lava bottle instead of custom lava potion
                 ItemStack lavaBottle = VanillaPotionBrewingRecipes.createVanillaPotionWithLavaType(
                     ModPotionTypes.LAVA_BOTTLE.get());
@@ -177,13 +154,9 @@ public class CreateCompat {
                     FluidAction.EXECUTE
                 );
                 
-                // Only proceed if we actually drained something
                 if (drainedFluid.isEmpty() || drainedFluid.getAmount() < LAVA_AMOUNT_REQUIRED) {
-                    LOGGER.debug("Failed to drain lava from basin");
                     continue;
                 }
-                
-                LOGGER.debug("Drained {}mb of lava from basin", drainedFluid.getAmount());
                 
                 // Play sound
                 level.playSound(null, player.getX(), player.getY(), player.getZ(),
@@ -211,11 +184,8 @@ public class CreateCompat {
                 event.setCanceled(true);
                 event.setUseItem(Event.Result.DENY);
                 
-                // Break the loop once we've handled one tank
                 return;
             }
-            
-            LOGGER.debug("Basin doesn't contain enough lava or processing failed");
         });
     }
     

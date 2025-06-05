@@ -13,8 +13,6 @@ public class ModItems {
     // Create a Deferred Register to hold Items which will all be registered under the "lava_potions" namespace
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Lava_Potions.MOD_ID);
 
-    // Custom lava potion item removed - only vanilla items with minecraft: IDs are used
-    
     // Register the layered lava cauldron block item
     public static final RegistryObject<Item> LAVA_CAULDRON = ITEMS.register("lava_cauldron",
             () -> new BlockItem(ModBlocks.LAVA_CAULDRON.get(), new Item.Properties().fireResistant()));

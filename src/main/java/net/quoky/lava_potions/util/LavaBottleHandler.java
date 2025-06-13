@@ -34,8 +34,8 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.quoky.lava_potions.Lava_Potions;
 import net.quoky.lava_potions.block.ModBlocks;
+import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
-import net.quoky.lava_potions.potion.VanillaPotionBrewingRecipes;
 import net.quoky.lava_potions.util.CreateCompat;
 
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -65,7 +65,7 @@ public class LavaBottleHandler {
             return;
         }
         
-        if (VanillaPotionBrewingRecipes.isVanillaPotionWithLavaType(heldItem)) {
+        if (ModPotionBrewingRecipes.isVanillaPotionWithLavaType(heldItem)) {
             Potion potion = PotionUtils.getPotion(heldItem);
             if (potion == ModPotionTypes.LAVA_BOTTLE.get()) {
                 handleEmptyingLavaBottle(event, level, player, heldItem);
@@ -360,7 +360,7 @@ public class LavaBottleHandler {
         ItemStack heldItem = player.getItemInHand(hand);
 
         // Create vanilla lava bottle using our brewing recipes system
-        ItemStack lavaBottle = VanillaPotionBrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get());
+        ItemStack lavaBottle = ModPotionBrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get());
 
         // Play sound
         level.playSound(null, player.getX(), player.getY(), player.getZ(),

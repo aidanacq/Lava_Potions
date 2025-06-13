@@ -27,5 +27,6 @@ forge*changelog.txt
 # Cursor
 .cursor
 plan.md
+-p
 
 # Create mod

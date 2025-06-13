@@ -6,26 +6,110 @@
   "potion.lava_potions.lava_bottle": "Lava Bottle",
   "potion.lava_potions.awkward_lava": "Awkward Lava Potion",
   
+  "potion.lava_potions.obsidian_skin": "Potion of Obsidian Skin",
+  "potion.lava_potions.obsidian_skin_long": "Potion of Obsidian Skin",
+  
+  "potion.lava_potions.netherite_skin": "Potion of Netherite Skin",
+  "potion.lava_potions.netherite_skin_long": "Potion of Netherite Skin",
+  
+  "potion.lava_potions.glass_skin": "Potion of Glass Skin",
+  "potion.lava_potions.glass_skin_strong": "Potion of Glass Skin",
+  "potion.lava_potions.glass_skin_long": "Potion of Glass Skin",
+  
   "splash_potion.lava_potions.lava_bottle": "Splash Lava Bottle",
   "splash_potion.lava_potions.awkward_lava": "Awkward Splash Lava Potion",
+  
+  "splash_potion.lava_potions.obsidian_skin": "Splash Potion of Obsidian Skin",
+  "splash_potion.lava_potions.obsidian_skin_long": "Splash Potion of Obsidian Skin",
+  
+  "splash_potion.lava_potions.netherite_skin": "Splash Potion of Netherite Skin",
+  "splash_potion.lava_potions.netherite_skin_long": "Splash Potion of Netherite Skin",
+  
+  "splash_potion.lava_potions.glass_skin": "Splash Potion of Glass Skin",
+  "splash_potion.lava_potions.glass_skin_strong": "Splash Potion of Glass Skin",
+  "splash_potion.lava_potions.glass_skin_long": "Splash Potion of Glass Skin",
   
   "lingering_potion.lava_potions.lava_bottle": "Lingering Lava Bottle",
   "lingering_potion.lava_potions.awkward_lava": "Awkward Lingering Lava Potion",
   
+  "lingering_potion.lava_potions.obsidian_skin": "Lingering Potion of Obsidian Skin",
+  "lingering_potion.lava_potions.obsidian_skin_long": "Lingering Potion of Obsidian Skin",
+  
+  "lingering_potion.lava_potions.netherite_skin": "Lingering Potion of Netherite Skin",
+  "lingering_potion.lava_potions.netherite_skin_long": "Lingering Potion of Netherite Skin",
+  
+  "lingering_potion.lava_potions.glass_skin": "Lingering Potion of Glass Skin",
+  "lingering_potion.lava_potions.glass_skin_strong": "Lingering Potion of Glass Skin",
+  "lingering_potion.lava_potions.glass_skin_long": "Lingering Potion of Glass Skin",
+  
   "item.minecraft.potion.effect.lava_bottle": "Lava Bottle",
   "item.minecraft.potion.effect.awkward_lava": "Awkward Lava Potion",
+  
+  "item.minecraft.potion.effect.obsidian_skin": "Potion of Obsidian Skin",
+  "item.minecraft.potion.effect.obsidian_skin_long": "Potion of Obsidian Skin",
+  
+  "item.minecraft.potion.effect.netherite_skin": "Potion of Netherite Skin",
+  "item.minecraft.potion.effect.netherite_skin_long": "Potion of Netherite Skin",
+  
+  "item.minecraft.potion.effect.glass_skin": "Potion of Glass Skin",
+  "item.minecraft.potion.effect.glass_skin_strong": "Potion of Glass Skin",
+  "item.minecraft.potion.effect.glass_skin_long": "Potion of Glass Skin",
   
   "item.minecraft.splash_potion.effect.lava_bottle": "Splash Lava Bottle",
   "item.minecraft.splash_potion.effect.awkward_lava": "Awkward Splash Lava Potion",
   
+  "item.minecraft.splash_potion.effect.obsidian_skin": "Splash Potion of Obsidian Skin",
+  "item.minecraft.splash_potion.effect.obsidian_skin_long": "Splash Potion of Obsidian Skin",
+  
+  "item.minecraft.splash_potion.effect.netherite_skin": "Splash Potion of Netherite Skin",
+  "item.minecraft.splash_potion.effect.netherite_skin_long": "Splash Potion of Netherite Skin",
+  
+  "item.minecraft.splash_potion.effect.glass_skin": "Splash Potion of Glass Skin",
+  "item.minecraft.splash_potion.effect.glass_skin_strong": "Splash Potion of Glass Skin",
+  "item.minecraft.splash_potion.effect.glass_skin_long": "Splash Potion of Glass Skin",
+  
   "item.minecraft.lingering_potion.effect.lava_bottle": "Lingering Lava Bottle",
   "item.minecraft.lingering_potion.effect.awkward_lava": "Awkward Lingering Lava Potion",
+  
+  "item.minecraft.lingering_potion.effect.obsidian_skin": "Lingering Potion of Obsidian Skin",
+  "item.minecraft.lingering_potion.effect.obsidian_skin_long": "Lingering Potion of Obsidian Skin",
+  
+  "item.minecraft.lingering_potion.effect.netherite_skin": "Lingering Potion of Netherite Skin",
+  "item.minecraft.lingering_potion.effect.netherite_skin_long": "Lingering Potion of Netherite Skin",
+  
+  "item.minecraft.lingering_potion.effect.glass_skin": "Lingering Potion of Glass Skin",
+  "item.minecraft.lingering_potion.effect.glass_skin_strong": "Lingering Potion of Glass Skin",
+  "item.minecraft.lingering_potion.effect.glass_skin_long": "Lingering Potion of Glass Skin",
   
   "item.minecraft.tipped_arrow.effect.lava_bottle": "Arrow of Lava",
   "item.minecraft.tipped_arrow.effect.awkward_lava": "Awkward Arrow of Lava",
   
+  "item.minecraft.tipped_arrow.effect.obsidian_skin": "Arrow of Obsidian Skin",
+  "item.minecraft.tipped_arrow.effect.obsidian_skin_long": "Arrow of Obsidian Skin",
+  
+  "item.minecraft.tipped_arrow.effect.netherite_skin": "Arrow of Netherite Skin",
+  "item.minecraft.tipped_arrow.effect.netherite_skin_long": "Arrow of Netherite Skin",
+  
+  "item.minecraft.tipped_arrow.effect.glass_skin": "Arrow of Glass Skin",
+  "item.minecraft.tipped_arrow.effect.glass_skin_strong": "Arrow of Glass Skin",
+  "item.minecraft.tipped_arrow.effect.glass_skin_long": "Arrow of Glass Skin",
+  
   "fluid.create.potion.lava_potions.lava_bottle": "Lava Bottle",
   "fluid.create.potion.lava_potions.awkward_lava": "Awkward Lava Potion",
+  
+  "fluid.create.potion.lava_potions.obsidian_skin": "Potion of Obsidian Skin",
+  "fluid.create.potion.lava_potions.obsidian_skin_long": "Potion of Obsidian Skin",
+  
+  "fluid.create.potion.lava_potions.netherite_skin": "Potion of Netherite Skin",
+  "fluid.create.potion.lava_potions.netherite_skin_long": "Potion of Netherite Skin",
+  
+  "fluid.create.potion.lava_potions.glass_skin": "Potion of Glass Skin",
+  "fluid.create.potion.lava_potions.glass_skin_strong": "Potion of Glass Skin",
+  "fluid.create.potion.lava_potions.glass_skin_long": "Potion of Glass Skin",
+  
+  "effect.lava_potions.obsidian_skin": "Obsidian Skin",
+  "effect.lava_potions.netherite_skin": "Netherite Skin",
+  "effect.lava_potions.glass_skin": "Glass Skin",
   
   "entity.lava_potions.thrown_lava_potion": "Thrown Lava Potion"
 }

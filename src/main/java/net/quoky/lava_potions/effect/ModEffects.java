@@ -15,6 +15,18 @@ public class ModEffects {
     // Register the Flame Body effect
     public static final RegistryObject<MobEffect> FLAME_BODY = MOB_EFFECTS.register("flame_body",
             FlameBodyEffect::new);
+            
+    // Register the Obsidian Skin effect
+    public static final RegistryObject<MobEffect> OBSIDIAN_SKIN = MOB_EFFECTS.register("obsidian_skin",
+            ObsidianSkinEffect::new);
+            
+    // Register the Netherite Skin effect
+    public static final RegistryObject<MobEffect> NETHERITE_SKIN = MOB_EFFECTS.register("netherite_skin",
+            NetheriteSkinEffect::new);
+            
+    // Register the Glass Skin effect
+    public static final RegistryObject<MobEffect> GLASS_SKIN = MOB_EFFECTS.register("glass_skin",
+            GlassSkinEffect::new);
 
     // Register all mob effects
     public static void register(IEventBus eventBus) {

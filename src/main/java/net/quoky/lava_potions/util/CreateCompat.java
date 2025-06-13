@@ -29,7 +29,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.quoky.lava_potions.Lava_Potions;
 import net.quoky.lava_potions.item.ModItems;
 import net.quoky.lava_potions.potion.ModPotionTypes;
-import net.quoky.lava_potions.potion.VanillaPotionBrewingRecipes;
+import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CreateCompat {
@@ -145,7 +145,7 @@ public class CreateCompat {
                 }
                 
                 // Create a vanilla lava bottle instead of custom lava potion
-                ItemStack lavaBottle = VanillaPotionBrewingRecipes.createVanillaPotionWithLavaType(
+                ItemStack lavaBottle = ModPotionBrewingRecipes.createVanillaPotionWithLavaType(
                     ModPotionTypes.LAVA_BOTTLE.get());
                 
                 // Remove lava from the basin

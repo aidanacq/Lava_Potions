@@ -1,0 +1,14 @@
+{
+  "mappings": {
+    "net/quoky/lava_potions/mixin/client/mixins/LavaBlockRenderMixin": {
+      "renderBatched": "Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;m_234355_(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLnet/minecraft/util/RandomSource;)V"
+    }
+  },
+  "data": {
+    "searge": {
+      "net/quoky/lava_potions/mixin/client/mixins/LavaBlockRenderMixin": {
+        "renderBatched": "Lnet/minecraft/client/renderer/block/BlockRenderDispatcher;m_234355_(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/BlockAndTintGetter;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;ZLnet/minecraft/util/RandomSource;)V"
+      }
+    }
+  }
+}

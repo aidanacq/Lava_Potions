@@ -13,7 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.quoky.lava_potions.Lava_Potions;
 import net.quoky.lava_potions.potion.ModPotionTypes;
-import net.quoky.lava_potions.potion.VanillaPotionBrewingRecipes;
+import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 
 /**
  * Handles filling glass bottles with lava to create lava bottles
@@ -38,8 +38,8 @@ public class LavaBottleFillingHandler {
         // Check if the block is a lava source
         if (blockState.is(Blocks.LAVA) && level.getFluidState(pos).isSource()) {
             if (!level.isClientSide) {
-                // Create lava bottle using vanilla potion with lava bottle type
-                ItemStack lavaBottle = VanillaPotionBrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get());
+                // Create a lava bottle item (vanilla potion with our lava type)
+                ItemStack lavaBottle = ModPotionBrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get());
                 
                 if (!lavaBottle.isEmpty()) {
                     if (!player.getAbilities().instabuild) {

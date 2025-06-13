@@ -21,7 +21,7 @@ import net.quoky.lava_potions.fluid.ModFluids;
 import net.quoky.lava_potions.item.ModCreativeTabs;
 import net.quoky.lava_potions.item.ModItems;
 import net.quoky.lava_potions.potion.ModPotionTypes;
-import net.quoky.lava_potions.potion.VanillaPotionBrewingRecipes;
+import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 import net.quoky.lava_potions.util.CreateCompat;
 import net.quoky.lava_potions.util.LavaBottleHandler;
 import net.quoky.lava_potions.util.RecipeConflictResolver;
@@ -88,7 +88,7 @@ public class Lava_Potions {
      */
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            VanillaPotionBrewingRecipes.registerVanillaPotionBrewingRecipes();
+            ModPotionBrewingRecipes.registerVanillaPotionBrewingRecipes();
         });
         LOGGER.info("Lava Potions mod initialized!");
     }
@@ -97,24 +97,11 @@ public class Lava_Potions {
      * Add items to vanilla creative tabs
      */
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        // Log which tab is being populated to understand automatic behavior
-        LOGGER.info("Creative tab being populated: {}", event.getTabKey());
-        
-        // Check if this is the vanilla brewing tab
-        if (event.getTabKey().toString().contains("brewing") || 
+        if (event.getTabKey().toString().contains("brewing") ||
             event.getTabKey().toString().contains("potion")) {
-            LOGGER.info("Detected vanilla brewing/potion tab, preventing automatic lava potion addition");
-            
-            // We can't easily remove items that were automatically added,
-            // but we can log what's happening to understand the duplication issue
-            LOGGER.info("This tab may contain automatically added lava potions");
         }
-        
-        // Items are added via ModCreativeTabs
-        // We don't want lava potions automatically added to vanilla brewing tabs
-        // since we have our own custom tab for them
     }
-    
+
     /**
      * Server starting event handler
      */

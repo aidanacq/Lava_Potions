@@ -7,15 +7,45 @@
   "overrides": [
     {
       "predicate": {
+        "lava_potions:lava_contents": 1.0
+      },
+      "model": "lava_potions:item/splash_lava_bottle_base"
+    },
+    {
+      "predicate": {
+        "lava_potions:lava_contents": 2.0
+      },
+      "model": "lava_potions:item/splash_lava_bottle_base"
+    },
+    {
+      "predicate": {
         "lava_potions:lava_type": 1.0
       },
-      "model": "lava_potions:item/vanilla_splash_lava_bottle"
+      "model": "lava_potions:item/splash_lava_bottle"
     },
     {
       "predicate": {
         "lava_potions:lava_type": 2.0
       },
-      "model": "lava_potions:item/vanilla_splash_awkward_lava"
+      "model": "lava_potions:item/splash_awkward_lava"
+    },
+    {
+      "predicate": {
+        "lava_potions:lava_type": 3.0
+      },
+      "model": "lava_potions:item/splash_obsidian_skin"
+    },
+    {
+      "predicate": {
+        "lava_potions:lava_type": 4.0
+      },
+      "model": "lava_potions:item/splash_netherite_skin"
+    },
+    {
+      "predicate": {
+        "lava_potions:lava_type": 5.0
+      },
+      "model": "lava_potions:item/splash_glass_skin"
     }
   ]
 } 

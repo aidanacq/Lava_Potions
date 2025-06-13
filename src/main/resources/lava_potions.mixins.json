@@ -9,7 +9,8 @@
     "CreatePotionFluidHandlerFillMixin",
     "CreateGenericItemFillingMixin"
   ],
-  "client": [],
+  "client": [
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1

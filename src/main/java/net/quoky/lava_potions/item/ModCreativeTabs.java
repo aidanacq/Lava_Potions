@@ -8,7 +8,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import net.quoky.lava_potions.Lava_Potions;
 import net.quoky.lava_potions.potion.ModPotionTypes;
-import net.quoky.lava_potions.potion.VanillaPotionBrewingRecipes;
+import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 
 /**
  * Handles creative mode tabs for the mod
@@ -21,17 +21,17 @@ public class ModCreativeTabs {
     // Register a custom tab for lava potions
     public static final RegistryObject<CreativeModeTab> LAVA_POTIONS_TAB = CREATIVE_MODE_TABS.register("lava_potions",
             () -> CreativeModeTab.builder()
-                    .icon(() -> VanillaPotionBrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get()))
+                    .icon(() -> ModPotionBrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get()))
                     .title(Component.translatable("creativetab.lava_potions"))
                     .displayItems((parameters, output) -> {
                         // Add vanilla potion items with lava types (regular, splash, lingering)
                         for (var potion : ModPotionTypes.POTION_TYPES) {
                             // Regular potion
-                            output.accept(VanillaPotionBrewingRecipes.createVanillaPotionWithLavaType(potion));
+                            output.accept(ModPotionBrewingRecipes.createVanillaPotionWithLavaType(potion));
                             // Splash potion
-                            output.accept(VanillaPotionBrewingRecipes.createVanillaSplashPotionWithLavaType(potion));
+                            output.accept(ModPotionBrewingRecipes.createVanillaSplashPotionWithLavaType(potion));
                             // Lingering potion
-                            output.accept(VanillaPotionBrewingRecipes.createVanillaLingeringPotionWithLavaType(potion));
+                            output.accept(ModPotionBrewingRecipes.createVanillaLingeringPotionWithLavaType(potion));
                         }
                     })
                     .build());

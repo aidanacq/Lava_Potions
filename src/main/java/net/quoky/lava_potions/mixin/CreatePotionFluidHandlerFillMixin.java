@@ -7,17 +7,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.simibubi.create.content.fluids.potion.PotionFluidHandler;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.quoky.lava_potions.Lava_Potions;
-import net.quoky.lava_potions.fluid.ModFluids;
 import net.quoky.lava_potions.potion.ModPotionTypes;
 
 /**
- * Mixin to handle filling glass bottles with our custom awkward lava fluid and prioritize our lava bottles
+ * Mixin to handle filling glass bottles with vanilla lava to create our lava bottle (prioritized over other mods)
  */
 @Mixin(value = PotionFluidHandler.class, remap = false, priority = 1500)
 public class CreatePotionFluidHandlerFillMixin {
@@ -37,19 +37,13 @@ public class CreatePotionFluidHandlerFillMixin {
                 return;
             }
             
-            // Check if this is our custom awkward lava fluid
-            if (availableFluid.getFluid() == ModFluids.AWKWARD_LAVA_POTION_SOURCE.get()) {
-                Lava_Potions.LOGGER.info("Mixin intercepted awkward lava fluid filling - creating awkward lava bottle");
-                
-                // Create an awkward lava bottle
-                ItemStack awkwardLavaBottle = new ItemStack(Items.POTION);
-                PotionUtils.setPotion(awkwardLavaBottle, ModPotionTypes.AWKWARD_LAVA.get());
-                
-                cir.setReturnValue(awkwardLavaBottle);
-                return;
+            // For Create potion fluids, check for our texture metadata
+            CompoundTag tag = availableFluid.getTag();
+            if (tag != null && tag.contains("LavaTextureOverride")) {
+                // This is one of our special potion fluids with texture metadata
+                Lava_Potions.LOGGER.debug("Processing Create potion fluid with our texture metadata");
+                // Do nothing, let Create handle it normally - we just needed to log this
             }
-            
-            // For all other fluids, let Create handle it normally
             
         } catch (Exception e) {
             Lava_Potions.LOGGER.warn("Error in Create PotionFluidHandler fillBottle mixin: {}", e.getMessage());
@@ -62,13 +56,6 @@ public class CreatePotionFluidHandlerFillMixin {
             // PRIORITY: Handle vanilla lava fluid first to override AlexsMobs
             if (availableFluid.getFluid() == Fluids.LAVA) {
                 // Standard lava bottle amount
-                cir.setReturnValue(250);
-                return;
-            }
-            
-            // Check if this is our custom awkward lava fluid
-            if (availableFluid.getFluid() == ModFluids.AWKWARD_LAVA_POTION_SOURCE.get()) {
-                // Standard potion amount
                 cir.setReturnValue(250);
                 return;
             }

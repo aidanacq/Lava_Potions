@@ -14,6 +14,7 @@ import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
@@ -70,11 +71,11 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
     @Override
     protected void onHit(HitResult hitResult) {
         super.onHit(hitResult);
-        
+
         if (!this.level().isClientSide) {
             ItemStack itemstack = this.getItem();
             Potion potion = PotionUtils.getPotion(itemstack);
-            
+
             // Use the potion directly - no need for getRegularVariant since we only have base types
             Potion basePotion = potion;
 
@@ -83,33 +84,6 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
 
             // Check if this is a lingering potion based on the item stack NBT or custom logic
             boolean isLingering = isLingeringPotion(itemstack);
-
-            // Apply impact damage only for basic lava potions (lava bottle and awkward lava)
-            if (ModPotionTypes.isBasicLavaPotion(basePotion)) {
-                List<LivingEntity> entitiesForDamage = this.level().getEntitiesOfClass(LivingEntity.class,
-                        this.getBoundingBox().inflate(radius, radius, radius));
-
-                Entity owner = this.getOwner();
-
-                for (LivingEntity entity : entitiesForDamage) {
-                    // Apply damage to all entities
-                    double distanceSquared = this.distanceToSqr(entity);
-                    if (distanceSquared < radius * radius) {
-                        // Calculate distance-based damage
-                        // Direct hit (distance 0) = 8 hit points
-                        // Maximum range (distance 4) = 4 hit points
-                        // Damage decreases by 1 hit point per unit distance
-                        double distance = Math.sqrt(distanceSquared);
-                        float damage = Math.max(4.0F, 8.0F - (float)distance);
-                        // Check if entity will die from this damage
-                        if (entity.getHealth() <= damage) {
-                            entity.setSecondsOnFire(1);
-                        }
-                        // Use lava damage source so that killed animals drop cooked meat
-                        entity.hurt(entity.damageSources().lava(), damage);
-                    }
-                }
-            }
 
             // Apply immediate fire effect to all living entities in radius for both splash and lingering potions
             List<LivingEntity> affectedEntities = this.level().getEntitiesOfClass(LivingEntity.class,
@@ -146,51 +120,81 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                     }
                 }
             }
-            
+
+            // Apply impact damage only for basic lava potions (lava bottle and awkward lava)
+            if (ModPotionTypes.isBasicLavaPotion(basePotion)) {
+                List<LivingEntity> entitiesForDamage = this.level().getEntitiesOfClass(LivingEntity.class,
+                        this.getBoundingBox().inflate(radius, radius, radius));
+
+                Entity owner = this.getOwner();
+
+                for (LivingEntity entity : entitiesForDamage) {
+                    // Apply damage to all entities
+                    double distanceSquared = this.distanceToSqr(entity);
+                    if (distanceSquared < radius * radius) {
+                        // Calculate distance-based damage
+                        // Direct hit (distance 0) = 8 hit points
+                        // Maximum range (distance 4) = 4 hit points
+                        // Damage decreases by 1 hit point per unit distance
+                        double distance = Math.sqrt(distanceSquared);
+                        float damage = Math.max(4.0F, 8.0F - (float)distance);
+                        // Check if entity will die from this damage
+                        if (entity.getHealth() <= damage) {
+                            entity.setSecondsOnFire(1);
+                        }
+
+                        // Don't damage fire immune entities
+                        if (!entity.fireImmune()) {
+                            // Use thorns damage to provide knockback
+                            entity.hurt(entity.damageSources().thorns(this), damage);
+                        }
+                    }
+                }
+            }
+
             // Create additional lingering effect if it's a lingering potion
             if (isLingering) {
                 createAreaEffectCloud(itemstack, potion, basePotion);
             }
-            
+
             // Trigger splash particles via entity event
             this.level().broadcastEntityEvent(this, (byte)3);
-            
+
             // Play glass breaking sound
             this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
                 SoundEvents.GLASS_BREAK, SoundSource.NEUTRAL, 1.0F, 
                 this.random.nextFloat() * 0.1F + 0.9F);
-            
+
             // Always break the potion
             this.discard();
         }
     }
-    
+
     @Override
     protected void onHitEntity(EntityHitResult hitResult) {
         super.onHitEntity(hitResult);
-        
+
         Entity target = hitResult.getEntity();
         if (target instanceof LivingEntity livingEntity) {
             ItemStack itemstack = this.getItem();
             Potion potion = PotionUtils.getPotion(itemstack);
             Potion basePotion = potion; // Use potion directly
             Entity owner = this.getOwner();
-            
+
             // Apply direct hit damage only for basic lava potions
             if (ModPotionTypes.isBasicLavaPotion(basePotion)) {
                 // Check if entity will die from this damage
-                if (livingEntity.getHealth() <= 8.0F) {
+                if (livingEntity.getHealth() <= 6.0F) {
                     livingEntity.setSecondsOnFire(1);
                 }
-                // Apply direct hit damage of 8 hit points (4 hearts)
-                livingEntity.hurt(livingEntity.damageSources().lava(), 8.0F);
+                // Apply direct hit damage of 6 hit points (3 hearts) but don't damage fire immune entities
+                if (!livingEntity.fireImmune()) {
+                    // Use thorns damage to provide knockback
+                    livingEntity.hurt(livingEntity.damageSources().thorns(this), 6.0F);
+                }
                 // Basic lava bottle sets entity on fire for longer (10 seconds)
                 livingEntity.setSecondsOnFire(10);
             } else if (ModPotionTypes.isEffectLavaPotion(basePotion)) {
-                // Apply a smaller direct hit damage (2 hearts)
-                // Still use normal damage for effect potions since they don't have the fire theme
-                livingEntity.hurt(livingEntity.damageSources().thrown(this, owner instanceof LivingEntity ? (LivingEntity) owner : null), 4.0F);
-                
                 // Apply potion effects directly on hit
                 if (!this.level().isClientSide) {
                     List<MobEffectInstance> effects = potion.getEffects();
@@ -209,7 +213,7 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
             }
         }
     }
-    
+
     /**
      * Check if this is a lingering potion based on item type
      */
@@ -217,7 +221,7 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
         // Check if it's a vanilla lingering potion item
         return itemStack.getItem() == Items.LINGERING_POTION;
     }
-    
+
     private void createAreaEffectCloud(ItemStack itemStack, Potion potion, Potion basePotion) {
         AreaEffectCloud cloud = new AreaEffectCloud(this.level(), this.getX(), this.getY(), this.getZ()) {
             // Override to set entities on fire and apply damage when they're in the lingering cloud
@@ -240,13 +244,15 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                             if (entity.getHealth() <= 2.0F) {
                                 entity.setSecondsOnFire(1);
                             }
-                                // Apply flat 2 hit points of damage for lingering cloud (basic potions only)
-                                entity.hurt(entity.damageSources().lava(), 2.0F);
+                            // Apply flat 2 hit points of damage for lingering cloud (basic potions only)
+                            // Don't damage fire immune entities
+                            if (!entity.fireImmune()) {
+                                // Use thorns damage to provide knockback
+                                entity.hurt(entity.damageSources().thorns(this), 2.0F);
+                            }
                             // Set entities on fire for 5 seconds
                             entity.setSecondsOnFire(5);
                         } else if (ModPotionTypes.isEffectLavaPotion(basePotion)) {
-                            // Effect potions don't set entities on fire
-                            
                             // Apply potion effects every 20 ticks (1 second)
                             if (this.tickCount % 20 == 0 && !this.level().isClientSide) {
                                 // Apply the potion effects
@@ -256,7 +262,7 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                                     int shorterDuration = Math.max(20, effect.getDuration() / 5);
                                     // Create a new effect instance with a fresh duration
                                     MobEffectInstance newEffect = new MobEffectInstance(
-                                        effect.getEffect(), 
+                                        effect.getEffect(),
                                         shorterDuration,
                                         effect.getAmplifier(),
                                         effect.isAmbient(),
@@ -295,9 +301,13 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                 color = 0x8e5de3; // Purple for obsidian skin
             } else if (basePotion == ModPotionTypes.NETHERITE_SKIN.get() || basePotion == ModPotionTypes.NETHERITE_SKIN_LONG.get()) {
                 color = 0x786561; // Light brown for netherite skin
-            } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get() ||
-                      basePotion == ModPotionTypes.GLASS_SKIN_STRONG.get()) {
+            } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
                 color = 0xebf9fc; // Light blue for glass skin
+            } else if (basePotion == ModPotionTypes.FLAME_AURA.get() || basePotion == ModPotionTypes.FLAME_AURA_LONG.get() ||
+                        basePotion == ModPotionTypes.FLAME_AURA_STRONG.get()) {
+                color = 0xad3c36; // Red for flame aura
+            } else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
+                color = 0xe0c122; // Gold/amber for flammability
             }
             
             // For effect potions, use vanilla particle effect with correct tint
@@ -317,7 +327,7 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
             
             if (ModPotionTypes.isBasicLavaPotion(basePotion)) {
                 // Basic potions: explosion particle + burst of flame particles + ring of lava particles
-                this.level().addParticle(ParticleTypes.EXPLOSION, 
+                this.level().addParticle(ParticleTypes.EXPLOSION,
                         this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
                 
                 // Create a burst of flame particles
@@ -375,12 +385,22 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                     burstR = 0.471f; // 186/255
                     burstG = 0.396f; // 130/255
                     burstB = 0.380f; // 95/255
-                } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get() ||
-                            basePotion == ModPotionTypes.GLASS_SKIN_STRONG.get()) {
+                } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
                     // Light blue color for glass skin (0xebf9fc)
                     burstR = 0.922f; // 235/255
                     burstG = 0.976f; // 249/255
                     burstB = 0.988f; // 252/255
+                } else if (basePotion == ModPotionTypes.FLAME_AURA.get() || basePotion == ModPotionTypes.FLAME_AURA_LONG.get() ||
+                           basePotion == ModPotionTypes.FLAME_AURA_STRONG.get()) {
+                    // Red color for flame aura (0xad3c36)
+                    burstR = 0.678f; // 173/255
+                    burstG = 0.235f; // 60/255
+                    burstB = 0.212f; // 54/255
+                } else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
+                    // Gold/amber color for flammability (0xe0c122)
+                    burstR = 0.878f; // 222/255
+                    burstG = 0.757f; // 191/255
+                    burstB = 0.133f; // 34/255
                 }
                 
                 // Create 30 flame particles
@@ -391,25 +411,25 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                     
                     this.level().addParticle(
                         ParticleTypes.FLAME,
-                        this.getX(), 
-                        this.getY(), 
+                        this.getX(),
+                        this.getY(),
                         this.getZ(),
-                        offsetX, 
-                        offsetY + 0.1, 
+                        offsetX,
+                        offsetY + 0.1,
                         offsetZ
                     );
                 }
                 
-                // Create 15 potion-colored particles (50% of flame particles)
-                for (int i = 0; i < 15; i++) {
+                // Create 20 potion-colored particles
+                for (int i = 0; i < 20; i++) {
                     double offsetX = this.random.nextGaussian() * 0.15;
                     double offsetY = this.random.nextGaussian() * 0.15;
                     double offsetZ = this.random.nextGaussian() * 0.15;
                     
                     this.level().addParticle(
                         ParticleTypes.ENTITY_EFFECT,
-                        this.getX(), 
-                        this.getY(), 
+                        this.getX(),
+                        this.getY(),
                         this.getZ(),
                         burstR,
                         burstG,
@@ -439,12 +459,22 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                         ringR = 0.471f; // 186/255
                         ringG = 0.396f; // 130/255
                         ringB = 0.380f; // 95/255
-                    } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get() ||
-                              basePotion == ModPotionTypes.GLASS_SKIN_STRONG.get()) {
+                    } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
                         // Light blue color for glass skin (0xebf9fc)
                         ringR = 0.922f; // 235/255
                         ringG = 0.976f; // 249/255
                         ringB = 0.988f; // 252/255
+                    } else if (basePotion == ModPotionTypes.FLAME_AURA.get() || basePotion == ModPotionTypes.FLAME_AURA_LONG.get() ||
+                              basePotion == ModPotionTypes.FLAME_AURA_STRONG.get()) {
+                        // Red color for flame aura (0xad3c36)
+                        ringR = 0.678f; // 173/255
+                        ringG = 0.235f; // 60/255
+                        ringB = 0.212f; // 54/255
+                    } else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
+                        // Gold/amber color for flammability (0xe0c122)
+                        ringR = 0.878f; // 222/255
+                        ringG = 0.757f; // 191/255
+                        ringB = 0.133f; // 34/255
                     }
                     
                     this.level().addParticle(

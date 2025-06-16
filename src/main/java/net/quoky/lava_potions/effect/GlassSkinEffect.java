@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.quoky.lava_potions.Lava_Potions;
 
 /**
- * Effect that amplifies damage received (tier I - 1.5x, tier II - 1.75x)
+ * Effect that amplifies damage received (1.5x damage)
  */
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID)
 public class GlassSkinEffect extends MobEffect {
@@ -33,9 +33,7 @@ public class GlassSkinEffect extends MobEffect {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntity().hasEffect(ModEffects.GLASS_SKIN.get())) {
-            int amplifier = event.getEntity().getEffect(ModEffects.GLASS_SKIN.get()).getAmplifier();
-            float multiplier = amplifier == 0 ? 1.5f : 1.75f;
-            event.setAmount(event.getAmount() * multiplier);
+            event.setAmount(event.getAmount() * 1.5f);
         }
     }
 } 

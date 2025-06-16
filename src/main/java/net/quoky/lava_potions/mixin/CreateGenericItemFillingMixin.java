@@ -7,13 +7,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.simibubi.create.content.fluids.transfer.GenericItemFilling;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.quoky.lava_potions.Lava_Potions;
-import net.quoky.lava_potions.fluid.ModFluids;
 
 /**
- * Mixin to ensure our custom awkward lava fluid can fill glass bottles and prioritize our lava handling
+ * Mixin to ensure vanilla lava can fill glass bottles and we prioritize our lava handling
  */
 @Mixin(value = GenericItemFilling.class, remap = false, priority = 1500)
 public class CreateGenericItemFillingMixin {
@@ -28,11 +28,12 @@ public class CreateGenericItemFillingMixin {
                 return;
             }
             
-            // Check if this is our custom awkward lava fluid
-            if (availableFluid.getFluid() == ModFluids.AWKWARD_LAVA_POTION_SOURCE.get()) {
-                Lava_Potions.LOGGER.debug("Mixin allowing awkward lava fluid to fill glass bottles");
-                cir.setReturnValue(true);
-                return;
+            // Check for our texture metadata in Create potion fluids
+            CompoundTag tag = availableFluid.getTag();
+            if (tag != null && tag.contains("LavaTextureOverride")) {
+                // This is one of our special potion fluids with texture metadata
+                Lava_Potions.LOGGER.debug("Mixin detected a Create potion fluid with our texture metadata");
+                // Do nothing, let Create handle it normally - we just needed to log this
             }
             
             // For all other fluids, let Create handle it normally

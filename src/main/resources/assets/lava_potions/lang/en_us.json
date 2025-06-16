@@ -13,8 +13,14 @@
   "potion.lava_potions.netherite_skin_long": "Potion of Netherite Skin",
   
   "potion.lava_potions.glass_skin": "Potion of Glass Skin",
-  "potion.lava_potions.glass_skin_strong": "Potion of Glass Skin",
   "potion.lava_potions.glass_skin_long": "Potion of Glass Skin",
+  
+  "potion.lava_potions.flame_aura": "Potion of Flame Aura",
+  "potion.lava_potions.flame_aura_strong": "Potion of Flame Aura",
+  "potion.lava_potions.flame_aura_long": "Potion of Flame Aura",
+  
+  "potion.lava_potions.flammability": "Potion of Flammability",
+  "potion.lava_potions.flammability_long": "Potion of Flammability",
   
   "splash_potion.lava_potions.lava_bottle": "Splash Lava Bottle",
   "splash_potion.lava_potions.awkward_lava": "Awkward Splash Lava Potion",
@@ -26,8 +32,14 @@
   "splash_potion.lava_potions.netherite_skin_long": "Splash Potion of Netherite Skin",
   
   "splash_potion.lava_potions.glass_skin": "Splash Potion of Glass Skin",
-  "splash_potion.lava_potions.glass_skin_strong": "Splash Potion of Glass Skin",
   "splash_potion.lava_potions.glass_skin_long": "Splash Potion of Glass Skin",
+  
+  "splash_potion.lava_potions.flame_aura": "Splash Potion of Flame Aura",
+  "splash_potion.lava_potions.flame_aura_strong": "Splash Potion of Flame Aura",
+  "splash_potion.lava_potions.flame_aura_long": "Splash Potion of Flame Aura",
+  
+  "splash_potion.lava_potions.flammability": "Splash Potion of Flammability",
+  "splash_potion.lava_potions.flammability_long": "Splash Potion of Flammability",
   
   "lingering_potion.lava_potions.lava_bottle": "Lingering Lava Bottle",
   "lingering_potion.lava_potions.awkward_lava": "Awkward Lingering Lava Potion",
@@ -39,8 +51,14 @@
   "lingering_potion.lava_potions.netherite_skin_long": "Lingering Potion of Netherite Skin",
   
   "lingering_potion.lava_potions.glass_skin": "Lingering Potion of Glass Skin",
-  "lingering_potion.lava_potions.glass_skin_strong": "Lingering Potion of Glass Skin",
   "lingering_potion.lava_potions.glass_skin_long": "Lingering Potion of Glass Skin",
+  
+  "lingering_potion.lava_potions.flame_aura": "Lingering Potion of Flame Aura",
+  "lingering_potion.lava_potions.flame_aura_strong": "Lingering Potion of Flame Aura",
+  "lingering_potion.lava_potions.flame_aura_long": "Lingering Potion of Flame Aura",
+  
+  "lingering_potion.lava_potions.flammability": "Lingering Potion of Flammability",
+  "lingering_potion.lava_potions.flammability_long": "Lingering Potion of Flammability",
   
   "item.minecraft.potion.effect.lava_bottle": "Lava Bottle",
   "item.minecraft.potion.effect.awkward_lava": "Awkward Lava Potion",
@@ -52,8 +70,14 @@
   "item.minecraft.potion.effect.netherite_skin_long": "Potion of Netherite Skin",
   
   "item.minecraft.potion.effect.glass_skin": "Potion of Glass Skin",
-  "item.minecraft.potion.effect.glass_skin_strong": "Potion of Glass Skin",
   "item.minecraft.potion.effect.glass_skin_long": "Potion of Glass Skin",
+  
+  "item.minecraft.potion.effect.flame_aura": "Potion of Flame Aura",
+  "item.minecraft.potion.effect.flame_aura_strong": "Potion of Flame Aura",
+  "item.minecraft.potion.effect.flame_aura_long": "Potion of Flame Aura",
+  
+  "item.minecraft.potion.effect.flammability": "Potion of Flammability",
+  "item.minecraft.potion.effect.flammability_long": "Potion of Flammability",
   
   "item.minecraft.splash_potion.effect.lava_bottle": "Splash Lava Bottle",
   "item.minecraft.splash_potion.effect.awkward_lava": "Awkward Splash Lava Potion",
@@ -65,8 +89,14 @@
   "item.minecraft.splash_potion.effect.netherite_skin_long": "Splash Potion of Netherite Skin",
   
   "item.minecraft.splash_potion.effect.glass_skin": "Splash Potion of Glass Skin",
-  "item.minecraft.splash_potion.effect.glass_skin_strong": "Splash Potion of Glass Skin",
   "item.minecraft.splash_potion.effect.glass_skin_long": "Splash Potion of Glass Skin",
+  
+  "item.minecraft.splash_potion.effect.flame_aura": "Splash Potion of Flame Aura",
+  "item.minecraft.splash_potion.effect.flame_aura_strong": "Splash Potion of Flame Aura",
+  "item.minecraft.splash_potion.effect.flame_aura_long": "Splash Potion of Flame Aura",
+  
+  "item.minecraft.splash_potion.effect.flammability": "Splash Potion of Flammability",
+  "item.minecraft.splash_potion.effect.flammability_long": "Splash Potion of Flammability",
   
   "item.minecraft.lingering_potion.effect.lava_bottle": "Lingering Lava Bottle",
   "item.minecraft.lingering_potion.effect.awkward_lava": "Awkward Lingering Lava Potion",
@@ -78,8 +108,14 @@
   "item.minecraft.lingering_potion.effect.netherite_skin_long": "Lingering Potion of Netherite Skin",
   
   "item.minecraft.lingering_potion.effect.glass_skin": "Lingering Potion of Glass Skin",
-  "item.minecraft.lingering_potion.effect.glass_skin_strong": "Lingering Potion of Glass Skin",
   "item.minecraft.lingering_potion.effect.glass_skin_long": "Lingering Potion of Glass Skin",
+  
+  "item.minecraft.lingering_potion.effect.flame_aura": "Lingering Potion of Flame Aura",
+  "item.minecraft.lingering_potion.effect.flame_aura_strong": "Lingering Potion of Flame Aura",
+  "item.minecraft.lingering_potion.effect.flame_aura_long": "Lingering Potion of Flame Aura",
+  
+  "item.minecraft.lingering_potion.effect.flammability": "Lingering Potion of Flammability",
+  "item.minecraft.lingering_potion.effect.flammability_long": "Lingering Potion of Flammability",
   
   "item.minecraft.tipped_arrow.effect.lava_bottle": "Arrow of Lava",
   "item.minecraft.tipped_arrow.effect.awkward_lava": "Awkward Arrow of Lava",
@@ -91,8 +127,14 @@
   "item.minecraft.tipped_arrow.effect.netherite_skin_long": "Arrow of Netherite Skin",
   
   "item.minecraft.tipped_arrow.effect.glass_skin": "Arrow of Glass Skin",
-  "item.minecraft.tipped_arrow.effect.glass_skin_strong": "Arrow of Glass Skin",
   "item.minecraft.tipped_arrow.effect.glass_skin_long": "Arrow of Glass Skin",
+  
+  "item.minecraft.tipped_arrow.effect.flame_aura": "Arrow of Flame Aura",
+  "item.minecraft.tipped_arrow.effect.flame_aura_strong": "Arrow of Flame Aura",
+  "item.minecraft.tipped_arrow.effect.flame_aura_long": "Arrow of Flame Aura",
+  
+  "item.minecraft.tipped_arrow.effect.flammability": "Arrow of Flammability",
+  "item.minecraft.tipped_arrow.effect.flammability_long": "Arrow of Flammability",
   
   "fluid.create.potion.lava_potions.lava_bottle": "Lava Bottle",
   "fluid.create.potion.lava_potions.awkward_lava": "Awkward Lava Potion",
@@ -104,12 +146,20 @@
   "fluid.create.potion.lava_potions.netherite_skin_long": "Potion of Netherite Skin",
   
   "fluid.create.potion.lava_potions.glass_skin": "Potion of Glass Skin",
-  "fluid.create.potion.lava_potions.glass_skin_strong": "Potion of Glass Skin",
   "fluid.create.potion.lava_potions.glass_skin_long": "Potion of Glass Skin",
+  
+  "fluid.create.potion.lava_potions.flame_aura": "Potion of Flame Aura",
+  "fluid.create.potion.lava_potions.flame_aura_strong": "Potion of Flame Aura",
+  "fluid.create.potion.lava_potions.flame_aura_long": "Potion of Flame Aura",
+  
+  "fluid.create.potion.lava_potions.flammability": "Potion of Flammability",
+  "fluid.create.potion.lava_potions.flammability_long": "Potion of Flammability",
   
   "effect.lava_potions.obsidian_skin": "Obsidian Skin",
   "effect.lava_potions.netherite_skin": "Netherite Skin",
   "effect.lava_potions.glass_skin": "Glass Skin",
+  "effect.lava_potions.flame_aura": "Flame Aura",
+  "effect.lava_potions.flammability": "Flammability",
   
   "entity.lava_potions.thrown_lava_potion": "Thrown Lava Potion"
 }

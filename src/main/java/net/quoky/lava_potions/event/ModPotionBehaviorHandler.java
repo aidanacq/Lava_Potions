@@ -84,7 +84,6 @@ public class ModPotionBehaviorHandler {
                         entity.setSecondsOnFire(5);
                         entity.hurt(entity.damageSources().lava(), 4.0F);
                     }
-                    // Effect potions (glass, obsidian, netherite) no longer set entities on fire
                 }
             }));
         }

@@ -24,7 +24,7 @@ import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 import net.quoky.lava_potions.util.CreateCompat;
 import net.quoky.lava_potions.util.LavaBottleHandler;
-import net.quoky.lava_potions.util.RecipeConflictResolver;
+//import net.quoky.lava_potions.util.RecipeConflictResolver;
 
 /**
  * Main mod class for Lava Potions
@@ -77,7 +77,7 @@ public class Lava_Potions {
         MinecraftForge.EVENT_BUS.register(CreateCompat.class);
         
         // Register recipe conflict resolver
-        MinecraftForge.EVENT_BUS.register(RecipeConflictResolver.class);
+        //MinecraftForge.EVENT_BUS.register(RecipeConflictResolver.class);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

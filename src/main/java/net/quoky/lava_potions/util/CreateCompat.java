@@ -1,7 +1,6 @@
 package net.quoky.lava_potions.util;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -27,9 +26,8 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.quoky.lava_potions.Lava_Potions;
-import net.quoky.lava_potions.item.ModItems;
-import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
+import net.quoky.lava_potions.potion.ModPotionTypes;
 
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CreateCompat {
@@ -63,7 +61,7 @@ public class CreateCompat {
             return false;
         }
         
-        // Only include base lava bottle and awkward lava (the 2 registered types)
+        // Include all lava potions
         return ModPotionTypes.isLavaPotion(potion);
     }
     
@@ -72,11 +70,16 @@ public class CreateCompat {
      * This can be used by other parts of the mod to interact with Create's fluid system
      */
     public static FluidStack getLavaPotionFluid(Potion potion, int amount) {
-        if (!CREATE_LOADED || !shouldIncludeInCreateIntegration(potion)) {
+        if (!CREATE_LOADED) {
             return FluidStack.EMPTY;
         }
         
         try {
+            // Special case for base lava potion - use vanilla lava
+            if (ModPotionTypes.isBaseLavaBottle(potion)) {
+                return new FluidStack(Fluids.LAVA, amount);
+            }
+        
             // Use reflection to access Create's PotionFluid.of method
             Class<?> potionFluidClass = Class.forName("com.simibubi.create.content.fluids.potion.PotionFluid");
             Class<?> bottleTypeClass = Class.forName("com.simibubi.create.content.fluids.potion.PotionFluid$BottleType");
@@ -86,14 +89,23 @@ public class CreateCompat {
             java.lang.reflect.Method ofMethod = potionFluidClass.getMethod("of", int.class, Potion.class, bottleTypeClass);
             FluidStack result = (FluidStack) ofMethod.invoke(null, amount, potion, regularBottleType);
             
+            // Add our texture metadata if this is a lava-based potion
+            if (result != null && !result.isEmpty() && ModPotionTypes.isLavaPotion(potion)) {
+                if (potion == ModPotionTypes.AWKWARD_LAVA.get() || ModPotionTypes.isBaseLavaBottle(potion)) {
+                    result.getOrCreateTag().putString("LavaTextureOverride", "minecraft:block/lava_still");
+                    result.getOrCreateTag().putString("LavaFlowingTextureOverride", "minecraft:block/lava_flow");
+                } else if (ModPotionTypes.isEffectLavaPotion(potion)) {
+                    result.getOrCreateTag().putString("LavaTextureOverride", "lava_potions:block/gray_lava_still");
+                    result.getOrCreateTag().putString("LavaFlowingTextureOverride", "lava_potions:block/gray_lava_flow");
+                }
+            }
+            
             return result;
         } catch (Exception e) {
             Lava_Potions.LOGGER.warn("Failed to create Create potion fluid: {}", e.getMessage());
             return FluidStack.EMPTY;
         }
     }
-    
-
     
     /**
      * Handle right-clicking on Create basin blocks to fill lava bottles

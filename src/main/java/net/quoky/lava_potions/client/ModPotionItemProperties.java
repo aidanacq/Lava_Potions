@@ -68,9 +68,10 @@ public class ModPotionItemProperties {
             return 3.0F;
         } else if (potion == ModPotionTypes.NETHERITE_SKIN.get() || potion == ModPotionTypes.NETHERITE_SKIN_LONG.get()) {
             return 4.0F;
-        } else if (potion == ModPotionTypes.GLASS_SKIN.get() || potion == ModPotionTypes.GLASS_SKIN_STRONG.get() 
-                || potion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
+        } else if (potion == ModPotionTypes.GLASS_SKIN.get() || potion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
             return 5.0F;
+        } else if (potion == ModPotionTypes.FLAMMABILITY.get() || potion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
+            return 6.0F;
         }
         
         return 0.0F;

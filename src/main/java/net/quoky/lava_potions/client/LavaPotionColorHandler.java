@@ -8,12 +8,8 @@ import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.quoky.lava_potions.Lava_Potions;
-import net.quoky.lava_potions.effect.GlassSkinEffect;
-import net.quoky.lava_potions.effect.NetheriteSkinEffect;
-import net.quoky.lava_potions.effect.ObsidianSkinEffect;
-import net.quoky.lava_potions.effect.ModEffects;
-import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
+import net.quoky.lava_potions.potion.ModPotionTypes;
 
 /**
  * Handles color tinting for lava potions
@@ -25,6 +21,8 @@ public class LavaPotionColorHandler {
     private static final int OBSIDIAN_SKIN_COLOR = 0x8e5de3; // From ObsidianSkinEffect
     private static final int NETHERITE_SKIN_COLOR = 0x9b8457; // From NetheriteSkinEffect
     private static final int GLASS_SKIN_COLOR = 0xc2f3ff; // From GlassSkinEffect
+    private static final int FLAME_AURA_COLOR = 0xad3c36; // From FlameAuraEffect
+    private static final int FLAMMABILITY_COLOR = 0xe0c122; // From FlammabilityEffect
     
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
@@ -36,16 +34,20 @@ public class LavaPotionColorHandler {
                 
                 // Only apply tint to the liquid layer (layer0)
                 if (tintIndex == 0) {
-                    // All lava potions use original_lava_contents.png with appropriate tinting
+                    // All lava potions use lava_contents.png with appropriate tinting
                     if (potion == ModPotionTypes.LAVA_BOTTLE.get() || potion == ModPotionTypes.AWKWARD_LAVA.get()) {
                         return 0xFFFFFF; // No tint for base potions
                     } else if (potion == ModPotionTypes.OBSIDIAN_SKIN.get() || potion == ModPotionTypes.OBSIDIAN_SKIN_LONG.get()) {
                         return OBSIDIAN_SKIN_COLOR;
                     } else if (potion == ModPotionTypes.NETHERITE_SKIN.get() || potion == ModPotionTypes.NETHERITE_SKIN_LONG.get()) {
                         return NETHERITE_SKIN_COLOR;
-                    } else if (potion == ModPotionTypes.GLASS_SKIN.get() || potion == ModPotionTypes.GLASS_SKIN_LONG.get() ||
-                                potion == ModPotionTypes.GLASS_SKIN_STRONG.get()) {
+                    } else if (potion == ModPotionTypes.GLASS_SKIN.get() || potion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
                         return GLASS_SKIN_COLOR;
+                    } else if (potion == ModPotionTypes.FLAME_AURA.get() || potion == ModPotionTypes.FLAME_AURA_LONG.get() ||
+                                potion == ModPotionTypes.FLAME_AURA_STRONG.get()) {
+                        return FLAME_AURA_COLOR;
+                    } else if (potion == ModPotionTypes.FLAMMABILITY.get() || potion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
+                        return FLAMMABILITY_COLOR;
                     }
                     
                     // No tint if no specific color defined

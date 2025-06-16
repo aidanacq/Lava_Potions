@@ -81,11 +81,41 @@ public class BrewingRecipes {
                 PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.GLASS_SKIN_LONG.get())
             );
             
-            // Strong Glass Skin Potion
+
+            
+            // Flame Aura Potion (Awkward Lava Potion + Blaze Powder)
             BrewingRecipeRegistry.addRecipe(
-                Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.GLASS_SKIN.get())),
+                Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.AWKWARD_LAVA.get())),
+                Ingredient.of(Items.BLAZE_POWDER),
+                PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.FLAME_AURA.get())
+            );
+            
+            // Extended Flame Aura Potion
+            BrewingRecipeRegistry.addRecipe(
+                Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.FLAME_AURA.get())),
+                Ingredient.of(Items.REDSTONE),
+                PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.FLAME_AURA_LONG.get())
+            );
+            
+            // Strong Flame Aura Potion
+            BrewingRecipeRegistry.addRecipe(
+                Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.FLAME_AURA.get())),
                 Ingredient.of(Items.GLOWSTONE_DUST),
-                PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.GLASS_SKIN_STRONG.get())
+                PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.FLAME_AURA_STRONG.get())
+            );
+            
+            // Base Flammability Potion (Lava Bottle + Fermented Spider Eye)
+            BrewingRecipeRegistry.addRecipe(
+                Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.LAVA_BOTTLE.get())),
+                Ingredient.of(Items.FERMENTED_SPIDER_EYE),
+                PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.FLAMMABILITY.get())
+            );
+            
+            // Extended Flammability Potion
+            BrewingRecipeRegistry.addRecipe(
+                Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.FLAMMABILITY.get())),
+                Ingredient.of(Items.REDSTONE),
+                PotionUtils.setPotion(new ItemStack(Items.POTION), ModPotionTypes.FLAMMABILITY_LONG.get())
             );
             
             Lava_Potions.LOGGER.info("Custom lava potion brewing recipes registered successfully");

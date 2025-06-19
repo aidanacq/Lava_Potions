@@ -31,6 +31,10 @@ public class ModEffects {
     // Register the Flammability effect
     public static final RegistryObject<MobEffect> FLAMMABILITY = MOB_EFFECTS.register("flammability",
             FlammabilityEffect::new);
+            
+    // Register the Fire Avatar effect
+    public static final RegistryObject<MobEffect> FIRE_AVATAR = MOB_EFFECTS.register("fire_avatar",
+            FireAvatarEffect::new);
 
     // Register all mob effects
     public static void register(IEventBus eventBus) {

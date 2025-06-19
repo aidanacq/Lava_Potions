@@ -6,8 +6,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
-import net.minecraftforge.common.brewing.IBrewingRecipe;
 import net.quoky.lava_potions.Lava_Potions;
 
 /**
@@ -17,19 +17,17 @@ import net.quoky.lava_potions.Lava_Potions;
 public class ModPotionBrewingRecipes {
     
     /**
+     * Helper method to create a potion ItemStack
+     */
+    public static ItemStack createPotion(Potion potion) {
+        return PotionUtils.setPotion(new ItemStack(Items.POTION), potion);
+    }
+
+    /**
      * Registers all brewing recipes that output vanilla potion items
      */
-    public static void registerVanillaPotionBrewingRecipes() {
-        Lava_Potions.LOGGER.info("Registering lava potion brewing recipes");
-        
-        try {
-            BrewingRecipeRegistry.addRecipe(new LavaBottleToVanillaPotionRecipe());
-            Lava_Potions.LOGGER.info("Lava potion brewing recipes registered successfully");
-        } catch (Exception e) {
-            Lava_Potions.LOGGER.error("Error registering lava potion brewing recipes", e);
-        }
-    }
-    
+    public static void registerVanillaPotionBrewingRecipes() {}
+
     /**
      * Creates a vanilla potion item with the specified lava potion type
      * with fixed durations that don't count down
@@ -37,15 +35,15 @@ public class ModPotionBrewingRecipes {
     public static ItemStack createVanillaPotionWithLavaType(Potion potionType) {
         ItemStack vanillaPotion = new ItemStack(Items.POTION);
         PotionUtils.setPotion(vanillaPotion, potionType);
-        
+
         // For effect potions (excluding basic lava potions), store original durations
         if (ModPotionTypes.isEffectLavaPotion(potionType)) {
             preserveEffectDurations(vanillaPotion);
         }
-        
+
         return vanillaPotion;
     }
-    
+
     /**
      * Creates a vanilla splash potion item with the specified lava potion type
      */
@@ -121,33 +119,5 @@ public class ModPotionBrewingRecipes {
      */
     public static boolean isVanillaLingeringPotionWithLavaType(ItemStack stack) {
         return stack.getItem() == Items.LINGERING_POTION && isVanillaPotionWithLavaType(stack);
-    }
-    
-    /**
-     * Custom brewing recipe for lava bottle -> vanilla awkward lava potion
-     */
-    private static class LavaBottleToVanillaPotionRecipe implements IBrewingRecipe {
-        @Override
-        public boolean isInput(ItemStack input) {
-            if (!isVanillaPotionWithLavaType(input)) {
-                return false;
-            }
-            
-            Potion potion = PotionUtils.getPotion(input);
-            return potion == ModPotionTypes.LAVA_BOTTLE.get();
-        }
-
-        @Override
-        public boolean isIngredient(ItemStack ingredient) {
-            return ingredient.getItem() == Items.NETHER_WART;
-        }
-
-        @Override
-        public ItemStack getOutput(ItemStack input, ItemStack ingredient) {
-            if (isInput(input) && isIngredient(ingredient)) {
-                return createVanillaPotionWithLavaType(ModPotionTypes.AWKWARD_LAVA.get());
-            }
-            return ItemStack.EMPTY;
-        }
     }
 } 

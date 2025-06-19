@@ -72,6 +72,9 @@ public class ModPotionItemProperties {
             return 5.0F;
         } else if (potion == ModPotionTypes.FLAMMABILITY.get() || potion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
             return 6.0F;
+        } else if (potion == ModPotionTypes.FIRE_AVATAR.get() || potion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
+                   potion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
+            return 7.0F;
         }
         
         return 0.0F;

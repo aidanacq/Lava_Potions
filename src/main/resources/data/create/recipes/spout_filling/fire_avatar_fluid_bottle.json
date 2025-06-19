@@ -1,0 +1,21 @@
+{
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "fluid": "create:potion",
+      "nbt": {"Potion": "lava_potions:fire_avatar"},
+      "amount": 250
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:potion",
+      "nbt": {
+        "Potion": "lava_potions:fire_avatar"
+      }
+    }
+  ]
+} 

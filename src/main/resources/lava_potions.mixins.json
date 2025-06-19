@@ -9,10 +9,10 @@
     "CreatePotionFluidHandlerFillMixin",
     "CreateGenericItemFillingMixin",
     "CreatePotionFluidMixin",
-    "CreatePotionFluidTypeMixin",
     "CreateFluidStackMixin"
   ],
   "client": [
+    "CreatePotionFluidTypeMixin"
   ],
   "server": [],
   "injectors": {

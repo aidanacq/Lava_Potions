@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.quoky.lava_potions.Lava_Potions;
@@ -29,8 +28,7 @@ public class CreateFluidStackMixin {
         
         try {
             // Check if it's the base Create potion fluid
-            Fluid fluid = self.getFluid();
-            ResourceLocation fluidId = ForgeRegistries.FLUIDS.getKey(fluid);
+            ResourceLocation fluidId = ForgeRegistries.FLUIDS.getKey(self.getFluid());
             
             if (fluidId != null && "create".equals(fluidId.getNamespace()) &&
                 fluidId.getPath().equals("potion")) {

@@ -24,6 +24,7 @@ import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 import net.quoky.lava_potions.util.CreateCompat;
 import net.quoky.lava_potions.util.LavaBottleHandler;
+import net.quoky.lava_potions.network.ModPackets;
 //import net.quoky.lava_potions.util.RecipeConflictResolver;
 
 /**
@@ -84,11 +85,12 @@ public class Lava_Potions {
     }
 
     /**
-     * Common setup event handler - registers brewing recipes
+     * Common setup event handler - registers brewing recipes and network packets
      */
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             ModPotionBrewingRecipes.registerVanillaPotionBrewingRecipes();
+            ModPackets.register();
         });
         LOGGER.info("Lava Potions mod initialized!");
     }

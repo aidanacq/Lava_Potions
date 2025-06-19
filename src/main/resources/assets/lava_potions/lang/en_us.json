@@ -22,6 +22,10 @@
   "potion.lava_potions.flammability": "Potion of Flammability",
   "potion.lava_potions.flammability_long": "Potion of Flammability",
   
+  "potion.lava_potions.fire_avatar": "Potion of Fire Avatar",
+  "potion.lava_potions.fire_avatar_long": "Potion of Fire Avatar",
+  "potion.lava_potions.fire_avatar_strong": "Potion of Fire Avatar",
+  
   "splash_potion.lava_potions.lava_bottle": "Splash Lava Bottle",
   "splash_potion.lava_potions.awkward_lava": "Awkward Splash Lava Potion",
   
@@ -40,6 +44,10 @@
   
   "splash_potion.lava_potions.flammability": "Splash Potion of Flammability",
   "splash_potion.lava_potions.flammability_long": "Splash Potion of Flammability",
+  
+  "splash_potion.lava_potions.fire_avatar": "Splash Potion of Fire Avatar",
+  "splash_potion.lava_potions.fire_avatar_long": "Splash Potion of Fire Avatar",
+  "splash_potion.lava_potions.fire_avatar_strong": "Splash Potion of Fire Avatar",
   
   "lingering_potion.lava_potions.lava_bottle": "Lingering Lava Bottle",
   "lingering_potion.lava_potions.awkward_lava": "Awkward Lingering Lava Potion",
@@ -60,6 +68,10 @@
   "lingering_potion.lava_potions.flammability": "Lingering Potion of Flammability",
   "lingering_potion.lava_potions.flammability_long": "Lingering Potion of Flammability",
   
+  "lingering_potion.lava_potions.fire_avatar": "Lingering Potion of Fire Avatar",
+  "lingering_potion.lava_potions.fire_avatar_long": "Lingering Potion of Fire Avatar",
+  "lingering_potion.lava_potions.fire_avatar_strong": "Lingering Potion of Fire Avatar",
+  
   "item.minecraft.potion.effect.lava_bottle": "Lava Bottle",
   "item.minecraft.potion.effect.awkward_lava": "Awkward Lava Potion",
   
@@ -78,6 +90,10 @@
   
   "item.minecraft.potion.effect.flammability": "Potion of Flammability",
   "item.minecraft.potion.effect.flammability_long": "Potion of Flammability",
+  
+  "item.minecraft.potion.effect.fire_avatar": "Potion of Fire Avatar",
+  "item.minecraft.potion.effect.fire_avatar_long": "Potion of Fire Avatar",
+  "item.minecraft.potion.effect.fire_avatar_strong": "Potion of Fire Avatar",
   
   "item.minecraft.splash_potion.effect.lava_bottle": "Splash Lava Bottle",
   "item.minecraft.splash_potion.effect.awkward_lava": "Awkward Splash Lava Potion",
@@ -98,6 +114,10 @@
   "item.minecraft.splash_potion.effect.flammability": "Splash Potion of Flammability",
   "item.minecraft.splash_potion.effect.flammability_long": "Splash Potion of Flammability",
   
+  "item.minecraft.splash_potion.effect.fire_avatar": "Splash Potion of Fire Avatar",
+  "item.minecraft.splash_potion.effect.fire_avatar_long": "Splash Potion of Fire Avatar",
+  "item.minecraft.splash_potion.effect.fire_avatar_strong": "Splash Potion of Fire Avatar",
+  
   "item.minecraft.lingering_potion.effect.lava_bottle": "Lingering Lava Bottle",
   "item.minecraft.lingering_potion.effect.awkward_lava": "Awkward Lingering Lava Potion",
   
@@ -116,6 +136,10 @@
   
   "item.minecraft.lingering_potion.effect.flammability": "Lingering Potion of Flammability",
   "item.minecraft.lingering_potion.effect.flammability_long": "Lingering Potion of Flammability",
+  
+  "item.minecraft.lingering_potion.effect.fire_avatar": "Lingering Potion of Fire Avatar",
+  "item.minecraft.lingering_potion.effect.fire_avatar_long": "Lingering Potion of Fire Avatar",
+  "item.minecraft.lingering_potion.effect.fire_avatar_strong": "Lingering Potion of Fire Avatar",
   
   "item.minecraft.tipped_arrow.effect.lava_bottle": "Arrow of Lava",
   "item.minecraft.tipped_arrow.effect.awkward_lava": "Awkward Arrow of Lava",
@@ -136,6 +160,10 @@
   "item.minecraft.tipped_arrow.effect.flammability": "Arrow of Flammability",
   "item.minecraft.tipped_arrow.effect.flammability_long": "Arrow of Flammability",
   
+  "item.minecraft.tipped_arrow.effect.fire_avatar": "Arrow of Fire Avatar",
+  "item.minecraft.tipped_arrow.effect.fire_avatar_long": "Arrow of Fire Avatar",
+  "item.minecraft.tipped_arrow.effect.fire_avatar_strong": "Arrow of Fire Avatar",
+  
   "fluid.create.potion.lava_potions.lava_bottle": "Lava Bottle",
   "fluid.create.potion.lava_potions.awkward_lava": "Awkward Lava Potion",
   
@@ -155,11 +183,16 @@
   "fluid.create.potion.lava_potions.flammability": "Potion of Flammability",
   "fluid.create.potion.lava_potions.flammability_long": "Potion of Flammability",
   
+  "fluid.create.potion.lava_potions.fire_avatar": "Potion of Fire Avatar",
+  "fluid.create.potion.lava_potions.fire_avatar_long": "Potion of Fire Avatar",
+  "fluid.create.potion.lava_potions.fire_avatar_strong": "Potion of Fire Avatar",
+  
   "effect.lava_potions.obsidian_skin": "Obsidian Skin",
   "effect.lava_potions.netherite_skin": "Netherite Skin",
   "effect.lava_potions.glass_skin": "Glass Skin",
   "effect.lava_potions.flame_aura": "Flame Aura",
   "effect.lava_potions.flammability": "Flammability",
+  "effect.lava_potions.fire_avatar": "Fire Avatar",
   
   "entity.lava_potions.thrown_lava_potion": "Thrown Lava Potion"
 }

@@ -101,6 +101,25 @@ public class ModPotionTypes {
         () -> new Potion(
             new MobEffectInstance(ModEffects.FLAMMABILITY.get(), 9600)
         ));
+        
+    // Register fire avatar potion (2 minutes normal, 4 minutes long, 1 minute strong)
+    public static final RegistryObject<Potion> FIRE_AVATAR = POTIONS.register("fire_avatar",
+        () -> new Potion(
+            new MobEffectInstance(ModEffects.FIRE_AVATAR.get(), 2400),
+            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 2400)
+        ));
+    
+    public static final RegistryObject<Potion> FIRE_AVATAR_LONG = POTIONS.register("fire_avatar_long",
+        () -> new Potion(
+            new MobEffectInstance(ModEffects.FIRE_AVATAR.get(), 4800),
+            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 4800)
+        ));
+    
+    public static final RegistryObject<Potion> FIRE_AVATAR_STRONG = POTIONS.register("fire_avatar_strong",
+        () -> new Potion(
+            new MobEffectInstance(ModEffects.FIRE_AVATAR.get(), 1200, 1),
+            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1200)
+        ));
     
     public static final List<Potion> POTION_TYPES = new ArrayList<>();
     
@@ -134,7 +153,8 @@ public class ModPotionTypes {
                potion == NETHERITE_SKIN.get() || potion == NETHERITE_SKIN_LONG.get() || 
                potion == GLASS_SKIN.get() || potion == GLASS_SKIN_LONG.get() ||
                potion == FLAME_AURA.get() || potion == FLAME_AURA_LONG.get() || potion == FLAME_AURA_STRONG.get() ||
-               potion == FLAMMABILITY.get() || potion == FLAMMABILITY_LONG.get();
+               potion == FLAMMABILITY.get() || potion == FLAMMABILITY_LONG.get() ||
+               potion == FIRE_AVATAR.get() || potion == FIRE_AVATAR_LONG.get() || potion == FIRE_AVATAR_STRONG.get();
     }
     
     public static boolean isBasicLavaPotion(Potion potion) {
@@ -169,6 +189,11 @@ public class ModPotionTypes {
         // Add all the flammability potions
         POTION_TYPES.add(FLAMMABILITY.get());
         POTION_TYPES.add(FLAMMABILITY_LONG.get());
+        
+        // Add all the fire avatar potions
+        POTION_TYPES.add(FIRE_AVATAR.get());
+        POTION_TYPES.add(FIRE_AVATAR_LONG.get());
+        POTION_TYPES.add(FIRE_AVATAR_STRONG.get());
         
         Lava_Potions.LOGGER.info("Initialized {} lava potion types", POTION_TYPES.size());
     }

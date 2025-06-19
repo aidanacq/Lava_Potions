@@ -401,6 +401,12 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                     burstR = 0.878f; // 222/255
                     burstG = 0.757f; // 191/255
                     burstB = 0.133f; // 34/255
+                } else if (basePotion == ModPotionTypes.FIRE_AVATAR.get() || basePotion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
+                           basePotion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
+                    // Orange-red color for fire avatar (0xff8952)
+                    burstR = 1.0f; // 255/255
+                    burstG = 0.537f; // 137/255
+                    burstB = 0.322f; // 82/255
                 }
                 
                 // Create 30 flame particles
@@ -475,6 +481,12 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                         ringR = 0.878f; // 222/255
                         ringG = 0.757f; // 191/255
                         ringB = 0.133f; // 34/255
+                    } else if (basePotion == ModPotionTypes.FIRE_AVATAR.get() || basePotion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
+                              basePotion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
+                        // Orange-red color for fire avatar (0xff8952)
+                        ringR = 1.0f; // 255/255
+                        ringG = 0.537f; // 137/255
+                        ringB = 0.322f; // 82/255
                     }
                     
                     this.level().addParticle(

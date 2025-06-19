@@ -1,6 +1,7 @@
 package net.quoky.lava_potions.util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -28,6 +29,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.quoky.lava_potions.Lava_Potions;
 import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
+import net.quoky.lava_potions.fluid.ModFluids;
 
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CreateCompat {
@@ -78,6 +80,23 @@ public class CreateCompat {
             // Special case for base lava potion - use vanilla lava
             if (ModPotionTypes.isBaseLavaBottle(potion)) {
                 return new FluidStack(Fluids.LAVA, amount);
+            }
+            
+            // Special case for awkward lava potion - use Create's potion fluid with our custom metadata
+            if (potion == ModPotionTypes.AWKWARD_LAVA.get()) {
+                try {
+                    // Use our custom fluid instead of Create's default potion fluid
+                    FluidStack result = ModFluids.LavaPotionFluid.of(amount, potion, 
+                        ModFluids.LavaPotionFluid.readEnumFromNBT(new CompoundTag(), "Bottle", 
+                            com.simibubi.create.content.fluids.potion.PotionFluid.BottleType.class));
+                    
+                    if (result != null && !result.isEmpty()) {
+                        Lava_Potions.LOGGER.debug("Created custom awkward lava fluid with ID: create:potion/lava_potions/awkward_lava");
+                        return result;
+                    }
+                } catch (Exception e) {
+                    Lava_Potions.LOGGER.warn("Failed to create custom awkward lava fluid: {}", e.getMessage());
+                }
             }
         
             // Use reflection to access Create's PotionFluid.of method

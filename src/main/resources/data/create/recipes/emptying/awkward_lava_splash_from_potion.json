@@ -1,0 +1,29 @@
+{
+  "type": "create:emptying",
+  "ingredients": [
+    {
+      "item": "minecraft:splash_potion",
+      "nbt": {
+        "Potion": "lava_potions:awkward_lava"
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "fluid": "create:potion/lava_potions/awkward_lava",
+      "nbt": {
+        "Potion": "lava_potions:awkward_lava",
+        "Bottle": "SPLASH",
+        "BehaveLikeLava": true,
+        "PreventPlacement": true,
+        "LavaTextureOverride": "minecraft:block/lava_still",
+        "LavaFlowingTextureOverride": "minecraft:block/lava_flow",
+        "FluidNamespace": "create:potion/lava_potions/awkward_lava"
+      },
+      "amount": 250
+    }
+  ]
+} 

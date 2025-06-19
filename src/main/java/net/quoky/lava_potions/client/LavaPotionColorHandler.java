@@ -23,6 +23,7 @@ public class LavaPotionColorHandler {
     private static final int GLASS_SKIN_COLOR = 0xc2f3ff; // From GlassSkinEffect
     private static final int FLAME_AURA_COLOR = 0xad3c36; // From FlameAuraEffect
     private static final int FLAMMABILITY_COLOR = 0xe0c122; // From FlammabilityEffect
+    private static final int FIRE_AVATAR_COLOR = 0xff8952; // From FireAvatarEffect
     
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
@@ -48,6 +49,9 @@ public class LavaPotionColorHandler {
                         return FLAME_AURA_COLOR;
                     } else if (potion == ModPotionTypes.FLAMMABILITY.get() || potion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
                         return FLAMMABILITY_COLOR;
+                    } else if (potion == ModPotionTypes.FIRE_AVATAR.get() || potion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
+                                potion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
+                        return FIRE_AVATAR_COLOR;
                     }
                     
                     // No tint if no specific color defined

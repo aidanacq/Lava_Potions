@@ -1,7 +1,5 @@
 package net.quoky.lava_potions.util;
 
-
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
@@ -29,12 +27,12 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.quoky.lava_potions.Lava_Potions;
 import net.quoky.lava_potions.block.ModBlocks;
-import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
+import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.util.CreateCompat;
 
@@ -42,8 +40,6 @@ import net.quoky.lava_potions.util.CreateCompat;
 public class LavaBottleHandler {
     private static final boolean CREATE_LOADED = ModList.get().isLoaded("create");
     private static final int LAVA_AMOUNT_TO_ADD = 250;
-
-
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
@@ -65,7 +61,7 @@ public class LavaBottleHandler {
             return;
         }
         
-        if (ModPotionBrewingRecipes.isVanillaPotionWithLavaType(heldItem)) {
+        if (BrewingRecipes.isVanillaPotionWithLavaType(heldItem)) {
             Potion potion = PotionUtils.getPotion(heldItem);
             if (potion == ModPotionTypes.LAVA_BOTTLE.get()) {
                 handleEmptyingLavaBottle(event, level, player, heldItem);
@@ -263,10 +259,10 @@ public class LavaBottleHandler {
                 FluidStack lavaStack = new FluidStack(Fluids.LAVA, LAVA_AMOUNT_TO_ADD);
                 
                 // Check if the tank can accept this fluid
-                int filled = fluidHandler.fill(lavaStack, FluidAction.SIMULATE);
+                int filled = fluidHandler.fill(lavaStack, IFluidHandler.FluidAction.SIMULATE);
                 if (filled > 0) {
                     // Actually fill the tank
-                    fluidHandler.fill(lavaStack, FluidAction.EXECUTE);
+                    fluidHandler.fill(lavaStack, IFluidHandler.FluidAction.EXECUTE);
                     
                     // Play sound
                     level.playSound(null, player.getX(), player.getY(), player.getZ(),
@@ -360,7 +356,7 @@ public class LavaBottleHandler {
         ItemStack heldItem = player.getItemInHand(hand);
 
         // Create vanilla lava bottle using our brewing recipes system
-        ItemStack lavaBottle = ModPotionBrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get());
+        ItemStack lavaBottle = BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get());
 
         // Play sound
         level.playSound(null, player.getX(), player.getY(), player.getZ(),

@@ -18,11 +18,17 @@ import net.quoky.lava_potions.fluid.ModFluids;
 import net.quoky.lava_potions.potion.ModPotionTypes;
 
 /**
- * Mixin to redirect awkward lava potions to use our custom fluid instead of Create's default potion fluid.
- * This ensures the awkward lava potion gets the custom ID 'create:potion/lava_potions/awkward_lava'
+ * Consolidated mixin for Create potion fluid handling
+ * Handles fluid redirection and texture metadata for lava potions
  */
 @Mixin(value = PotionFluid.class, remap = false)
 public class CreatePotionFluidMixin {
+    
+    // Mixin constants
+    private static final String LAVA_TEXTURE_OVERRIDE_TAG = "LavaTextureOverride";
+    private static final String LAVA_FLOWING_TEXTURE_OVERRIDE_TAG = "LavaFlowingTextureOverride";
+    private static final String POTION_TAG = "Potion";
+    private static final String LAVA_POTIONS_NAMESPACE = "lava_potions:";
     
     /**
      * Intercepts the of() method to redirect awkward lava potions to our custom fluid
@@ -33,16 +39,12 @@ public class CreatePotionFluidMixin {
     private static void redirectAwkwardLavaToCustomFluid(int amount, Potion potion, BottleType bottleType, 
                                                         CallbackInfoReturnable<FluidStack> cir) {
         try {
-            // Only redirect awkward lava potion to our custom fluid
             if (potion == ModPotionTypes.AWKWARD_LAVA.get()) {
                 FluidStack customFluid = ModFluids.LavaPotionFluid.of(amount, potion, bottleType);
                 cir.setReturnValue(customFluid);
                 Lava_Potions.LOGGER.debug("Redirected awkward lava potion to custom fluid: create:potion/lava_potions/awkward_lava");
                 return;
             }
-            
-            // For all other lava potions, let Create handle them normally but add texture metadata
-            
         } catch (Exception e) {
             Lava_Potions.LOGGER.warn("Error in Create PotionFluid redirect mixin: {}", e.getMessage());
         }
@@ -58,38 +60,72 @@ public class CreatePotionFluidMixin {
         try {
             FluidStack fluidStack = cir.getReturnValue();
             
-            // Skip if the fluid stack is empty (shouldn't happen)
-            if (fluidStack.isEmpty()) {
-                return;
-            }
-            
-            // Skip awkward lava since it's handled by the custom fluid
-            if (potion == ModPotionTypes.AWKWARD_LAVA.get()) {
+            if (fluidStack.isEmpty() || potion == ModPotionTypes.AWKWARD_LAVA.get()) {
                 return;
             }
             
             CompoundTag tag = fluidStack.getOrCreateTag();
             
-            // For base lava potion - use vanilla lava texture
             if (ModPotionTypes.isBaseLavaBottle(potion)) {
-                tag.putString("LavaTextureOverride", "minecraft:block/lava_still");
-                tag.putString("LavaFlowingTextureOverride", "minecraft:block/lava_flow");
+                tag.putString(LAVA_TEXTURE_OVERRIDE_TAG, "minecraft:block/lava_still");
+                tag.putString(LAVA_FLOWING_TEXTURE_OVERRIDE_TAG, "minecraft:block/lava_flow");
                 tag.putBoolean("BehaveLikeLava", true);
                 tag.putBoolean("PreventPlacement", true);
                 
                 Lava_Potions.LOGGER.debug("Adding lava texture and behavior metadata to Create potion fluid for base lava potion");
-            }
-            // For all effect lava potions - use gray lava texture with tinting
-            else if (ModPotionTypes.isEffectLavaPotion(potion)) {
-                tag.putString("LavaTextureOverride", "lava_potions:block/gray_lava_still");
-                tag.putString("LavaFlowingTextureOverride", "lava_potions:block/gray_lava_flow");
+            } else if (ModPotionTypes.isEffectLavaPotion(potion)) {
+                tag.putString(LAVA_TEXTURE_OVERRIDE_TAG, "lava_potions:block/gray_lava_still");
+                tag.putString(LAVA_FLOWING_TEXTURE_OVERRIDE_TAG, "lava_potions:block/gray_lava_flow");
                 
                 Lava_Potions.LOGGER.debug("Adding gray lava texture metadata to Create potion fluid for effect potion: "
                     + ForgeRegistries.POTIONS.getKey(potion));
             }
-            
         } catch (Exception e) {
             Lava_Potions.LOGGER.warn("Error in Create PotionFluid texture mixin: {}", e.getMessage());
+        }
+    }
+}
+
+/**
+ * Mixin for proper compatibility between our lava potions and other potions
+ * in the Create fluid system
+ */
+@Mixin(value = FluidStack.class, remap = false)
+class CreateFluidStackMixin {
+    
+    /**
+     * Handle special cases for Create potion fluids while allowing
+     * both our lava potions and vanilla/modded potions to work
+     */
+    @Inject(method = "isEmpty", at = @At("HEAD"), cancellable = true)
+    public void onIsEmpty(CallbackInfoReturnable<Boolean> cir) {
+        FluidStack self = (FluidStack)(Object)this;
+        
+        try {
+            ResourceLocation fluidId = ForgeRegistries.FLUIDS.getKey(self.getFluid());
+            
+            if (fluidId != null && "create".equals(fluidId.getNamespace()) &&
+                fluidId.getPath().equals("potion")) {
+                
+                CompoundTag tag = self.getTag();
+                if (tag != null && tag.contains("LavaTextureOverride")) {
+                    return;
+                }
+                
+                if (tag != null && tag.contains("Potion")) {
+                    String potionId = tag.getString("Potion");
+                    if (potionId.contains("lava_potions:")) {
+                        return;
+                    }
+                }
+                
+                if (self.getAmount() <= 0 || (tag == null || !tag.contains("Potion"))) {
+                    cir.setReturnValue(true);
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            Lava_Potions.LOGGER.warn("Error in FluidStack isEmpty mixin: {}", e.getMessage());
         }
     }
 } 

@@ -20,11 +20,12 @@ import net.quoky.lava_potions.entity.ModEntityTypes;
 import net.quoky.lava_potions.fluid.ModFluids;
 import net.quoky.lava_potions.item.ModCreativeTabs;
 import net.quoky.lava_potions.item.ModItems;
+import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
-import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 import net.quoky.lava_potions.util.CreateCompat;
 import net.quoky.lava_potions.util.LavaBottleHandler;
 import net.quoky.lava_potions.network.ModPackets;
+import net.quoky.lava_potions.effect.SkinEffectEventHandler;
 //import net.quoky.lava_potions.util.RecipeConflictResolver;
 
 /**
@@ -77,6 +78,9 @@ public class Lava_Potions {
         // Register Create mod compatibility
         MinecraftForge.EVENT_BUS.register(CreateCompat.class);
         
+        // Explicitly register skin effect event handler to ensure it works
+        MinecraftForge.EVENT_BUS.register(SkinEffectEventHandler.class);
+        
         // Register recipe conflict resolver
         //MinecraftForge.EVENT_BUS.register(RecipeConflictResolver.class);
 
@@ -89,8 +93,8 @@ public class Lava_Potions {
      */
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            ModPotionBrewingRecipes.registerVanillaPotionBrewingRecipes();
             ModPackets.register();
+            CreateCompat.registerCreateCompatibility();
         });
         LOGGER.info("Lava Potions mod initialized!");
     }

@@ -8,7 +8,7 @@ import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.quoky.lava_potions.Lava_Potions;
-import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
+import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
 
 /**
@@ -24,13 +24,13 @@ public class LavaPotionColorHandler {
     private static final int FLAME_AURA_COLOR = 0xad3c36; // From FlameAuraEffect
     private static final int FLAMMABILITY_COLOR = 0xe0c122; // From FlammabilityEffect
     private static final int FIRE_AVATAR_COLOR = 0xff8952; // From FireAvatarEffect
-    
+
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
         // Register color handler for vanilla potion items
         event.register((stack, tintIndex) -> {
             // Handle lava potions
-            if (ModPotionBrewingRecipes.isVanillaPotionWithLavaType(stack)) {
+            if (BrewingRecipes.isVanillaPotionWithLavaType(stack)) {
                 Potion potion = PotionUtils.getPotion(stack);
                 
                 // Only apply tint to the liquid layer (layer0)

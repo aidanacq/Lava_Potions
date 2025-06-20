@@ -28,6 +28,10 @@ import net.minecraftforge.registries.RegistryObject;
 import net.quoky.lava_potions.Lava_Potions;
 import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Custom fluid system that creates a new fluid with ID 'create:potion/lava_potions/awkward_lava'
@@ -185,6 +189,39 @@ public class ModFluids {
             super(properties);
             this.stillTexture = stillTexture;
             this.flowingTexture = flowingTexture;
+        }
+        
+        public boolean canEntityWalkOnFluid(FluidStack stack, Entity entity) {
+            // Allow entities to walk on the fluid like lava (returns false so they sink)
+            return false;
+        }
+        
+        @Override
+        public void setItemMovement(ItemEntity entity) {
+            // Apply lava-like movement effects to items floating in the fluid
+            if (!entity.fireImmune()) {
+                // Deal fire damage like lava (4 damage per second)
+                entity.hurt(entity.damageSources().lava(), 4.0F);
+                // Set entity on fire for 15 seconds like lava
+                entity.setSecondsOnFire(15);
+            }
+            
+            // Apply movement slowdown like lava
+            entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.5D, 0.8D, 0.5D));
+        }
+        
+        @Override
+        public boolean move(FluidState state, LivingEntity entity, Vec3 movementVector, double gravity) {
+            // Apply lava damage to living entities in the fluid
+            if (!entity.fireImmune()) {
+                // Deal fire damage like lava (4 damage per second)
+                entity.hurt(entity.damageSources().lava(), 4.0F);
+                // Set entity on fire for 15 seconds like lava
+                entity.setSecondsOnFire(15);
+            }
+            
+            // Return false to use default water-like movement behavior
+            return false;
         }
         
         @Override

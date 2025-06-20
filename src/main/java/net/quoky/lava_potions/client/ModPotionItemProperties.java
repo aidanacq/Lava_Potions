@@ -10,15 +10,15 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.quoky.lava_potions.Lava_Potions;
+import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
-import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 
 /**
  * Handles item properties for vanilla potion items to display lava potion textures
  */
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModPotionItemProperties {
-    
+
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
@@ -26,7 +26,7 @@ public class ModPotionItemProperties {
             registerItemProperties();
         });
     }
-    
+
     /**
      * Register item properties for vanilla potion items
      */
@@ -55,7 +55,7 @@ public class ModPotionItemProperties {
     }
     
     private static float getLavaTypeValue(net.minecraft.world.item.ItemStack stack) {
-        if (!ModPotionBrewingRecipes.isVanillaPotionWithLavaType(stack)) {
+        if (!BrewingRecipes.isVanillaPotionWithLavaType(stack)) {
             return 0.0F;
         }
         
@@ -81,7 +81,7 @@ public class ModPotionItemProperties {
     }
     
     private static float getLavaContentsValue(net.minecraft.world.item.ItemStack stack) {
-        if (!ModPotionBrewingRecipes.isVanillaPotionWithLavaType(stack)) {
+        if (!BrewingRecipes.isVanillaPotionWithLavaType(stack)) {
             return 0.0F;
         }
         

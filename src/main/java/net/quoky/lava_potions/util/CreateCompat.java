@@ -27,9 +27,13 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.quoky.lava_potions.Lava_Potions;
-import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
+import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.fluid.ModFluids;
+import com.simibubi.create.api.effect.OpenPipeEffectHandler;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.material.Fluid;
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CreateCompat {
@@ -176,7 +180,7 @@ public class CreateCompat {
                 }
                 
                 // Create a vanilla lava bottle instead of custom lava potion
-                ItemStack lavaBottle = ModPotionBrewingRecipes.createVanillaPotionWithLavaType(
+                ItemStack lavaBottle = BrewingRecipes.createVanillaPotionWithLavaType(
                     ModPotionTypes.LAVA_BOTTLE.get());
                 
                 // Remove lava from the basin
@@ -275,5 +279,48 @@ public class CreateCompat {
         
         // Not a basin if all checks fail
         return false;
+    }
+    
+    /**
+     * Register compatibility features with Create mod
+     */
+    public static void registerCreateCompatibility() {
+        if (!ModList.get().isLoaded("create")) {
+            return;
+        }
+
+        // Register open pipe effect handler for awkward lava
+        registerAwkwardLavaEffectHandler();
+    }
+    
+    /**
+     * Register effect handler for awkward lava flowing from open pipes
+     */
+    private static void registerAwkwardLavaEffectHandler() {
+        try {
+            // Get the awkward lava fluid from ModFluids
+            Object awkwardLavaFluid = ModFluids.LAVA_POTION_SOURCE.get();
+            
+            // Create a simple effect handler that damages entities like lava
+            OpenPipeEffectHandler handler = (level, area, fluid) -> {
+                if (level.getGameTime() % 5 != 0) // Only apply every 5 ticks like vanilla lava
+                    return;
+
+                List<Entity> entities = level.getEntities((Entity) null, area, entity -> !entity.fireImmune());
+                for (Entity entity : entities) {
+                    // Deal lava damage
+                    entity.hurt(entity.damageSources().lava(), 1.0F);
+                    // Set on fire for 3 seconds like vanilla lava from pipes
+                    entity.setSecondsOnFire(3);
+                }
+            };
+            
+            // Register the handler for our fluid
+            OpenPipeEffectHandler.REGISTRY.register((Fluid) awkwardLavaFluid, handler);
+            
+            Lava_Potions.LOGGER.info("Registered OpenPipeEffectHandler for awkward lava");
+        } catch (Exception e) {
+            Lava_Potions.LOGGER.error("Failed to register OpenPipeEffectHandler for awkward lava", e);
+        }
     }
 } 

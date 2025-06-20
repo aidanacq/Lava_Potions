@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:potion",
+      "nbt": {
+        "Potion": "lava_potions:lava_bottle"
+      }
+    }
+  ],
+  "result": {
+    "item": "alexsmobs:lava_bottle"
+  }
+} 

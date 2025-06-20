@@ -24,8 +24,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.quoky.lava_potions.Lava_Potions;
 import net.quoky.lava_potions.entity.ThrownLavaPotion;
+import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
-import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID)
 public class ModPotionBehaviorHandler {
@@ -37,7 +37,7 @@ public class ModPotionBehaviorHandler {
         Level level = event.getLevel();
         InteractionHand hand = event.getHand();
         
-        if (!ModPotionBrewingRecipes.isVanillaPotionWithLavaType(stack)) {
+        if (!BrewingRecipes.isVanillaPotionWithLavaType(stack)) {
             return;
         }
         
@@ -71,7 +71,7 @@ public class ModPotionBehaviorHandler {
         LivingEntity entity = event.getEntity();
         Level level = entity.level();
         
-        if (!ModPotionBrewingRecipes.isVanillaPotionWithLavaType(stack)) {
+        if (!BrewingRecipes.isVanillaPotionWithLavaType(stack)) {
             return;
         }
         
@@ -97,7 +97,7 @@ public class ModPotionBehaviorHandler {
     public static void onItemTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         
-        if (!ModPotionBrewingRecipes.isVanillaPotionWithLavaType(stack)) {
+        if (!BrewingRecipes.isVanillaPotionWithLavaType(stack)) {
             return;
         }
         
@@ -158,7 +158,7 @@ public class ModPotionBehaviorHandler {
     }
     
     private static ItemStack createLavaPotionFromVanilla(ItemStack vanillaPotion) {
-        if (!ModPotionBrewingRecipes.isVanillaPotionWithLavaType(vanillaPotion)) {
+        if (!BrewingRecipes.isVanillaPotionWithLavaType(vanillaPotion)) {
             return vanillaPotion;
         }
         
@@ -166,11 +166,11 @@ public class ModPotionBehaviorHandler {
         
         ItemStack throwablePotion;
         if (vanillaPotion.getItem() == Items.SPLASH_POTION) {
-            throwablePotion = ModPotionBrewingRecipes.createVanillaSplashPotionWithLavaType(potion);
+            throwablePotion = BrewingRecipes.createVanillaSplashPotionWithLavaType(potion);
         } else if (vanillaPotion.getItem() == Items.LINGERING_POTION) {
-            throwablePotion = ModPotionBrewingRecipes.createVanillaLingeringPotionWithLavaType(potion);
+            throwablePotion = BrewingRecipes.createVanillaLingeringPotionWithLavaType(potion);
         } else {
-            throwablePotion = ModPotionBrewingRecipes.createVanillaPotionWithLavaType(potion);
+            throwablePotion = BrewingRecipes.createVanillaPotionWithLavaType(potion);
         }
         
         return throwablePotion;

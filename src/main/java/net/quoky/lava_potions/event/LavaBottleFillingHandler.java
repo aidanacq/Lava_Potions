@@ -11,9 +11,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.ModList;
 import net.quoky.lava_potions.Lava_Potions;
+import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
-import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 
 /**
  * Handles filling glass bottles with lava to create lava bottles
@@ -23,6 +24,11 @@ public class LavaBottleFillingHandler {
     
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        // Skip if Create mod is loaded (it handles this)
+        if (ModList.get().isLoaded("create")) {
+            return;
+        }
+        
         Player player = event.getEntity();
         Level level = event.getLevel();
         BlockPos pos = event.getPos();
@@ -39,7 +45,7 @@ public class LavaBottleFillingHandler {
         if (blockState.is(Blocks.LAVA) && level.getFluidState(pos).isSource()) {
             if (!level.isClientSide) {
                 // Create a lava bottle item (vanilla potion with our lava type)
-                ItemStack lavaBottle = ModPotionBrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get());
+                ItemStack lavaBottle = BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get());
                 
                 if (!lavaBottle.isEmpty()) {
                     if (!player.getAbilities().instabuild) {

@@ -27,8 +27,8 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
-import net.quoky.lava_potions.potion.ModPotionBrewingRecipes;
 
 public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSupplier {
     
@@ -516,6 +516,6 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
     public ItemStack getItem() {
         ItemStack itemstack = this.getItemRaw();
         // Use vanilla potion with lava type as default instead of custom item
-        return itemstack.isEmpty() ? ModPotionBrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get()) : itemstack;
+        return itemstack.isEmpty() ? BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get()) : itemstack;
     }
 } 

@@ -31,6 +31,7 @@ public abstract class CreatePotionFluidTypeMixin {
     private static final int FLAME_AURA_COLOR = 0xad3c36;      // Red
     private static final int FLAMMABILITY_COLOR = 0xe0c122;    // Gold/amber
     private static final int FIRE_AVATAR_COLOR = 0xff8952;     // Orange
+    private static final int MAGMA_WALKER_COLOR = 0xe76200;    // Orange
 
     /**
      * Injects into the client initialization method to override textures for lava potions
@@ -156,6 +157,13 @@ public abstract class CreatePotionFluidTypeMixin {
                                 potion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
                                 potion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
                                 return FIRE_AVATAR_COLOR | 0xff000000;
+                            }
+                            if (potion == ModPotionTypes.MAGMA_WALKER.get() ||
+                                potion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
+                                return MAGMA_WALKER_COLOR | 0xff000000;
+                            }
+                            if (potion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
+                                return MAGMA_WALKER_COLOR | 0xff000000;
                             }
                         }
                     } else {

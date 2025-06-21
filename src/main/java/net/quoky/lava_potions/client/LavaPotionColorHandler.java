@@ -24,6 +24,7 @@ public class LavaPotionColorHandler {
     private static final int FLAME_AURA_COLOR = 0xad3c36; // From FlameAuraEffect
     private static final int FLAMMABILITY_COLOR = 0xe0c122; // From FlammabilityEffect
     private static final int FIRE_AVATAR_COLOR = 0xff8952; // From FireAvatarEffect
+    private static final int MAGMA_WALKER_COLOR = 0xe76200; // From MagmaWalkerEffect
 
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
@@ -52,6 +53,10 @@ public class LavaPotionColorHandler {
                     } else if (potion == ModPotionTypes.FIRE_AVATAR.get() || potion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
                                 potion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
                         return FIRE_AVATAR_COLOR;
+                    } else if (potion == ModPotionTypes.MAGMA_WALKER.get() || potion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
+                        return MAGMA_WALKER_COLOR;
+                    } else if (potion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
+                        return MAGMA_WALKER_COLOR;
                     }
                     
                     // No tint if no specific color defined

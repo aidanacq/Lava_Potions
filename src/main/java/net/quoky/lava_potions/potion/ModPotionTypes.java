@@ -121,6 +121,25 @@ public class ModPotionTypes {
             new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1200)
         ));
     
+    // Register magma walker potion (3 minutes normal, 8 minutes extended)
+    public static final RegistryObject<Potion> MAGMA_WALKER = POTIONS.register("magma_walker",
+        () -> new Potion(
+            new MobEffectInstance(ModEffects.MAGMA_WALKER.get(), 3600),
+            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600)
+        ));
+    
+    public static final RegistryObject<Potion> MAGMA_WALKER_LONG = POTIONS.register("magma_walker_long",
+        () -> new Potion(
+            new MobEffectInstance(ModEffects.MAGMA_WALKER.get(), 9600),
+            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9600)
+        ));
+        
+    public static final RegistryObject<Potion> MAGMA_WALKER_STRONG = POTIONS.register("magma_walker_strong",
+        () -> new Potion(
+            new MobEffectInstance(ModEffects.MAGMA_WALKER.get(), 1800, 1),
+            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1800)
+        ));
+    
     public static final List<Potion> POTION_TYPES = new ArrayList<>();
     
     public static Potion getPotionTypeFromId(String id) {
@@ -154,7 +173,8 @@ public class ModPotionTypes {
                potion == GLASS_SKIN.get() || potion == GLASS_SKIN_LONG.get() ||
                potion == FLAME_AURA.get() || potion == FLAME_AURA_LONG.get() || potion == FLAME_AURA_STRONG.get() ||
                potion == FLAMMABILITY.get() || potion == FLAMMABILITY_LONG.get() ||
-               potion == FIRE_AVATAR.get() || potion == FIRE_AVATAR_LONG.get() || potion == FIRE_AVATAR_STRONG.get();
+               potion == FIRE_AVATAR.get() || potion == FIRE_AVATAR_LONG.get() || potion == FIRE_AVATAR_STRONG.get() ||
+               potion == MAGMA_WALKER.get() || potion == MAGMA_WALKER_LONG.get() || potion == MAGMA_WALKER_STRONG.get();
     }
     
     public static boolean isBasicLavaPotion(Potion potion) {
@@ -194,6 +214,11 @@ public class ModPotionTypes {
         POTION_TYPES.add(FIRE_AVATAR.get());
         POTION_TYPES.add(FIRE_AVATAR_LONG.get());
         POTION_TYPES.add(FIRE_AVATAR_STRONG.get());
+        
+        // Add all the magma walker potions
+        POTION_TYPES.add(MAGMA_WALKER.get());
+        POTION_TYPES.add(MAGMA_WALKER_LONG.get());
+        POTION_TYPES.add(MAGMA_WALKER_STRONG.get());
         
         Lava_Potions.LOGGER.info("Initialized {} lava potion types", POTION_TYPES.size());
     }

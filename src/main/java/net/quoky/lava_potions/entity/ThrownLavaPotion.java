@@ -308,6 +308,13 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                 color = 0xad3c36; // Red for flame aura
             } else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
                 color = 0xe0c122; // Gold/amber for flammability
+            } else if (basePotion == ModPotionTypes.FIRE_AVATAR.get() || basePotion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
+                        basePotion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
+                color = 0xff8952; // Orange-red for fire avatar
+            } else if (basePotion == ModPotionTypes.MAGMA_WALKER.get() || basePotion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
+                color = 0xe76200; // Orange for magma walker
+            } else if (basePotion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
+                color = 0xe76200; // Orange for magma walker strong
             }
             
             // For effect potions, use vanilla particle effect with correct tint
@@ -407,6 +414,16 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                     burstR = 1.0f; // 255/255
                     burstG = 0.537f; // 137/255
                     burstB = 0.322f; // 82/255
+                } else if (basePotion == ModPotionTypes.MAGMA_WALKER.get() || basePotion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
+                    // Orange color for magma walker (0xe76200)
+                    burstR = 0.906f; // 231/255
+                    burstG = 0.384f; // 98/255
+                    burstB = 0.0f; // 0/255
+                } else if (basePotion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
+                    // Orange color for magma walker strong (0xe76200)
+                    burstR = 0.906f; // 231/255
+                    burstG = 0.384f; // 98/255
+                    burstB = 0.0f; // 0/255
                 }
                 
                 // Create 30 flame particles
@@ -487,6 +504,16 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                         ringR = 1.0f; // 255/255
                         ringG = 0.537f; // 137/255
                         ringB = 0.322f; // 82/255
+                    } else if (basePotion == ModPotionTypes.MAGMA_WALKER.get() || basePotion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
+                        // Orange color for magma walker (0xe76200)
+                        ringR = 0.906f; // 231/255
+                        ringG = 0.384f; // 98/255
+                        ringB = 0.0f; // 0/255
+                    } else if (basePotion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
+                        // Orange color for magma walker strong (0xe76200)
+                        ringR = 0.906f; // 231/255
+                        ringG = 0.384f; // 98/255
+                        ringB = 0.0f; // 0/255
                     }
                     
                     this.level().addParticle(

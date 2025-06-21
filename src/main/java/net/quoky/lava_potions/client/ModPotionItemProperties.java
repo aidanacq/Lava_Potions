@@ -75,6 +75,9 @@ public class ModPotionItemProperties {
         } else if (potion == ModPotionTypes.FIRE_AVATAR.get() || potion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
                    potion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
             return 7.0F;
+        } else if (potion == ModPotionTypes.MAGMA_WALKER.get() || potion == ModPotionTypes.MAGMA_WALKER_LONG.get() ||
+                   potion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
+            return 8.0F;
         }
         
         return 0.0F;

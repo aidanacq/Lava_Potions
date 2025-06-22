@@ -229,5 +229,8 @@
   "effect.lava_potions.fire_avatar": "Fire Avatar",
   "effect.lava_potions.magma_walker": "Magma Walker",
   
-  "entity.lava_potions.thrown_lava_potion": "Thrown Lava Potion"
+  "entity.lava_potions.thrown_lava_potion": "Thrown Lava Potion",
+  
+  "death.lava_potions.hot_floor": "%1$s discovered the floor was lava",
+  "death.lava_potions.hot_floor_with_attacker": "%1$s walked into danger zone due to %2$s"
 }

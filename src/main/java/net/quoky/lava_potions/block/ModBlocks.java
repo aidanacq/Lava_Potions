@@ -16,6 +16,10 @@ public class ModBlocks {
     // Custom layered lava cauldron that supports levels like water cauldrons
     public static final RegistryObject<Block> LAVA_CAULDRON = BLOCKS.register("lava_cauldron",
         () -> new LayeredLavaCauldronBlock(BlockBehaviour.Properties.copy(Blocks.LAVA_CAULDRON)));
+        
+    // Decayable magma block that changes texture based on age
+    public static final RegistryObject<Block> DECAYABLE_MAGMA_BLOCK = BLOCKS.register("decayable_magma_block",
+        () -> new DecayableMagmaBlock());
 
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);

@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.quoky.lava_potions.effect.ModEffects;
+import net.quoky.lava_potions.block.ModBlocks;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -57,12 +58,10 @@ public class DecayableMagmaBlock extends MagmaBlock {
     }
     
     /**
-     * Create a new decayable magma block with age 0
+     * Create a new decayable magma block
      */
     public static BlockState createDecayableMagmaBlock() {
-        // Temporarily disabled until block is re-added
-        // return ModBlocks.DECAYABLE_MAGMA_BLOCK.get().defaultBlockState().setValue(AGE, 0);
-        return null;
+        return ModBlocks.DECAYABLE_MAGMA_BLOCK.get().defaultBlockState();
     }
     
     /**

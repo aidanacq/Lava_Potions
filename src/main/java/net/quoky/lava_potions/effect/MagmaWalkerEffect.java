@@ -12,43 +12,29 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.quoky.lava_potions.block.DecayableMagmaBlock;
-import net.quoky.lava_potions.block.ModBlocks;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 /**
- * Effect that creates magma platforms when walking on ground near lava
+ * Effect that creates magma platforms when walking on lava
  * Tier I: 5x5 square with corners removed (21 blocks)
  * Tier II: 7x7 square with corners removed (45 blocks)
  * Grants speed when standing on magma blocks
  * Spawns flame particles at the player's feet
- * Essentially the opposite of the frost walker enchantment with a slightly different properties
+ * Uses native Minecraft systems for platform creation
  */
 public class MagmaWalkerEffect extends MobEffect {
-    
-    // Track previous positions for each player using integer coordinates for efficiency
-    private static final Map<UUID, BlockPos> previousBlockPositions = new HashMap<>();
-    
-    // Cache platform blocks for each player to avoid redundant placement
-    private static final Map<UUID, Set<BlockPos>> lastPlatformBlocks = new HashMap<>();
     
     // Constants for platform sizes
     private static final int TIER_I_SIZE = 5;
     private static final int TIER_II_SIZE = 7;
-    private static final double MOVEMENT_THRESHOLD = 0.001; // Small epsilon for floating point comparison
     
     public MagmaWalkerEffect() {
-        super(MobEffectCategory.BENEFICIAL, 0xe76200);
+        super(MobEffectCategory.BENEFICIAL, 0xd05c00);
     }
     
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {
-        // Run platform creation every tick for better responsiveness
-        // Run particle effects every 4 ticks (5 times per second) like Fire Avatar
+        // Run particle effects every 4 ticks (5 times per second)
+        // Platform creation is handled by movement events, not ticks
         return duration > 0 && duration % 4 == 0;
     }
     
@@ -67,7 +53,7 @@ public class MagmaWalkerEffect extends MobEffect {
         BlockState groundState = level.getBlockState(groundPos);
         
         // Apply speed effect when standing on magma blocks
-        if (groundState.is(Blocks.MAGMA_BLOCK) || groundState.is(ModBlocks.DECAYABLE_MAGMA_BLOCK.get())) {
+        if (groundState.is(Blocks.MAGMA_BLOCK) || groundState.getBlock() instanceof DecayableMagmaBlock) {
             int speedLevel = amplifier == 0 ? 0 : 1; // Tier I: Speed I, Tier II+: Speed II
             player.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20, speedLevel, false, false));
         }
@@ -76,48 +62,53 @@ public class MagmaWalkerEffect extends MobEffect {
         if (level.isClientSide) {
             spawnFlameParticles(player);
         }
-        
-        // Check if platform should be created based on movement
-        if (shouldCreatePlatform(player)) {
-            createMagmaPlatform(level, player, amplifier);
-        }
-        
-        // Update previous position for next tick
-        updatePreviousPosition(player);
     }
     
     /**
-     * Optimized movement detection using integer coordinates
-     * Returns true if X or Z changed by a whole number and Y remained unchanged
+     * Creates a magma platform around the player using native block replacement logic
+     * This method is called by the event handler when the player moves
      */
-    private boolean shouldCreatePlatform(Player player) {
-        UUID playerId = player.getUUID();
-        BlockPos currentBlockPos = player.blockPosition();
-        BlockPos previousBlockPos = previousBlockPositions.get(playerId);
-        
-        // If no previous position exists, this is the initial application of the effect
-        // Don't create a platform on initial effect gain
-        if (previousBlockPos == null) {
-            return false;
+    public void createMagmaPlatform(Level level, Player player, int amplifier) {
+        if (level.isClientSide) {
+            return;
         }
         
-        // Use integer-based comparison for efficiency
-        boolean xChanged = currentBlockPos.getX() != previousBlockPos.getX();
-        boolean zChanged = currentBlockPos.getZ() != previousBlockPos.getZ();
-        boolean yUnchanged = currentBlockPos.getY() == previousBlockPos.getY();
+        BlockPos playerPos = player.blockPosition();
         
-        return yUnchanged && (xChanged || zChanged);
+        // Determine platform size based on amplifier (tier)
+        int platformSize = amplifier == 0 ? TIER_I_SIZE : TIER_II_SIZE;
+        int halfSize = platformSize / 2;
+        
+        // Get the target Y level (same as player's feet)
+        int targetY = playerPos.getY() - 1;
+        
+        // Pre-create the magma block state
+        BlockState magmaBlockState = DecayableMagmaBlock.createDecayableMagmaBlock();
+        
+        // Simple block replacement using native-style predicates and logic
+        for (int x = -halfSize; x <= halfSize; x++) {
+            for (int z = -halfSize; z <= halfSize; z++) {
+                // Skip corner blocks for both tiers
+                if (Math.abs(x) == halfSize && Math.abs(z) == halfSize) {
+                    continue;
+                }
+                
+                BlockPos checkPos = new BlockPos(playerPos.getX() + x, targetY, playerPos.getZ() + z);
+                BlockPos abovePos = checkPos.above();
+                
+                // Simple predicate checks (similar to ReplaceDisk logic)
+                BlockState blockState = level.getBlockState(checkPos);
+                BlockState aboveState = level.getBlockState(abovePos);
+                
+                // Check if position matches our criteria: lava block with air above
+                if (blockState.is(Blocks.LAVA) && aboveState.isAir()) {
+                    // Replace lava with decayable magma block
+                    level.setBlock(checkPos, magmaBlockState, 3);
+                }
+            }
+        }
     }
     
-    /**
-     * Updates the previous block position for the player using integer coordinates
-     */
-    private void updatePreviousPosition(Player player) {
-        UUID playerId = player.getUUID();
-        BlockPos currentBlockPos = player.blockPosition();
-        previousBlockPositions.put(playerId, currentBlockPos);
-    }
-
     /**
      * Spawns flame particles at the player's feet
      */
@@ -172,67 +163,5 @@ public class MagmaWalkerEffect extends MobEffect {
                 leftFootZ + (player.getRandom().nextDouble() - 0.5) * 0.08,
                 leftVelX, leftVelY, leftVelZ);
         }
-    }
-    
-    /**
-     * Creates a magma platform around the player with optimized batch block placement
-     */
-    private void createMagmaPlatform(Level level, Player player, int amplifier) {
-        UUID playerId = player.getUUID();
-        BlockPos playerPos = player.blockPosition();
-        Set<BlockPos> newPlatformBlocks = new HashSet<>();
-        
-        // Determine platform size based on amplifier (tier)
-        int platformSize = amplifier == 0 ? TIER_I_SIZE : TIER_II_SIZE;
-        int halfSize = platformSize / 2;
-        
-        // Get the target Y level (same as player's feet)
-        int targetY = playerPos.getY() - 1;
-        
-        // Pre-create the magma block state to avoid repeated calls
-        BlockState magmaBlockState = DecayableMagmaBlock.createDecayableMagmaBlock();
-        
-        // Batch collect all positions that need magma blocks
-        Set<BlockPos> positionsToPlace = new HashSet<>();
-        
-        // Only check blocks that are likely to be lava (optimized targeting)
-        for (int x = -halfSize; x <= halfSize; x++) {
-            for (int z = -halfSize; z <= halfSize; z++) {
-                // Skip corner blocks for both tiers
-                if (Math.abs(x) == halfSize && Math.abs(z) == halfSize) {
-                    continue;
-                }
-                
-                BlockPos checkPos = new BlockPos(playerPos.getX() + x, targetY, playerPos.getZ() + z);
-                BlockPos abovePos = checkPos.above();
-                
-                // Only check if the block is lava with air above
-                BlockState blockState = level.getBlockState(checkPos);
-                if (blockState.is(Blocks.LAVA)) {
-                    BlockState aboveState = level.getBlockState(abovePos);
-                    if (aboveState.isAir()) {
-                        positionsToPlace.add(checkPos);
-                        newPlatformBlocks.add(checkPos);
-                    }
-                }
-            }
-        }
-        
-        // Batch place all magma blocks efficiently
-        for (BlockPos pos : positionsToPlace) {
-            // Use optimized block placement with proper flags
-            level.setBlock(pos, magmaBlockState, 3);
-        }
-        
-        // Update platform cache
-        lastPlatformBlocks.put(playerId, newPlatformBlocks);
-    }
-    
-    /**
-     * Cleanup method to remove cached data when effect ends
-     */
-    public static void cleanupPlayerData(UUID playerId) {
-        previousBlockPositions.remove(playerId);
-        lastPlatformBlocks.remove(playerId);
     }
 } 

@@ -3,7 +3,10 @@ package net.quoky.lava_potions.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -11,23 +14,24 @@ import net.minecraft.world.level.block.MagmaBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.quoky.lava_potions.effect.ModEffects;
-import net.quoky.lava_potions.block.ModBlocks;
-import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Decayable magma block that follows specific decay logic:
- * - Created with age 0, ticks every 1-2 seconds
+ * - Created with age 0, ages using standard Minecraft ticking
  * - Ages when 1/3 chance succeeds OR fewer than 4 adjacent decayable magma blocks
  * - Turns to lava at age 4 and ages adjacent blocks (no cascade)
  * - Adjacent blocks immediately decay if fewer than 2 adjacent blocks when this block is removed
- * - Silk touch drops nothing, other methods place lava
  * - Pauses aging when part of a player platform
+ * Uses native Minecraft scheduleTick system instead of custom ticking
  */
 public class DecayableMagmaBlock extends MagmaBlock {
     
@@ -39,16 +43,11 @@ public class DecayableMagmaBlock extends MagmaBlock {
     private static final double PLATFORM_CHECK_RADIUS = 10.0; // 10 block radius for platform check
     private static final double PLATFORM_CHECK_RADIUS_SQUARED = PLATFORM_CHECK_RADIUS * PLATFORM_CHECK_RADIUS;
     
-    // Cache for platform protection checks to avoid recalculating for nearby blocks
-    private static final Map<BlockPos, Boolean> protectionCache = new HashMap<>();
-    private static final int CACHE_SIZE_LIMIT = 1000; // Prevent memory leaks
+    // Track whether lava should be placed when block is broken by player
+    private static final Map<BlockPos, Boolean> shouldPlaceLava = new HashMap<>();
     
-    // Cache for adjacent block counts to avoid repeated calculations
-    private static final Map<BlockPos, Integer> adjacentCountCache = new HashMap<>();
-    private static final int ADJACENT_CACHE_SIZE_LIMIT = 500; // Smaller cache for adjacent counts
-    
-    public DecayableMagmaBlock() {
-        super(Properties.copy(Blocks.MAGMA_BLOCK));
+    public DecayableMagmaBlock(Properties properties) {
+        super(properties);
         registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
     
@@ -65,41 +64,17 @@ public class DecayableMagmaBlock extends MagmaBlock {
     }
     
     /**
-     * Count adjacent decayable magma blocks with caching for efficiency
-     * Optimized to avoid repeated block state lookups and cache results
+     * Count adjacent decayable magma blocks
      */
     private int countAdjacentDecayableMagmaBlocks(Level level, BlockPos pos) {
-        // Check cache first
-        Integer cachedCount = adjacentCountCache.get(pos);
-        if (cachedCount != null) {
-            return cachedCount;
-        }
-        
         int count = 0;
-        // Use a more efficient approach by checking all 6 directions at once
-        BlockPos[] adjacentPositions = {
-            pos.relative(Direction.NORTH),
-            pos.relative(Direction.SOUTH),
-            pos.relative(Direction.EAST),
-            pos.relative(Direction.WEST),
-            pos.relative(Direction.UP),
-            pos.relative(Direction.DOWN)
-        };
-        
-        for (BlockPos adjacentPos : adjacentPositions) {
+        for (Direction direction : Direction.values()) {
+            BlockPos adjacentPos = pos.relative(direction);
             BlockState adjacentState = level.getBlockState(adjacentPos);
             if (adjacentState.getBlock() instanceof DecayableMagmaBlock) {
                 count++;
             }
         }
-        
-        // Cache the result
-        if (adjacentCountCache.size() >= ADJACENT_CACHE_SIZE_LIMIT) {
-            // Clear cache if it gets too large
-            adjacentCountCache.clear();
-        }
-        adjacentCountCache.put(pos, count);
-        
         return count;
     }
     
@@ -114,10 +89,15 @@ public class DecayableMagmaBlock extends MagmaBlock {
             if (newAge >= MAX_AGE) {
                 removeBlock(level, pos, source);
             } else {
-                // Use block state update instead of full block placement for efficiency
+                // Use block state update
                 BlockState newBlockState = state.setValue(AGE, newAge);
                 level.setBlockAndUpdate(pos, newBlockState);
+                // Schedule next tick using standard Minecraft system (3-4 seconds)
+                level.scheduleTick(pos, this, Mth.nextInt(level.getRandom(), 180, 240));
             }
+        } else {
+            // Still schedule next tick even if protected, to check again later (3-4 seconds)
+            level.scheduleTick(pos, this, Mth.nextInt(level.getRandom(), 180, 240));
         }
     }
     
@@ -127,9 +107,6 @@ public class DecayableMagmaBlock extends MagmaBlock {
     private void removeBlock(Level level, BlockPos pos, int source) {
         // Remove the block (turn to lava)
         level.setBlock(pos, Blocks.LAVA.defaultBlockState(), 3);
-        
-        // Clear protection cache for this position
-        protectionCache.remove(pos);
         
         // If source = 0, call ageAdjacentBlocks
         if (source == 0) {
@@ -154,7 +131,7 @@ public class DecayableMagmaBlock extends MagmaBlock {
     }
     
     /**
-     * Optimized protection check with caching
+     * Protection check - simplified version without caching
      * Checks if this block is within the "safe" platform area of a nearby player with the Magma Walker effect.
      */
     private boolean isProtectedByPlatform(Level level, BlockPos pos) {
@@ -162,14 +139,6 @@ public class DecayableMagmaBlock extends MagmaBlock {
             return false;
         }
 
-        // Check cache first
-        Boolean cachedResult = protectionCache.get(pos);
-        if (cachedResult != null) {
-            return cachedResult;
-        }
-
-        boolean isProtected = false;
-        
         for (Player player : level.players()) {
             // Use squared distance for efficiency (avoid square root)
             double distanceSquared = player.distanceToSqr(pos.getX(), pos.getY(), pos.getZ());
@@ -195,27 +164,20 @@ public class DecayableMagmaBlock extends MagmaBlock {
                         if (Math.abs(dX) == halfSize && Math.abs(dZ) == halfSize) {
                             continue; // This is a corner block, not protected
                         }
-                        isProtected = true;
-                        break; // Found protection, no need to check other players
+                        return true; // Found protection
                     }
                 }
             }
         }
         
-        // Cache the result
-        if (protectionCache.size() >= CACHE_SIZE_LIMIT) {
-            // Clear cache if it gets too large (simple FIFO approach)
-            protectionCache.clear();
-        }
-        protectionCache.put(pos, isProtected);
-        
-        return isProtected;
+        return false;
     }
     
     /**
-     * Manual tick method for decay - called every 1-2 seconds
+     * Standard Minecraft tick method - replaces custom ticker system
      */
-    public void tickBlock(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    @Override
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         // Do DECAY_CHANCE math and if successful, call incrementAge with source = 0
         if (random.nextFloat() <= DECAY_CHANCE) {
             incrementAge(level, pos, state, 0);
@@ -226,22 +188,37 @@ public class DecayableMagmaBlock extends MagmaBlock {
         int adjacentCount = countAdjacentDecayableMagmaBlocks(level, pos);
         if (adjacentCount < MIN_ADJACENT_FOR_STABILITY) {
             incrementAge(level, pos, state, 0);
+        } else {
+            // Schedule next tick if not aging this time (3-4 seconds)
+            level.scheduleTick(pos, this, Mth.nextInt(random, 180, 240));
         }
     }
     
     /**
-     * Called when this block is placed - register it for ticking
+     * Called when this block is placed - schedule first tick using standard Minecraft system
      */
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
-        DecayableMagmaBlockTicker.registerBlock(level, pos);
+        // Schedule first tick using standard Minecraft system (3-4 seconds)
+        level.scheduleTick(pos, this, Mth.nextInt(level.getRandom(), 180, 240));
+    }
+    
+    /**
+     * Called when a player is about to destroy this block - used to determine if lava should be placed
+     */
+    @Override
+    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        // Check if player is in creative mode
+        boolean isCreative = player.isCreative();
         
-        // Clear protection cache for this position
-        protectionCache.remove(pos);
+        // Check if player is using silk touch
+        boolean hasSilkTouch = player.getMainHandItem().getEnchantmentLevel(Enchantments.SILK_TOUCH) > 0;
         
-        // Invalidate adjacent count cache for this position and adjacent positions
-        invalidateAdjacentCountCache(pos);
+        // Store whether we should place lava (only if NOT creative and NOT silk touch)
+        shouldPlaceLava.put(pos, !isCreative && !hasSilkTouch);
+        
+        super.playerWillDestroy(level, pos, state, player);
     }
     
     /**
@@ -251,21 +228,16 @@ public class DecayableMagmaBlock extends MagmaBlock {
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         super.onRemove(state, level, pos, newState, movedByPiston);
         
-        // Unregister from ticker
-        DecayableMagmaBlockTicker.unregisterBlock(pos);
+        // Check if we should place lava based on how the block was broken
+        Boolean placeLava = shouldPlaceLava.remove(pos);
+        boolean shouldPlace = placeLava == null ? true : placeLava; // Default to true for non-player breaks
         
-        // Clear protection cache for this position
-        protectionCache.remove(pos);
-        
-        // Invalidate adjacent count cache for this position and adjacent positions
-        invalidateAdjacentCountCache(pos);
-        
-        // Place lava when block is removed (simplified - no silk touch detection for now)
-        if (newState.isAir()) {
+        // Place lava when block is removed, unless broken by creative player or silk touch
+        if (newState.isAir() && shouldPlace) {
             level.setBlock(pos, Blocks.LAVA.defaultBlockState(), 3);
         }
         
-        // Collect adjacent blocks that need immediate decay for batch processing
+        // Check adjacent blocks for immediate decay
         for (Direction direction : Direction.values()) {
             BlockPos adjacentPos = pos.relative(direction);
             BlockState adjacentState = level.getBlockState(adjacentPos);
@@ -283,32 +255,10 @@ public class DecayableMagmaBlock extends MagmaBlock {
     }
     
     /**
-     * Invalidate adjacent count cache for a position and its adjacent positions
+     * Override to ensure this block never drops any items
      */
-    private void invalidateAdjacentCountCache(BlockPos pos) {
-        // Remove cache for this position
-        adjacentCountCache.remove(pos);
-        
-        // Remove cache for all adjacent positions
-        for (Direction direction : Direction.values()) {
-            adjacentCountCache.remove(pos.relative(direction));
-        }
-    }
-    
-    /**
-     * Clear all caches - call this when players leave or effects end
-     */
-    public static void clearAllCaches() {
-        protectionCache.clear();
-        adjacentCountCache.clear();
-    }
-    
-    /**
-     * Clear protection cache - call this when players leave or effects end
-     * @deprecated Use clearAllCaches() instead
-     */
-    @Deprecated
-    public static void clearProtectionCache() {
-        clearAllCaches();
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+        return Collections.emptyList();
     }
 } 

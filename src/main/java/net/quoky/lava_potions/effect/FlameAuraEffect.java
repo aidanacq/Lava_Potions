@@ -5,7 +5,6 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -19,7 +18,7 @@ import net.quoky.lava_potions.Lava_Potions;
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID)
 public class FlameAuraEffect extends MobEffect {
     public FlameAuraEffect() {
-        super(MobEffectCategory.BENEFICIAL, 0xad3c36); // Darker flame red color
+        super(MobEffectCategory.BENEFICIAL, 0xf7a236); // Darker flame red color
     }
     
     @Override

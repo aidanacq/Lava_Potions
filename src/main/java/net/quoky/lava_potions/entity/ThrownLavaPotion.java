@@ -6,7 +6,6 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -14,8 +13,6 @@ import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -26,11 +23,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
 
-public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSupplier {
+public class ThrownLavaPotion extends ThrowableItemProjectile {
     
     public ThrownLavaPotion(EntityType<? extends ThrownLavaPotion> entityType, Level level) {
         super(entityType, level);
@@ -300,21 +296,21 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
             if (basePotion == ModPotionTypes.OBSIDIAN_SKIN.get() || basePotion == ModPotionTypes.OBSIDIAN_SKIN_LONG.get()) {
                 color = 0x8e5de3; // Purple for obsidian skin
             } else if (basePotion == ModPotionTypes.NETHERITE_SKIN.get() || basePotion == ModPotionTypes.NETHERITE_SKIN_LONG.get()) {
-                color = 0x786561; // Light brown for netherite skin
+                color = 0xa47e75; // Light brown for netherite skin
             } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
                 color = 0xebf9fc; // Light blue for glass skin
             } else if (basePotion == ModPotionTypes.FLAME_AURA.get() || basePotion == ModPotionTypes.FLAME_AURA_LONG.get() ||
                         basePotion == ModPotionTypes.FLAME_AURA_STRONG.get()) {
-                color = 0xad3c36; // Red for flame aura
+                color = 0xf7a236; // Red for flame aura
             } else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
-                color = 0xe0c122; // Gold/amber for flammability
+                color = 0xffec99; // Gold/amber for flammability
             } else if (basePotion == ModPotionTypes.FIRE_AVATAR.get() || basePotion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
                         basePotion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
-                color = 0xff8952; // Orange-red for fire avatar
+                color = 0xe5291f; // Orange-red for fire avatar
             } else if (basePotion == ModPotionTypes.MAGMA_WALKER.get() || basePotion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
-                color = 0xe76200; // Orange for magma walker
+                color = 0xd05c00; // Orange for magma walker
             } else if (basePotion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
-                color = 0xe76200; // Orange for magma walker strong
+                color = 0xd05c00; // Orange for magma walker strong
             }
             
             // For effect potions, use vanilla particle effect with correct tint
@@ -388,10 +384,10 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                     burstG = 0.365f; // 93/255
                     burstB = 0.890f; // 227/255
                 } else if (basePotion == ModPotionTypes.NETHERITE_SKIN.get() || basePotion == ModPotionTypes.NETHERITE_SKIN_LONG.get()) {
-                    // Light brown color for netherite skin (0x786561)
-                    burstR = 0.471f; // 186/255
-                    burstG = 0.396f; // 130/255
-                    burstB = 0.380f; // 95/255
+                    // Light brown color for netherite skin (0xa47e75)
+                    burstR = 0.643f; // 164/255
+                    burstG = 0.494f; // 126/255
+                    burstB = 0.459f; // 117/255
                 } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
                     // Light blue color for glass skin (0xebf9fc)
                     burstR = 0.922f; // 235/255
@@ -399,30 +395,30 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                     burstB = 0.988f; // 252/255
                 } else if (basePotion == ModPotionTypes.FLAME_AURA.get() || basePotion == ModPotionTypes.FLAME_AURA_LONG.get() ||
                            basePotion == ModPotionTypes.FLAME_AURA_STRONG.get()) {
-                    // Red color for flame aura (0xad3c36)
-                    burstR = 0.678f; // 173/255
-                    burstG = 0.235f; // 60/255
+                    // Red color for flame aura (0xf7a236)
+                    burstR = 0.969f; // 247/255
+                    burstG = 0.635f; // 162/255
                     burstB = 0.212f; // 54/255
                 } else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
-                    // Gold/amber color for flammability (0xe0c122)
-                    burstR = 0.878f; // 222/255
-                    burstG = 0.757f; // 191/255
-                    burstB = 0.133f; // 34/255
+                    // Gold/amber color for flammability (0xffec99)
+                    burstR = 1.0f; // 255/255
+                    burstG = 0.925f; // 236/255
+                    burstB = 0.6f; // 153/255
                 } else if (basePotion == ModPotionTypes.FIRE_AVATAR.get() || basePotion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
                            basePotion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
-                    // Orange-red color for fire avatar (0xff8952)
-                    burstR = 1.0f; // 255/255
-                    burstG = 0.537f; // 137/255
-                    burstB = 0.322f; // 82/255
+                    // Orange-red color for fire avatar (0xe5291f)
+                    burstR = 0.898f; // 229/255
+                    burstG = 0.161f; // 41/255
+                    burstB = 0.122f; // 31/255
                 } else if (basePotion == ModPotionTypes.MAGMA_WALKER.get() || basePotion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
-                    // Orange color for magma walker (0xe76200)
-                    burstR = 0.906f; // 231/255
-                    burstG = 0.384f; // 98/255
+                    // Orange color for magma walker (0xd05c00)
+                    burstR = 0.816f; // 208/255
+                    burstG = 0.361f; // 92/255
                     burstB = 0.0f; // 0/255
                 } else if (basePotion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
-                    // Orange color for magma walker strong (0xe76200)
-                    burstR = 0.906f; // 231/255
-                    burstG = 0.384f; // 98/255
+                    // Orange color for magma walker strong (0xd05c00)
+                    burstR = 0.816f; // 208/255
+                    burstG = 0.361f; // 92/255
                     burstB = 0.0f; // 0/255
                 }
                 
@@ -478,10 +474,10 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                         ringG = 0.365f; // 93/255
                         ringB = 0.890f; // 227/255
                     } else if (basePotion == ModPotionTypes.NETHERITE_SKIN.get() || basePotion == ModPotionTypes.NETHERITE_SKIN_LONG.get()) {
-                        // Light brown color for netherite skin (0x786561)
-                        ringR = 0.471f; // 186/255
-                        ringG = 0.396f; // 130/255
-                        ringB = 0.380f; // 95/255
+                        // Light brown color for netherite skin (0xa47e75)
+                        ringR = 0.643f; // 164/255
+                        ringG = 0.494f; // 126/255
+                        ringB = 0.459f; // 117/255
                     } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
                         // Light blue color for glass skin (0xebf9fc)
                         ringR = 0.922f; // 235/255
@@ -489,30 +485,30 @@ public class ThrownLavaPotion extends ThrowableItemProjectile implements ItemSup
                         ringB = 0.988f; // 252/255
                     } else if (basePotion == ModPotionTypes.FLAME_AURA.get() || basePotion == ModPotionTypes.FLAME_AURA_LONG.get() ||
                               basePotion == ModPotionTypes.FLAME_AURA_STRONG.get()) {
-                        // Red color for flame aura (0xad3c36)
-                        ringR = 0.678f; // 173/255
-                        ringG = 0.235f; // 60/255
+                        // Red color for flame aura (0xf7a236)
+                        ringR = 0.969f; // 247/255
+                        ringG = 0.635f; // 162/255
                         ringB = 0.212f; // 54/255
                     } else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
-                        // Gold/amber color for flammability (0xe0c122)
-                        ringR = 0.878f; // 222/255
-                        ringG = 0.757f; // 191/255
-                        ringB = 0.133f; // 34/255
+                        // Gold/amber color for flammability (0xffec99)
+                        ringR = 1.0f; // 255/255
+                        ringG = 0.925f; // 236/255
+                        ringB = 0.6f; // 153/255
                     } else if (basePotion == ModPotionTypes.FIRE_AVATAR.get() || basePotion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
                               basePotion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
-                        // Orange-red color for fire avatar (0xff8952)
-                        ringR = 1.0f; // 255/255
-                        ringG = 0.537f; // 137/255
-                        ringB = 0.322f; // 82/255
+                        // Orange-red color for fire avatar (0xe5291f)
+                        ringR = 0.898f; // 229/255
+                        ringG = 0.161f; // 41/255
+                        ringB = 0.122f; // 31/255
                     } else if (basePotion == ModPotionTypes.MAGMA_WALKER.get() || basePotion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
-                        // Orange color for magma walker (0xe76200)
-                        ringR = 0.906f; // 231/255
-                        ringG = 0.384f; // 98/255
+                        // Orange color for magma walker (0xd05c00)
+                        ringR = 0.816f; // 208/255
+                        ringG = 0.361f; // 92/255
                         ringB = 0.0f; // 0/255
                     } else if (basePotion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
-                        // Orange color for magma walker strong (0xe76200)
-                        ringR = 0.906f; // 231/255
-                        ringG = 0.384f; // 98/255
+                        // Orange color for magma walker strong (0xd05c00)
+                        ringR = 0.816f; // 208/255
+                        ringG = 0.361f; // 92/255
                         ringB = 0.0f; // 0/255
                     }
                     

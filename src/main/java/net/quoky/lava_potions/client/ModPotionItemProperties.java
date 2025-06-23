@@ -72,12 +72,15 @@ public class ModPotionItemProperties {
             return 5.0F;
         } else if (potion == ModPotionTypes.FLAMMABILITY.get() || potion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
             return 6.0F;
+        } else if (potion == ModPotionTypes.FLAME_AURA.get() || potion == ModPotionTypes.FLAME_AURA_LONG.get() ||
+                   potion == ModPotionTypes.FLAME_AURA_STRONG.get()) {
+            return 7.0F;
         } else if (potion == ModPotionTypes.FIRE_AVATAR.get() || potion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
                    potion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
-            return 7.0F;
+            return 8.0F;
         } else if (potion == ModPotionTypes.MAGMA_WALKER.get() || potion == ModPotionTypes.MAGMA_WALKER_LONG.get() ||
                    potion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
-            return 8.0F;
+            return 9.0F;
         }
         
         return 0.0F;

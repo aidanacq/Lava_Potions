@@ -40,4 +40,4 @@ public class LayeredLavaCauldronBlock extends LayeredCauldronBlock {
             entity.setSecondsOnFire(15);
         }
     }
-} 
+}

@@ -27,7 +27,7 @@ import net.quoky.lava_potions.network.ShootFireballPacket;
 public class FireAvatarEffect extends MobEffect {
 
     public FireAvatarEffect() {
-        super(MobEffectCategory.BENEFICIAL, 0xff8952); // Orange-red color
+        super(MobEffectCategory.BENEFICIAL, 0xe5291f); // Orange-red color
     }
 
     @Override

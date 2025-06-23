@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "lava_potions:decayable_magma_block",
+    "lava_potions:lava_cauldron"
+  ]
+}

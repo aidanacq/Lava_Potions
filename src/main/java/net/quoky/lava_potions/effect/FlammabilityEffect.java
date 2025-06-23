@@ -15,7 +15,7 @@ import net.quoky.lava_potions.Lava_Potions;
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID)
 public class FlammabilityEffect extends MobEffect {
     public FlammabilityEffect() {
-        super(MobEffectCategory.HARMFUL, 0xe0c122); // Gold/amber color
+        super(MobEffectCategory.HARMFUL, 0xffec99); // Gold/amber color
     }
     
     @Override

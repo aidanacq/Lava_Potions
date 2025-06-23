@@ -20,13 +20,11 @@ import net.quoky.lava_potions.entity.ModEntityTypes;
 import net.quoky.lava_potions.fluid.ModFluids;
 import net.quoky.lava_potions.item.ModCreativeTabs;
 import net.quoky.lava_potions.item.ModItems;
-import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.util.CreateCompat;
 import net.quoky.lava_potions.util.LavaBottleHandler;
 import net.quoky.lava_potions.network.ModPackets;
 import net.quoky.lava_potions.effect.SkinEffectEventHandler;
-//import net.quoky.lava_potions.util.RecipeConflictResolver;
 
 /**
  * Main mod class for Lava Potions

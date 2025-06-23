@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "lava_potions:block/decayable_magma_block_age_1"
+  }
+} 

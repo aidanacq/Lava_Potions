@@ -35,6 +35,10 @@ public class ModEffects {
     // Register the Fire Avatar effect
     public static final RegistryObject<MobEffect> FIRE_AVATAR = MOB_EFFECTS.register("fire_avatar",
             FireAvatarEffect::new);
+            
+    // Register the Magma Walker effect
+    public static final RegistryObject<MobEffect> MAGMA_WALKER = MOB_EFFECTS.register("magma_walker",
+            MagmaWalkerEffect::new);
 
     // Register all mob effects
     public static void register(IEventBus eventBus) {

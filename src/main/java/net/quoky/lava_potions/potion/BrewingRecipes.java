@@ -250,6 +250,27 @@ public class BrewingRecipes {
                 createPotion(ModPotionTypes.FIRE_AVATAR_STRONG.get())
             );
             
+            // Magma Walker Potion (Awkward Lava Potion + Magma Cream)
+            registerRecipe(
+                createPotion(ModPotionTypes.AWKWARD_LAVA.get()),
+                Items.MAGMA_CREAM,
+                createPotion(ModPotionTypes.MAGMA_WALKER.get())
+            );
+            
+            // Extended Magma Walker Potion
+            registerRecipe(
+                createPotion(ModPotionTypes.MAGMA_WALKER.get()),
+                Items.REDSTONE,
+                createPotion(ModPotionTypes.MAGMA_WALKER_LONG.get())
+            );
+            
+            // Strong Magma Walker Potion
+            registerRecipe(
+                createPotion(ModPotionTypes.MAGMA_WALKER.get()),
+                Items.GLOWSTONE_DUST,
+                createPotion(ModPotionTypes.MAGMA_WALKER_STRONG.get())
+            );
+            
             Lava_Potions.LOGGER.info("Custom lava potion brewing recipes registered successfully");
         } catch (Exception e) {
             Lava_Potions.LOGGER.error("Error registering custom lava potion brewing recipes", e);

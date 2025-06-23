@@ -1,5 +1,6 @@
 {
   "block.lava_potions.lava_cauldron": "Lava Cauldron",
+  "block.lava_potions.decayable_magma_block": "Decayable Magma Block",
 
   "creativetab.lava_potions": "Lava Potions",
 
@@ -26,6 +27,10 @@
   "potion.lava_potions.fire_avatar_long": "Potion of Fire Avatar",
   "potion.lava_potions.fire_avatar_strong": "Potion of Fire Avatar",
   
+  "potion.lava_potions.magma_walker": "Potion of Magma Walker",
+  "potion.lava_potions.magma_walker_long": "Potion of Magma Walker",
+  "potion.lava_potions.magma_walker_strong": "Potion of Magma Walker",
+  
   "splash_potion.lava_potions.lava_bottle": "Splash Lava Bottle",
   "splash_potion.lava_potions.awkward_lava": "Awkward Splash Lava Potion",
   
@@ -48,6 +53,10 @@
   "splash_potion.lava_potions.fire_avatar": "Splash Potion of Fire Avatar",
   "splash_potion.lava_potions.fire_avatar_long": "Splash Potion of Fire Avatar",
   "splash_potion.lava_potions.fire_avatar_strong": "Splash Potion of Fire Avatar",
+  
+  "splash_potion.lava_potions.magma_walker": "Splash Potion of Magma Walker",
+  "splash_potion.lava_potions.magma_walker_long": "Splash Potion of Magma Walker",
+  "splash_potion.lava_potions.magma_walker_strong": "Splash Potion of Magma Walker",
   
   "lingering_potion.lava_potions.lava_bottle": "Lingering Lava Bottle",
   "lingering_potion.lava_potions.awkward_lava": "Awkward Lingering Lava Potion",
@@ -72,6 +81,10 @@
   "lingering_potion.lava_potions.fire_avatar_long": "Lingering Potion of Fire Avatar",
   "lingering_potion.lava_potions.fire_avatar_strong": "Lingering Potion of Fire Avatar",
   
+  "lingering_potion.lava_potions.magma_walker": "Lingering Potion of Magma Walker",
+  "lingering_potion.lava_potions.magma_walker_long": "Lingering Potion of Magma Walker",
+  "lingering_potion.lava_potions.magma_walker_strong": "Lingering Potion of Magma Walker",
+  
   "item.minecraft.potion.effect.lava_bottle": "Lava Bottle",
   "item.minecraft.potion.effect.awkward_lava": "Awkward Lava Potion",
   
@@ -94,6 +107,10 @@
   "item.minecraft.potion.effect.fire_avatar": "Potion of Fire Avatar",
   "item.minecraft.potion.effect.fire_avatar_long": "Potion of Fire Avatar",
   "item.minecraft.potion.effect.fire_avatar_strong": "Potion of Fire Avatar",
+  
+  "item.minecraft.potion.effect.magma_walker": "Potion of Magma Walker",
+  "item.minecraft.potion.effect.magma_walker_long": "Potion of Magma Walker",
+  "item.minecraft.potion.effect.magma_walker_strong": "Potion of Magma Walker",
   
   "item.minecraft.splash_potion.effect.lava_bottle": "Splash Lava Bottle",
   "item.minecraft.splash_potion.effect.awkward_lava": "Awkward Splash Lava Potion",
@@ -118,6 +135,11 @@
   "item.minecraft.splash_potion.effect.fire_avatar_long": "Splash Potion of Fire Avatar",
   "item.minecraft.splash_potion.effect.fire_avatar_strong": "Splash Potion of Fire Avatar",
   
+  "item.minecraft.splash_potion.effect.magma_walker": "Splash Potion of Magma Walker",
+  "item.minecraft.splash_potion.effect.magma_walker_long": "Splash Potion of Magma Walker",
+  
+  "item.minecraft.splash_potion.effect.magma_walker_strong": "Splash Potion of Magma Walker",
+  
   "item.minecraft.lingering_potion.effect.lava_bottle": "Lingering Lava Bottle",
   "item.minecraft.lingering_potion.effect.awkward_lava": "Awkward Lingering Lava Potion",
   
@@ -140,6 +162,10 @@
   "item.minecraft.lingering_potion.effect.fire_avatar": "Lingering Potion of Fire Avatar",
   "item.minecraft.lingering_potion.effect.fire_avatar_long": "Lingering Potion of Fire Avatar",
   "item.minecraft.lingering_potion.effect.fire_avatar_strong": "Lingering Potion of Fire Avatar",
+  
+  "item.minecraft.lingering_potion.effect.magma_walker": "Lingering Potion of Magma Walker",
+  "item.minecraft.lingering_potion.effect.magma_walker_long": "Lingering Potion of Magma Walker",
+  "item.minecraft.lingering_potion.effect.magma_walker_strong": "Lingering Potion of Magma Walker",
   
   "item.minecraft.tipped_arrow.effect.lava_bottle": "Arrow of Lava",
   "item.minecraft.tipped_arrow.effect.awkward_lava": "Awkward Arrow of Lava",
@@ -164,6 +190,10 @@
   "item.minecraft.tipped_arrow.effect.fire_avatar_long": "Arrow of Fire Avatar",
   "item.minecraft.tipped_arrow.effect.fire_avatar_strong": "Arrow of Fire Avatar",
   
+  "item.minecraft.tipped_arrow.effect.magma_walker": "Arrow of Magma Walker",
+  "item.minecraft.tipped_arrow.effect.magma_walker_long": "Arrow of Magma Walker",
+  "item.minecraft.tipped_arrow.effect.magma_walker_strong": "Arrow of Magma Walker",
+  
   "fluid.create.potion.lava_potions.lava_bottle": "Lava Bottle",
   "fluid.create.potion.lava_potions.awkward_lava": "Awkward Lava Potion",
   
@@ -187,12 +217,20 @@
   "fluid.create.potion.lava_potions.fire_avatar_long": "Potion of Fire Avatar",
   "fluid.create.potion.lava_potions.fire_avatar_strong": "Potion of Fire Avatar",
   
+  "fluid.create.potion.lava_potions.magma_walker": "Potion of Magma Walker",
+  "fluid.create.potion.lava_potions.magma_walker_long": "Potion of Magma Walker",
+  "fluid.create.potion.lava_potions.magma_walker_strong": "Potion of Magma Walker",
+  
   "effect.lava_potions.obsidian_skin": "Obsidian Skin",
   "effect.lava_potions.netherite_skin": "Netherite Skin",
   "effect.lava_potions.glass_skin": "Glass Skin",
   "effect.lava_potions.flame_aura": "Flame Aura",
   "effect.lava_potions.flammability": "Flammability",
   "effect.lava_potions.fire_avatar": "Fire Avatar",
+  "effect.lava_potions.magma_walker": "Magma Walker",
   
-  "entity.lava_potions.thrown_lava_potion": "Thrown Lava Potion"
+  "entity.lava_potions.thrown_lava_potion": "Thrown Lava Potion",
+  
+  "death.lava_potions.hot_floor": "%1$s discovered the floor was lava",
+  "death.lava_potions.hot_floor_with_attacker": "%1$s walked into danger zone due to %2$s"
 }

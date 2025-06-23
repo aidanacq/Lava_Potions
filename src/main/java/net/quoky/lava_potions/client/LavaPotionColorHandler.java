@@ -19,11 +19,12 @@ public class LavaPotionColorHandler {
         
     // Effect colors from effect classes
     private static final int OBSIDIAN_SKIN_COLOR = 0x8e5de3; // From ObsidianSkinEffect
-    private static final int NETHERITE_SKIN_COLOR = 0x9b8457; // From NetheriteSkinEffect
+    private static final int NETHERITE_SKIN_COLOR = 0xa47e75; // From NetheriteSkinEffect
     private static final int GLASS_SKIN_COLOR = 0xc2f3ff; // From GlassSkinEffect
-    private static final int FLAME_AURA_COLOR = 0xad3c36; // From FlameAuraEffect
-    private static final int FLAMMABILITY_COLOR = 0xe0c122; // From FlammabilityEffect
-    private static final int FIRE_AVATAR_COLOR = 0xff8952; // From FireAvatarEffect
+    private static final int FLAME_AURA_COLOR = 0xf7a236; // From FlameAuraEffect
+    private static final int FLAMMABILITY_COLOR = 0xffec99; // From FlammabilityEffect
+    private static final int FIRE_AVATAR_COLOR = 0xe5291f; // From FireAvatarEffect
+    private static final int MAGMA_WALKER_COLOR = 0xd05c00; // From MagmaWalkerEffect
 
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
@@ -52,6 +53,10 @@ public class LavaPotionColorHandler {
                     } else if (potion == ModPotionTypes.FIRE_AVATAR.get() || potion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
                                 potion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
                         return FIRE_AVATAR_COLOR;
+                    } else if (potion == ModPotionTypes.MAGMA_WALKER.get() || potion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
+                        return MAGMA_WALKER_COLOR;
+                    } else if (potion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
+                        return MAGMA_WALKER_COLOR;
                     }
                     
                     // No tint if no specific color defined

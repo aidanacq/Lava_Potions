@@ -17,6 +17,10 @@ public class ModItems {
     public static final RegistryObject<Item> LAVA_CAULDRON = ITEMS.register("lava_cauldron",
             () -> new BlockItem(ModBlocks.LAVA_CAULDRON.get(), new Item.Properties().fireResistant()));
 
+    // Register the decayable magma block item (not in creative tab)
+    public static final RegistryObject<Item> DECAYABLE_MAGMA_BLOCK = ITEMS.register("decayable_magma_block",
+            () -> new BlockItem(ModBlocks.DECAYABLE_MAGMA_BLOCK.get(), new Item.Properties().fireResistant()));
+
     // Register all items
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

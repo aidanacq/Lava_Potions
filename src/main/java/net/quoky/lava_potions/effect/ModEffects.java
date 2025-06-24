@@ -12,9 +12,9 @@ public class ModEffects {
     public static final DeferredRegister<MobEffect> MOB_EFFECTS =
             DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Lava_Potions.MOD_ID);
 
-    // Register the Flame Aura effect
-    public static final RegistryObject<MobEffect> FLAME_AURA = MOB_EFFECTS.register("flame_aura",
-            FlameAuraEffect::new);
+    // Register the Heat effect
+    public static final RegistryObject<MobEffect> HEAT = MOB_EFFECTS.register("heat",
+            HeatEffect::new);
             
     // Register the Obsidian Skin effect
     public static final RegistryObject<MobEffect> OBSIDIAN_SKIN = MOB_EFFECTS.register("obsidian_skin",
@@ -32,9 +32,9 @@ public class ModEffects {
     public static final RegistryObject<MobEffect> FLAMMABILITY = MOB_EFFECTS.register("flammability",
             FlammabilityEffect::new);
             
-    // Register the Fire Avatar effect
-    public static final RegistryObject<MobEffect> FIRE_AVATAR = MOB_EFFECTS.register("fire_avatar",
-            FireAvatarEffect::new);
+    // Register the Pyromancy effect
+    public static final RegistryObject<MobEffect> PYROMANCY = MOB_EFFECTS.register("pyromancy",
+            PyromancyEffect::new);
             
     // Register the Magma Walker effect
     public static final RegistryObject<MobEffect> MAGMA_WALKER = MOB_EFFECTS.register("magma_walker",

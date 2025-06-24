@@ -16,16 +16,16 @@
   "potion.lava_potions.glass_skin": "Potion of Glass Skin",
   "potion.lava_potions.glass_skin_long": "Potion of Glass Skin",
   
-  "potion.lava_potions.flame_aura": "Potion of Flame Aura",
-  "potion.lava_potions.flame_aura_strong": "Potion of Flame Aura",
-  "potion.lava_potions.flame_aura_long": "Potion of Flame Aura",
+  "potion.lava_potions.heat": "Potion of Heat",
+  "potion.lava_potions.heat_strong": "Potion of Heat",
+  "potion.lava_potions.heat_long": "Potion of Heat",
   
   "potion.lava_potions.flammability": "Potion of Flammability",
   "potion.lava_potions.flammability_long": "Potion of Flammability",
   
-  "potion.lava_potions.fire_avatar": "Potion of Fire Avatar",
-  "potion.lava_potions.fire_avatar_long": "Potion of Fire Avatar",
-  "potion.lava_potions.fire_avatar_strong": "Potion of Fire Avatar",
+  "potion.lava_potions.pyromancy": "Potion of Pyromancy",
+  "potion.lava_potions.pyromancy_long": "Potion of Pyromancy",
+  "potion.lava_potions.pyromancy_strong": "Potion of Pyromancy",
   
   "potion.lava_potions.magma_walker": "Potion of Magma Walker",
   "potion.lava_potions.magma_walker_long": "Potion of Magma Walker",
@@ -43,16 +43,16 @@
   "splash_potion.lava_potions.glass_skin": "Splash Potion of Glass Skin",
   "splash_potion.lava_potions.glass_skin_long": "Splash Potion of Glass Skin",
   
-  "splash_potion.lava_potions.flame_aura": "Splash Potion of Flame Aura",
-  "splash_potion.lava_potions.flame_aura_strong": "Splash Potion of Flame Aura",
-  "splash_potion.lava_potions.flame_aura_long": "Splash Potion of Flame Aura",
+  "splash_potion.lava_potions.heat": "Splash Potion of Heat",
+  "splash_potion.lava_potions.heat_strong": "Splash Potion of Heat",
+  "splash_potion.lava_potions.heat_long": "Splash Potion of Heat",
   
   "splash_potion.lava_potions.flammability": "Splash Potion of Flammability",
   "splash_potion.lava_potions.flammability_long": "Splash Potion of Flammability",
   
-  "splash_potion.lava_potions.fire_avatar": "Splash Potion of Fire Avatar",
-  "splash_potion.lava_potions.fire_avatar_long": "Splash Potion of Fire Avatar",
-  "splash_potion.lava_potions.fire_avatar_strong": "Splash Potion of Fire Avatar",
+  "splash_potion.lava_potions.pyromancy": "Splash Potion of Pyromancy",
+  "splash_potion.lava_potions.pyromancy_long": "Splash Potion of Pyromancy",
+  "splash_potion.lava_potions.pyromancy_strong": "Splash Potion of Pyromancy",
   
   "splash_potion.lava_potions.magma_walker": "Splash Potion of Magma Walker",
   "splash_potion.lava_potions.magma_walker_long": "Splash Potion of Magma Walker",
@@ -70,16 +70,16 @@
   "lingering_potion.lava_potions.glass_skin": "Lingering Potion of Glass Skin",
   "lingering_potion.lava_potions.glass_skin_long": "Lingering Potion of Glass Skin",
   
-  "lingering_potion.lava_potions.flame_aura": "Lingering Potion of Flame Aura",
-  "lingering_potion.lava_potions.flame_aura_strong": "Lingering Potion of Flame Aura",
-  "lingering_potion.lava_potions.flame_aura_long": "Lingering Potion of Flame Aura",
+  "lingering_potion.lava_potions.heat": "Lingering Potion of Heat",
+  "lingering_potion.lava_potions.heat_strong": "Lingering Potion of Heat",
+  "lingering_potion.lava_potions.heat_long": "Lingering Potion of Heat",
   
   "lingering_potion.lava_potions.flammability": "Lingering Potion of Flammability",
   "lingering_potion.lava_potions.flammability_long": "Lingering Potion of Flammability",
   
-  "lingering_potion.lava_potions.fire_avatar": "Lingering Potion of Fire Avatar",
-  "lingering_potion.lava_potions.fire_avatar_long": "Lingering Potion of Fire Avatar",
-  "lingering_potion.lava_potions.fire_avatar_strong": "Lingering Potion of Fire Avatar",
+  "lingering_potion.lava_potions.pyromancy": "Lingering Potion of Pyromancy",
+  "lingering_potion.lava_potions.pyromancy_long": "Lingering Potion of Pyromancy",
+  "lingering_potion.lava_potions.pyromancy_strong": "Lingering Potion of Pyromancy",
   
   "lingering_potion.lava_potions.magma_walker": "Lingering Potion of Magma Walker",
   "lingering_potion.lava_potions.magma_walker_long": "Lingering Potion of Magma Walker",
@@ -97,16 +97,16 @@
   "item.minecraft.potion.effect.glass_skin": "Potion of Glass Skin",
   "item.minecraft.potion.effect.glass_skin_long": "Potion of Glass Skin",
   
-  "item.minecraft.potion.effect.flame_aura": "Potion of Flame Aura",
-  "item.minecraft.potion.effect.flame_aura_strong": "Potion of Flame Aura",
-  "item.minecraft.potion.effect.flame_aura_long": "Potion of Flame Aura",
+  "item.minecraft.potion.effect.heat": "Potion of Heat",
+  "item.minecraft.potion.effect.heat_strong": "Potion of Heat",
+  "item.minecraft.potion.effect.heat_long": "Potion of Heat",
   
   "item.minecraft.potion.effect.flammability": "Potion of Flammability",
   "item.minecraft.potion.effect.flammability_long": "Potion of Flammability",
   
-  "item.minecraft.potion.effect.fire_avatar": "Potion of Fire Avatar",
-  "item.minecraft.potion.effect.fire_avatar_long": "Potion of Fire Avatar",
-  "item.minecraft.potion.effect.fire_avatar_strong": "Potion of Fire Avatar",
+  "item.minecraft.potion.effect.pyromancy": "Potion of Pyromancy",
+  "item.minecraft.potion.effect.pyromancy_long": "Potion of Pyromancy",
+  "item.minecraft.potion.effect.pyromancy_strong": "Potion of Pyromancy",
   
   "item.minecraft.potion.effect.magma_walker": "Potion of Magma Walker",
   "item.minecraft.potion.effect.magma_walker_long": "Potion of Magma Walker",
@@ -124,16 +124,16 @@
   "item.minecraft.splash_potion.effect.glass_skin": "Splash Potion of Glass Skin",
   "item.minecraft.splash_potion.effect.glass_skin_long": "Splash Potion of Glass Skin",
   
-  "item.minecraft.splash_potion.effect.flame_aura": "Splash Potion of Flame Aura",
-  "item.minecraft.splash_potion.effect.flame_aura_strong": "Splash Potion of Flame Aura",
-  "item.minecraft.splash_potion.effect.flame_aura_long": "Splash Potion of Flame Aura",
+  "item.minecraft.splash_potion.effect.heat": "Splash Potion of Heat",
+  "item.minecraft.splash_potion.effect.heat_strong": "Splash Potion of Heat",
+  "item.minecraft.splash_potion.effect.heat_long": "Splash Potion of Heat",
   
   "item.minecraft.splash_potion.effect.flammability": "Splash Potion of Flammability",
   "item.minecraft.splash_potion.effect.flammability_long": "Splash Potion of Flammability",
   
-  "item.minecraft.splash_potion.effect.fire_avatar": "Splash Potion of Fire Avatar",
-  "item.minecraft.splash_potion.effect.fire_avatar_long": "Splash Potion of Fire Avatar",
-  "item.minecraft.splash_potion.effect.fire_avatar_strong": "Splash Potion of Fire Avatar",
+  "item.minecraft.splash_potion.effect.pyromancy": "Splash Potion of Pyromancy",
+  "item.minecraft.splash_potion.effect.pyromancy_long": "Splash Potion of Pyromancy",
+  "item.minecraft.splash_potion.effect.pyromancy_strong": "Splash Potion of Pyromancy",
   
   "item.minecraft.splash_potion.effect.magma_walker": "Splash Potion of Magma Walker",
   "item.minecraft.splash_potion.effect.magma_walker_long": "Splash Potion of Magma Walker",
@@ -152,16 +152,16 @@
   "item.minecraft.lingering_potion.effect.glass_skin": "Lingering Potion of Glass Skin",
   "item.minecraft.lingering_potion.effect.glass_skin_long": "Lingering Potion of Glass Skin",
   
-  "item.minecraft.lingering_potion.effect.flame_aura": "Lingering Potion of Flame Aura",
-  "item.minecraft.lingering_potion.effect.flame_aura_strong": "Lingering Potion of Flame Aura",
-  "item.minecraft.lingering_potion.effect.flame_aura_long": "Lingering Potion of Flame Aura",
+  "item.minecraft.lingering_potion.effect.heat": "Lingering Potion of Heat",
+  "item.minecraft.lingering_potion.effect.heat_strong": "Lingering Potion of Heat",
+  "item.minecraft.lingering_potion.effect.heat_long": "Lingering Potion of Heat",
   
   "item.minecraft.lingering_potion.effect.flammability": "Lingering Potion of Flammability",
   "item.minecraft.lingering_potion.effect.flammability_long": "Lingering Potion of Flammability",
   
-  "item.minecraft.lingering_potion.effect.fire_avatar": "Lingering Potion of Fire Avatar",
-  "item.minecraft.lingering_potion.effect.fire_avatar_long": "Lingering Potion of Fire Avatar",
-  "item.minecraft.lingering_potion.effect.fire_avatar_strong": "Lingering Potion of Fire Avatar",
+  "item.minecraft.lingering_potion.effect.pyromancy": "Lingering Potion of Pyromancy",
+  "item.minecraft.lingering_potion.effect.pyromancy_long": "Lingering Potion of Pyromancy",
+  "item.minecraft.lingering_potion.effect.pyromancy_strong": "Lingering Potion of Pyromancy",
   
   "item.minecraft.lingering_potion.effect.magma_walker": "Lingering Potion of Magma Walker",
   "item.minecraft.lingering_potion.effect.magma_walker_long": "Lingering Potion of Magma Walker",
@@ -179,16 +179,16 @@
   "item.minecraft.tipped_arrow.effect.glass_skin": "Arrow of Glass Skin",
   "item.minecraft.tipped_arrow.effect.glass_skin_long": "Arrow of Glass Skin",
   
-  "item.minecraft.tipped_arrow.effect.flame_aura": "Arrow of Flame Aura",
-  "item.minecraft.tipped_arrow.effect.flame_aura_strong": "Arrow of Flame Aura",
-  "item.minecraft.tipped_arrow.effect.flame_aura_long": "Arrow of Flame Aura",
+  "item.minecraft.tipped_arrow.effect.heat": "Arrow of Heat",
+  "item.minecraft.tipped_arrow.effect.heat_strong": "Arrow of Heat",
+  "item.minecraft.tipped_arrow.effect.heat_long": "Arrow of Heat",
   
   "item.minecraft.tipped_arrow.effect.flammability": "Arrow of Flammability",
   "item.minecraft.tipped_arrow.effect.flammability_long": "Arrow of Flammability",
   
-  "item.minecraft.tipped_arrow.effect.fire_avatar": "Arrow of Fire Avatar",
-  "item.minecraft.tipped_arrow.effect.fire_avatar_long": "Arrow of Fire Avatar",
-  "item.minecraft.tipped_arrow.effect.fire_avatar_strong": "Arrow of Fire Avatar",
+  "item.minecraft.tipped_arrow.effect.pyromancy": "Arrow of Pyromancy",
+  "item.minecraft.tipped_arrow.effect.pyromancy_long": "Arrow of Pyromancy",
+  "item.minecraft.tipped_arrow.effect.pyromancy_strong": "Arrow of Pyromancy",
   
   "item.minecraft.tipped_arrow.effect.magma_walker": "Arrow of Magma Walker",
   "item.minecraft.tipped_arrow.effect.magma_walker_long": "Arrow of Magma Walker",
@@ -206,16 +206,16 @@
   "fluid.create.potion.lava_potions.glass_skin": "Potion of Glass Skin",
   "fluid.create.potion.lava_potions.glass_skin_long": "Potion of Glass Skin",
   
-  "fluid.create.potion.lava_potions.flame_aura": "Potion of Flame Aura",
-  "fluid.create.potion.lava_potions.flame_aura_strong": "Potion of Flame Aura",
-  "fluid.create.potion.lava_potions.flame_aura_long": "Potion of Flame Aura",
+  "fluid.create.potion.lava_potions.heat": "Potion of Heat",
+  "fluid.create.potion.lava_potions.heat_strong": "Potion of Heat",
+  "fluid.create.potion.lava_potions.heat_long": "Potion of Heat",
   
   "fluid.create.potion.lava_potions.flammability": "Potion of Flammability",
   "fluid.create.potion.lava_potions.flammability_long": "Potion of Flammability",
   
-  "fluid.create.potion.lava_potions.fire_avatar": "Potion of Fire Avatar",
-  "fluid.create.potion.lava_potions.fire_avatar_long": "Potion of Fire Avatar",
-  "fluid.create.potion.lava_potions.fire_avatar_strong": "Potion of Fire Avatar",
+  "fluid.create.potion.lava_potions.pyromancy": "Potion of Pyromancy",
+  "fluid.create.potion.lava_potions.pyromancy_long": "Potion of Pyromancy",
+  "fluid.create.potion.lava_potions.pyromancy_strong": "Potion of Pyromancy",
   
   "fluid.create.potion.lava_potions.magma_walker": "Potion of Magma Walker",
   "fluid.create.potion.lava_potions.magma_walker_long": "Potion of Magma Walker",
@@ -224,9 +224,9 @@
   "effect.lava_potions.obsidian_skin": "Obsidian Skin",
   "effect.lava_potions.netherite_skin": "Netherite Skin",
   "effect.lava_potions.glass_skin": "Glass Skin",
-  "effect.lava_potions.flame_aura": "Flame Aura",
+  "effect.lava_potions.heat": "Heat",
   "effect.lava_potions.flammability": "Flammability",
-  "effect.lava_potions.fire_avatar": "Fire Avatar",
+  "effect.lava_potions.pyromancy": "Pyromancy",
   "effect.lava_potions.magma_walker": "Magma Walker",
   
   "entity.lava_potions.thrown_lava_potion": "Thrown Lava Potion",

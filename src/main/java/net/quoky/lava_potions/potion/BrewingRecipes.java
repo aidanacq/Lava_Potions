@@ -21,9 +21,9 @@ import net.quoky.lava_potions.Lava_Potions;
 public class BrewingRecipes {
 
     // Brewing recipe constants
-    private static final int STANDARD_POTION_AMOUNT = 250;
-    private static final String LAVA_POTIONS_DATA_TAG = "lava_potions_data";
-    private static final String LAVA_POTION_DATA_TAG = "LavaPotionData";
+    public static final int STANDARD_POTION_AMOUNT = 250;
+    public static final String LAVA_POTIONS_DATA_TAG = "lava_potions_data";
+    public static final String LAVA_POTION_DATA_TAG = "LavaPotionData";
 
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
@@ -194,25 +194,25 @@ public class BrewingRecipes {
                 createPotion(ModPotionTypes.GLASS_SKIN_LONG.get())
             );
             
-            // Flame Aura Potion (Awkward Lava Potion + Blaze Powder)
+            // Heat Potion (Awkward Lava Potion + Blaze Powder)
             registerRecipe(
                 createPotion(ModPotionTypes.AWKWARD_LAVA.get()),
                 Items.BLAZE_POWDER,
-                createPotion(ModPotionTypes.FLAME_AURA.get())
+                createPotion(ModPotionTypes.HEAT.get())
             );
             
-            // Extended Flame Aura Potion
+            // Extended Heat Potion
             registerRecipe(
-                createPotion(ModPotionTypes.FLAME_AURA.get()),
+                createPotion(ModPotionTypes.HEAT.get()),
                 Items.REDSTONE,
-                createPotion(ModPotionTypes.FLAME_AURA_LONG.get())
+                createPotion(ModPotionTypes.HEAT_LONG.get())
             );
             
-            // Strong Flame Aura Potion
+            // Strong Heat Potion
             registerRecipe(
-                createPotion(ModPotionTypes.FLAME_AURA.get()),
+                createPotion(ModPotionTypes.HEAT.get()),
                 Items.GLOWSTONE_DUST,
-                createPotion(ModPotionTypes.FLAME_AURA_STRONG.get())
+                createPotion(ModPotionTypes.HEAT_STRONG.get())
             );
             
             // Base Flammability Potion (Lava Bottle + Fermented Spider Eye)
@@ -229,41 +229,41 @@ public class BrewingRecipes {
                 createPotion(ModPotionTypes.FLAMMABILITY_LONG.get())
             );
             
-            // Fire Avatar Potion (Awkward Lava Potion + Fire Charge)
+            // Pyromancy Potion (Awkward Lava Potion + Fire Charge)
             registerRecipe(
                 createPotion(ModPotionTypes.AWKWARD_LAVA.get()),
                 Items.FIRE_CHARGE,
-                createPotion(ModPotionTypes.FIRE_AVATAR.get())
+                createPotion(ModPotionTypes.PYROMANCY.get())
             );
             
-            // Extended Fire Avatar Potion
+            // Extended Pyromancy Potion
             registerRecipe(
-                createPotion(ModPotionTypes.FIRE_AVATAR.get()),
+                createPotion(ModPotionTypes.PYROMANCY.get()),
                 Items.REDSTONE,
-                createPotion(ModPotionTypes.FIRE_AVATAR_LONG.get())
+                createPotion(ModPotionTypes.PYROMANCY_LONG.get())
             );
             
-            // Strong Fire Avatar Potion
+            // Strong Pyromancy Potion
             registerRecipe(
-                createPotion(ModPotionTypes.FIRE_AVATAR.get()),
+                createPotion(ModPotionTypes.PYROMANCY.get()),
                 Items.GLOWSTONE_DUST,
-                createPotion(ModPotionTypes.FIRE_AVATAR_STRONG.get())
+                createPotion(ModPotionTypes.PYROMANCY_STRONG.get())
             );
-            
-            // Magma Walker Potion (Awkward Lava Potion + Magma Cream)
+
+            // Magma Walker Potion (Awkward Lava Potion + Magma Block)
             registerRecipe(
                 createPotion(ModPotionTypes.AWKWARD_LAVA.get()),
-                Items.MAGMA_CREAM,
+                Items.MAGMA_BLOCK,
                 createPotion(ModPotionTypes.MAGMA_WALKER.get())
             );
-            
+
             // Extended Magma Walker Potion
             registerRecipe(
                 createPotion(ModPotionTypes.MAGMA_WALKER.get()),
                 Items.REDSTONE,
                 createPotion(ModPotionTypes.MAGMA_WALKER_LONG.get())
             );
-            
+
             // Strong Magma Walker Potion
             registerRecipe(
                 createPotion(ModPotionTypes.MAGMA_WALKER.get()),
@@ -271,20 +271,18 @@ public class BrewingRecipes {
                 createPotion(ModPotionTypes.MAGMA_WALKER_STRONG.get())
             );
             
-            Lava_Potions.LOGGER.info("Custom lava potion brewing recipes registered successfully");
+            Lava_Potions.LOGGER.info("Successfully registered custom lava potion brewing recipes");
+
         } catch (Exception e) {
-            Lava_Potions.LOGGER.error("Error registering custom lava potion brewing recipes", e);
+            Lava_Potions.LOGGER.error("Failed to register custom lava potion brewing recipes", e);
         }
     }
 
-    /**
-     * Helper method to register a brewing recipe with proper error handling
-     */
-    private static void registerRecipe(ItemStack input, net.minecraft.world.item.Item ingredient, ItemStack output) {
-        BrewingRecipeRegistry.addRecipe(new ProperBrewingRecipe(
-            Ingredient.of(input),
-            Ingredient.of(ingredient),
-            output
-        ));
+    private static void registerRecipe(ItemStack input, Ingredient ingredient, ItemStack output) {
+        BrewingRecipeRegistry.addRecipe(new ProperBrewingRecipe(Ingredient.of(input), ingredient, output));
+    }
+
+    private static void registerRecipe(ItemStack input, net.minecraft.world.level.ItemLike ingredient, ItemStack output) {
+        registerRecipe(input, Ingredient.of(ingredient), output);
     }
 } 

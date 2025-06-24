@@ -51,8 +51,8 @@ public class ShootFireballPacket {
                 ServerPlayer player = context.getSender();
                 if (player == null) return;
                 
-                // Verify player has Fire Avatar effect and empty main hand
-                if (!player.hasEffect(ModEffects.FIRE_AVATAR.get()) || 
+                // Verify player has Pyromancy effect and empty main hand
+                if (!player.hasEffect(ModEffects.PYROMANCY.get()) ||
                     !player.getMainHandItem().isEmpty()) {
                     return;
                 }
@@ -71,7 +71,7 @@ public class ShootFireballPacket {
                 // Update last shot time
                 lastFireballTime.put(playerId, currentTime);
                 
-                int amplifier = player.getEffect(ModEffects.FIRE_AVATAR.get()).getAmplifier();
+                int amplifier = player.getEffect(ModEffects.PYROMANCY.get()).getAmplifier();
                 
                 // Shoot the fireball
                 shootFireball(player, amplifier);

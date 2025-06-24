@@ -65,16 +65,16 @@ public class ModCreativeTabs {
                         output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.GLASS_SKIN_LONG.get()));
                         output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.GLASS_SKIN_LONG.get()));
                         
-                        // Flame Aura - all variants
-                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.FLAME_AURA.get()));
-                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.FLAME_AURA.get()));
-                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.FLAME_AURA.get()));
-                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.FLAME_AURA_LONG.get()));
-                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.FLAME_AURA_LONG.get()));
-                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.FLAME_AURA_LONG.get()));
-                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.FLAME_AURA_STRONG.get()));
-                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.FLAME_AURA_STRONG.get()));
-                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.FLAME_AURA_STRONG.get()));
+                        // Heat - all variants
+                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.HEAT.get()));
+                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.HEAT.get()));
+                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.HEAT.get()));
+                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.HEAT_LONG.get()));
+                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.HEAT_LONG.get()));
+                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.HEAT_LONG.get()));
+                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.HEAT_STRONG.get()));
+                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.HEAT_STRONG.get()));
+                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.HEAT_STRONG.get()));
                         
                         // Flammability - all variants
                         output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.FLAMMABILITY.get()));
@@ -84,16 +84,16 @@ public class ModCreativeTabs {
                         output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.FLAMMABILITY_LONG.get()));
                         output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.FLAMMABILITY_LONG.get()));
                         
-                        // Fire Avatar - all variants
-                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.FIRE_AVATAR.get()));
-                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.FIRE_AVATAR.get()));
-                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.FIRE_AVATAR.get()));
-                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.FIRE_AVATAR_LONG.get()));
-                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.FIRE_AVATAR_LONG.get()));
-                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.FIRE_AVATAR_LONG.get()));
-                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.FIRE_AVATAR_STRONG.get()));
-                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.FIRE_AVATAR_STRONG.get()));
-                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.FIRE_AVATAR_STRONG.get()));
+                        // Pyromancy - all variants
+                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.PYROMANCY.get()));
+                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.PYROMANCY.get()));
+                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.PYROMANCY.get()));
+                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.PYROMANCY_LONG.get()));
+                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.PYROMANCY_LONG.get()));
+                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.PYROMANCY_LONG.get()));
+                        output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.PYROMANCY_STRONG.get()));
+                        output.accept(BrewingRecipes.createVanillaSplashPotionWithLavaType(ModPotionTypes.PYROMANCY_STRONG.get()));
+                        output.accept(BrewingRecipes.createVanillaLingeringPotionWithLavaType(ModPotionTypes.PYROMANCY_STRONG.get()));
                         
                         // Magma Walker - all variants
                         output.accept(BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.MAGMA_WALKER.get()));

@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.sounds.SoundEvents;
@@ -142,7 +143,11 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
                         // Don't damage fire immune entities
                         if (!entity.fireImmune()) {
                             // Use thorns damage to provide knockback
-                            entity.hurt(entity.damageSources().thorns(this), damage);
+                            if (owner instanceof LivingEntity) {
+                                entity.hurt(this.damageSources().thorns(owner), damage);
+                            } else {
+                                entity.hurt(this.damageSources().magic(), damage);
+                            }
                         }
                     }
                 }
@@ -158,7 +163,7 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
 
             // Play glass breaking sound
             this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
-                SoundEvents.GLASS_BREAK, SoundSource.NEUTRAL, 1.0F, 
+                SoundEvents.GLASS_BREAK, SoundSource.NEUTRAL, 1.0F,
                 this.random.nextFloat() * 0.1F + 0.9F);
 
             // Always break the potion
@@ -186,7 +191,11 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
                 // Apply direct hit damage of 6 hit points (3 hearts) but don't damage fire immune entities
                 if (!livingEntity.fireImmune()) {
                     // Use thorns damage to provide knockback
-                    livingEntity.hurt(livingEntity.damageSources().thorns(this), 6.0F);
+                    if (owner instanceof LivingEntity) {
+                        livingEntity.hurt(this.damageSources().thorns(owner), 6.0F);
+                    } else {
+                        livingEntity.hurt(this.damageSources().magic(), 6.0F);
+                    }
                 }
                 // Basic lava bottle sets entity on fire for longer (10 seconds)
                 livingEntity.setSecondsOnFire(10);
@@ -244,28 +253,46 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
                             // Don't damage fire immune entities
                             if (!entity.fireImmune()) {
                                 // Use thorns damage to provide knockback
-                                entity.hurt(entity.damageSources().thorns(this), 2.0F);
+                                if (owner instanceof LivingEntity) {
+                                    entity.hurt(this.damageSources().thorns(owner), 2.0F);
+                                } else {
+                                    entity.hurt(this.damageSources().magic(), 2.0F);
+                                }
                             }
                             // Set entities on fire for 5 seconds
                             entity.setSecondsOnFire(5);
                         } else if (ModPotionTypes.isEffectLavaPotion(basePotion)) {
-                            // Apply potion effects every 20 ticks (1 second)
-                            if (this.tickCount % 20 == 0 && !this.level().isClientSide) {
-                                // Apply the potion effects
-                                List<MobEffectInstance> effects = potion.getEffects();
-                                for (MobEffectInstance effect : effects) {
-                                    // Apply with shorter duration (20% of normal) for lingering effect
-                                    int shorterDuration = Math.max(20, effect.getDuration() / 5);
-                                    // Create a new effect instance with a fresh duration
-                                    MobEffectInstance newEffect = new MobEffectInstance(
-                                        effect.getEffect(),
-                                        shorterDuration,
-                                        effect.getAmplifier(),
-                                        effect.isAmbient(),
-                                        effect.isVisible()
-                                    );
-                                    entity.addEffect(newEffect);
-                                }
+                            // Apply custom lingering cloud effects for each specific lava potion type
+                            // Obsidian Skin: No lingering damage, no fire
+                            if (basePotion == ModPotionTypes.OBSIDIAN_SKIN.get() || basePotion == ModPotionTypes.OBSIDIAN_SKIN_LONG.get()) {
+                                // No lingering effects for obsidian skin
+                            }
+                            // Netherite Skin: No lingering damage, no fire
+                            else if (basePotion == ModPotionTypes.NETHERITE_SKIN.get() || basePotion == ModPotionTypes.NETHERITE_SKIN_LONG.get()) {
+                                // No lingering effects for netherite skin
+                            }
+                            // Glass Skin: No lingering damage, no fire
+                            else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
+                                // No lingering effects for glass skin
+                            }
+                            // Heat: Sets entities on fire for 10 seconds
+                            else if (basePotion == ModPotionTypes.HEAT.get() || basePotion == ModPotionTypes.HEAT_LONG.get() ||
+                                     basePotion == ModPotionTypes.HEAT_STRONG.get()) {
+                                entity.setSecondsOnFire(10);
+                            }
+                            // Flammability: No lingering damage, no fire
+                            else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
+                                // No lingering effects for flammability
+                            }
+                            // Pyromancy: Sets entities on fire for 15 seconds
+                            else if (basePotion == ModPotionTypes.PYROMANCY.get() || basePotion == ModPotionTypes.PYROMANCY_LONG.get() ||
+                                     basePotion == ModPotionTypes.PYROMANCY_STRONG.get()) {
+                                entity.setSecondsOnFire(15);
+                            }
+                            // Magma Walker: Sets entities on fire for 5 seconds
+                            else if (basePotion == ModPotionTypes.MAGMA_WALKER.get() || basePotion == ModPotionTypes.MAGMA_WALKER_LONG.get() ||
+                                     basePotion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
+                                entity.setSecondsOnFire(5);
                             }
                         }
                     }
@@ -273,51 +300,73 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
             }
         };
         
-        Entity owner = this.getOwner();
+        // Use potion directly
+        Potion cloudPotion = PotionUtils.getPotion(itemStack);
         
-        if (owner instanceof LivingEntity) {
-            cloud.setOwner((LivingEntity)owner);
-        }
-        
+        // Set lingering cloud properties
         cloud.setRadius(3.0F);
         cloud.setRadiusOnUse(-0.5F);
         cloud.setWaitTime(10);
         cloud.setRadiusPerTick(-cloud.getRadius() / (float)cloud.getDuration());
-        cloud.setDuration(300); // 15 seconds
-        
-        // Set the cloud particle type and color based on potion type
-        if (ModPotionTypes.isBasicLavaPotion(basePotion)) {
-            // Basic lava potions use flame particles
-            cloud.setParticle(ParticleTypes.FLAME);
-            cloud.setFixedColor(0xFF5500);
-        } else {
-            // Get the appropriate color for the effect potion
-            int color = 0xFFFFFF;
-            if (basePotion == ModPotionTypes.OBSIDIAN_SKIN.get() || basePotion == ModPotionTypes.OBSIDIAN_SKIN_LONG.get()) {
-                color = 0x8e5de3; // Purple for obsidian skin
-            } else if (basePotion == ModPotionTypes.NETHERITE_SKIN.get() || basePotion == ModPotionTypes.NETHERITE_SKIN_LONG.get()) {
-                color = 0xa47e75; // Light brown for netherite skin
-            } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
-                color = 0xebf9fc; // Light blue for glass skin
-            } else if (basePotion == ModPotionTypes.FLAME_AURA.get() || basePotion == ModPotionTypes.FLAME_AURA_LONG.get() ||
-                        basePotion == ModPotionTypes.FLAME_AURA_STRONG.get()) {
-                color = 0xf7a236; // Red for flame aura
-            } else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
-                color = 0xffec99; // Gold/amber for flammability
-            } else if (basePotion == ModPotionTypes.FIRE_AVATAR.get() || basePotion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
-                        basePotion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
-                color = 0xe5291f; // Orange-red for fire avatar
-            } else if (basePotion == ModPotionTypes.MAGMA_WALKER.get() || basePotion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
-                color = 0xd05c00; // Orange for magma walker
-            } else if (basePotion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
-                color = 0xd05c00; // Orange for magma walker strong
-            }
-            
-            // For effect potions, use vanilla particle effect with correct tint
-            cloud.setParticle(ParticleTypes.ENTITY_EFFECT);
-            cloud.setFixedColor(color);
+        if(this.getOwner() instanceof LivingEntity livingOwner) {
+            cloud.setOwner(livingOwner);
         }
         
+        // For effect potions, apply the effects directly to the cloud
+        if (ModPotionTypes.isEffectLavaPotion(cloudPotion)) {
+            for (MobEffectInstance effect : cloudPotion.getEffects()) {
+                // Adjust duration for lingering effect
+                // Lingering potions have 1/4 the duration of a regular potion
+                int lingeringDuration = effect.getDuration() / 4;
+                cloud.addEffect(new MobEffectInstance(
+                    effect.getEffect(),
+                    lingeringDuration,
+                    effect.getAmplifier()
+                ));
+            }
+        }
+        
+        // Handle cloud color tinting based on potion type
+        int cloudColor = 0xFFFFFF; // Default white
+        if (ModPotionTypes.isBasicLavaPotion(basePotion)) {
+            cloudColor = 0xFFFFFF; // No tint for basic lava potions
+        }
+        // Obsidian Skin
+        else if (basePotion == ModPotionTypes.OBSIDIAN_SKIN.get() || basePotion == ModPotionTypes.OBSIDIAN_SKIN_LONG.get()) {
+            cloudColor = 0x8e5de3; // Purple
+        }
+        // Netherite Skin
+        else if (basePotion == ModPotionTypes.NETHERITE_SKIN.get() || basePotion == ModPotionTypes.NETHERITE_SKIN_LONG.get()) {
+            cloudColor = 0xa47e75; // Light brown
+        }
+        // Glass Skin
+        else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
+            cloudColor = 0xc2f3ff; // Light blue
+        }
+        // Heat
+        else if (basePotion == ModPotionTypes.HEAT.get() || basePotion == ModPotionTypes.HEAT_LONG.get() ||
+                 basePotion == ModPotionTypes.HEAT_STRONG.get()) {
+            cloudColor = 0xf7a236; // Red
+        }
+        // Flammability
+        else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
+            cloudColor = 0xffec99; // Gold/amber
+        }
+        // Pyromancy
+        else if (basePotion == ModPotionTypes.PYROMANCY.get() || basePotion == ModPotionTypes.PYROMANCY_LONG.get() ||
+                 basePotion == ModPotionTypes.PYROMANCY_STRONG.get()) {
+            cloudColor = 0xe5291f; // Orange
+        }
+        // Magma Walker
+        else if (basePotion == ModPotionTypes.MAGMA_WALKER.get() || basePotion == ModPotionTypes.MAGMA_WALKER_LONG.get() ||
+                 basePotion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
+            cloudColor = 0xd05c00; // Orange
+        }
+        
+        // Apply tint to the cloud particles
+        cloud.setFixedColor(cloudColor);
+
+        // Add the cloud to the world
         this.level().addFreshEntity(cloud);
     }
     
@@ -389,37 +438,37 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
                     burstG = 0.494f; // 126/255
                     burstB = 0.459f; // 117/255
                 } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
-                    // Light blue color for glass skin (0xebf9fc)
-                    burstR = 0.922f; // 235/255
-                    burstG = 0.976f; // 249/255
-                    burstB = 0.988f; // 252/255
-                } else if (basePotion == ModPotionTypes.FLAME_AURA.get() || basePotion == ModPotionTypes.FLAME_AURA_LONG.get() ||
-                           basePotion == ModPotionTypes.FLAME_AURA_STRONG.get()) {
-                    // Red color for flame aura (0xf7a236)
+                    // Light blue color for glass skin (0xc2f3ff)
+                    burstR = 0.761f; // 194/255
+                    burstG = 0.953f; // 243/255
+                    burstB = 1.0f;   // 255/255
+                } else if (basePotion == ModPotionTypes.HEAT.get() || basePotion == ModPotionTypes.HEAT_LONG.get() ||
+                           basePotion == ModPotionTypes.HEAT_STRONG.get()) {
+                    // Red-orange color for heat (0xf7a236)
                     burstR = 0.969f; // 247/255
                     burstG = 0.635f; // 162/255
                     burstB = 0.212f; // 54/255
                 } else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
-                    // Gold/amber color for flammability (0xffec99)
-                    burstR = 1.0f; // 255/255
+                    // Light yellow-gold for flammability (0xffec99)
+                    burstR = 1.0f;   // 255/255
                     burstG = 0.925f; // 236/255
-                    burstB = 0.6f; // 153/255
-                } else if (basePotion == ModPotionTypes.FIRE_AVATAR.get() || basePotion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
-                           basePotion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
-                    // Orange-red color for fire avatar (0xe5291f)
+                    burstB = 0.6f;   // 153/255
+                } else if (basePotion == ModPotionTypes.PYROMANCY.get() || basePotion == ModPotionTypes.PYROMANCY_LONG.get() ||
+                           basePotion == ModPotionTypes.PYROMANCY_STRONG.get()) {
+                    // Bright red-orange for pyromancy (0xe5291f)
                     burstR = 0.898f; // 229/255
                     burstG = 0.161f; // 41/255
                     burstB = 0.122f; // 31/255
                 } else if (basePotion == ModPotionTypes.MAGMA_WALKER.get() || basePotion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
-                    // Orange color for magma walker (0xd05c00)
+                    // Dark orange for magma walker (0xd05c00)
                     burstR = 0.816f; // 208/255
                     burstG = 0.361f; // 92/255
-                    burstB = 0.0f; // 0/255
+                    burstB = 0.0f;   // 0/255
                 } else if (basePotion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
-                    // Orange color for magma walker strong (0xd05c00)
+                    // Dark orange for magma walker (0xd05c00)
                     burstR = 0.816f; // 208/255
                     burstG = 0.361f; // 92/255
-                    burstB = 0.0f; // 0/255
+                    burstB = 0.0f;   // 0/255
                 }
                 
                 // Create 30 flame particles
@@ -479,37 +528,37 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
                         ringG = 0.494f; // 126/255
                         ringB = 0.459f; // 117/255
                     } else if (basePotion == ModPotionTypes.GLASS_SKIN.get() || basePotion == ModPotionTypes.GLASS_SKIN_LONG.get()) {
-                        // Light blue color for glass skin (0xebf9fc)
-                        ringR = 0.922f; // 235/255
-                        ringG = 0.976f; // 249/255
-                        ringB = 0.988f; // 252/255
-                    } else if (basePotion == ModPotionTypes.FLAME_AURA.get() || basePotion == ModPotionTypes.FLAME_AURA_LONG.get() ||
-                              basePotion == ModPotionTypes.FLAME_AURA_STRONG.get()) {
-                        // Red color for flame aura (0xf7a236)
+                        // Light blue color for glass skin (0xc2f3ff)
+                        ringR = 0.761f; // 194/255
+                        ringG = 0.953f; // 243/255
+                        ringB = 1.0f;   // 255/255
+                    } else if (basePotion == ModPotionTypes.HEAT.get() || basePotion == ModPotionTypes.HEAT_LONG.get() ||
+                              basePotion == ModPotionTypes.HEAT_STRONG.get()) {
+                        // Red-orange color for heat (0xf7a236)
                         ringR = 0.969f; // 247/255
                         ringG = 0.635f; // 162/255
                         ringB = 0.212f; // 54/255
                     } else if (basePotion == ModPotionTypes.FLAMMABILITY.get() || basePotion == ModPotionTypes.FLAMMABILITY_LONG.get()) {
-                        // Gold/amber color for flammability (0xffec99)
-                        ringR = 1.0f; // 255/255
+                        // Light yellow-gold for flammability (0xffec99)
+                        ringR = 1.0f;   // 255/255
                         ringG = 0.925f; // 236/255
-                        ringB = 0.6f; // 153/255
-                    } else if (basePotion == ModPotionTypes.FIRE_AVATAR.get() || basePotion == ModPotionTypes.FIRE_AVATAR_LONG.get() ||
-                              basePotion == ModPotionTypes.FIRE_AVATAR_STRONG.get()) {
-                        // Orange-red color for fire avatar (0xe5291f)
+                        ringB = 0.6f;   // 153/255
+                    } else if (basePotion == ModPotionTypes.PYROMANCY.get() || basePotion == ModPotionTypes.PYROMANCY_LONG.get() ||
+                              basePotion == ModPotionTypes.PYROMANCY_STRONG.get()) {
+                        // Bright red-orange for pyromancy (0xe5291f)
                         ringR = 0.898f; // 229/255
                         ringG = 0.161f; // 41/255
                         ringB = 0.122f; // 31/255
                     } else if (basePotion == ModPotionTypes.MAGMA_WALKER.get() || basePotion == ModPotionTypes.MAGMA_WALKER_LONG.get()) {
-                        // Orange color for magma walker (0xd05c00)
+                        // Dark orange for magma walker (0xd05c00)
                         ringR = 0.816f; // 208/255
                         ringG = 0.361f; // 92/255
-                        ringB = 0.0f; // 0/255
+                        ringB = 0.0f;   // 0/255
                     } else if (basePotion == ModPotionTypes.MAGMA_WALKER_STRONG.get()) {
-                        // Orange color for magma walker strong (0xd05c00)
+                        // Dark orange for magma walker (0xd05c00)
                         ringR = 0.816f; // 208/255
                         ringG = 0.361f; // 92/255
-                        ringB = 0.0f; // 0/255
+                        ringB = 0.0f;   // 0/255
                     }
                     
                     this.level().addParticle(
@@ -530,6 +579,25 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
         }
     }
     
+    // NBT data for custom potion type
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        if (compound.contains(BrewingRecipes.LAVA_POTION_DATA_TAG, 10)) {
+            this.setItem(ItemStack.of(compound.getCompound(BrewingRecipes.LAVA_POTION_DATA_TAG)));
+        }
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        ItemStack itemstack = this.getItem();
+        if (!itemstack.isEmpty()) {
+            compound.put(BrewingRecipes.LAVA_POTION_DATA_TAG, itemstack.save(new CompoundTag()));
+        }
+    }
+    
+    // Override to ensure the correct entity is spawned
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
@@ -537,8 +605,11 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
     
     @Override
     public ItemStack getItem() {
-        ItemStack itemstack = this.getItemRaw();
-        // Use vanilla potion with lava type as default instead of custom item
-        return itemstack.isEmpty() ? BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get()) : itemstack;
+        ItemStack itemstack = super.getItem();
+        if (itemstack.isEmpty()) {
+            // Default to base lava bottle if no item is set
+            return BrewingRecipes.createVanillaPotionWithLavaType(ModPotionTypes.LAVA_BOTTLE.get());
+        }
+        return itemstack;
     }
-} 
+}

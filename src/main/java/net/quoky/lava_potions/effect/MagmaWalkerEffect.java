@@ -2,6 +2,7 @@ package net.quoky.lava_potions.effect;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffects;
@@ -40,26 +41,21 @@ public class MagmaWalkerEffect extends MobEffect {
     
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
-        // Only apply to players
-        if (!(entity instanceof Player player)) {
-            return;
-        }
+        Level level = entity.level();
+        BlockPos entityPos = entity.blockPosition();
         
-        Level level = player.level();
-        BlockPos playerPos = player.blockPosition();
-        
-        // Check if player is standing on a magma block
-        BlockPos groundPos = playerPos.below();
+        // Check if entity is standing on a magma block
+        BlockPos groundPos = entityPos.below();
         BlockState groundState = level.getBlockState(groundPos);
         
         // Apply speed effect when standing on magma blocks
         if (groundState.is(Blocks.MAGMA_BLOCK) || groundState.getBlock() instanceof DecayableMagmaBlock) {
             int speedLevel = amplifier == 0 ? 0 : 1; // Tier I: Speed I, Tier II+: Speed II
-            player.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20, speedLevel, false, false));
+            entity.addEffect(new net.minecraft.world.effect.MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20, speedLevel, false, false));
         }
         
-        // Spawn flame particles at player's feet (client-side only)
-        if (level.isClientSide) {
+        // Spawn flame particles only for players (server-side so all clients can see)
+        if (!level.isClientSide && entity instanceof Player player) {
             spawnFlameParticles(player);
         }
     }
@@ -113,6 +109,10 @@ public class MagmaWalkerEffect extends MobEffect {
      * Spawns flame particles at the player's feet
      */
     private void spawnFlameParticles(Player player) {
+        if (!(player.level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        
         Vec3 playerPosVec = player.position();
         float bodyYaw = (float) Math.toRadians(player.yBodyRot);
         
@@ -141,27 +141,35 @@ public class MagmaWalkerEffect extends MobEffect {
         boolean spawnRightFoot = (player.tickCount / 4) % 2 == 0; // Every 4 ticks, alternate
         
         if (spawnRightFoot) {
-            // Spawn flame particle from right foot
+            // Spawn flame particle from right foot using server method
             double rightVelX = (player.getRandom().nextDouble() - 0.5) * 0.02;
             double rightVelY = player.getRandom().nextDouble() * 0.02 + 0.01;
             double rightVelZ = (player.getRandom().nextDouble() - 0.5) * 0.02;
             
-            player.level().addParticle(ParticleTypes.FLAME,
+            serverLevel.sendParticles(ParticleTypes.FLAME,
                 rightFootX + (player.getRandom().nextDouble() - 0.5) * 0.08,
                 rightFootY + (player.getRandom().nextDouble() - 0.5) * 0.08,
                 rightFootZ + (player.getRandom().nextDouble() - 0.5) * 0.08,
-                rightVelX, rightVelY, rightVelZ);
+                1, // Particle count
+                0.0, // X offset
+                0.0, // Y offset
+                0.0, // Z offset
+                0.0); // Speed (we'll use velocity instead)
         } else {
-            // Spawn flame particle from left foot
+            // Spawn flame particle from left foot using server method
             double leftVelX = (player.getRandom().nextDouble() - 0.5) * 0.02;
             double leftVelY = player.getRandom().nextDouble() * 0.02 + 0.01;
             double leftVelZ = (player.getRandom().nextDouble() - 0.5) * 0.02;
             
-            player.level().addParticle(ParticleTypes.FLAME,
+            serverLevel.sendParticles(ParticleTypes.FLAME,
                 leftFootX + (player.getRandom().nextDouble() - 0.5) * 0.08,
                 leftFootY + (player.getRandom().nextDouble() - 0.5) * 0.08,
                 leftFootZ + (player.getRandom().nextDouble() - 0.5) * 0.08,
-                leftVelX, leftVelY, leftVelZ);
+                1, // Particle count
+                0.0, // X offset
+                0.0, // Y offset
+                0.0, // Z offset
+                0.0); // Speed (we'll use velocity instead)
         }
     }
 } 

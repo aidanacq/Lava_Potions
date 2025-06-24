@@ -4,6 +4,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -64,6 +65,26 @@ public class SkinEffectEventHandler {
         if (entity.hasEffect(ModEffects.GLASS_SKIN.get())) {
             float originalDamage = event.getAmount();
             event.setAmount(originalDamage * 1.5f);
+        }
+    }
+    
+    /**
+     * Handle knockback events for skin effects
+     */
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void onLivingKnockBack(LivingKnockBackEvent event) {
+        LivingEntity entity = event.getEntity();
+        
+        // Handle Netherite Skin effect - complete knockback immunity
+        if (entity.hasEffect(ModEffects.NETHERITE_SKIN.get())) {
+            event.setStrength(0.0f);
+            return;
+        }
+        
+        // Handle Obsidian Skin effect - 10% knockback reduction
+        if (entity.hasEffect(ModEffects.OBSIDIAN_SKIN.get())) {
+            float originalStrength = event.getStrength();
+            event.setStrength(originalStrength * 0.9f); // Reduce by 10%
         }
     }
 } 

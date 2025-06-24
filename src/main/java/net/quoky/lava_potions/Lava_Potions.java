@@ -45,22 +45,22 @@ public class Lava_Potions {
 
         // Register blocks
         ModBlocks.register(modEventBus);
-        
+
         // Register items
         ModItems.register(modEventBus);
-        
+
         // Register effects
         ModEffects.register(modEventBus);
-        
+
         // Register potion types
         ModPotionTypes.register(modEventBus);
-        
+
         // Register entity types
         ModEntityTypes.register(modEventBus);
-        
+
         // Register creative mode tabs
         ModCreativeTabs.register(modEventBus);
-        
+
         // Register fluids for Create compatibility (must be early)
         ModFluids.register(modEventBus);
 
@@ -69,16 +69,16 @@ public class Lava_Potions {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-        
+
         // Register our lava bottle handler
         MinecraftForge.EVENT_BUS.register(LavaBottleHandler.class);
-        
+
         // Register Create mod compatibility
         MinecraftForge.EVENT_BUS.register(CreateCompat.class);
-        
+
         // Explicitly register skin effect event handler to ensure it works
         MinecraftForge.EVENT_BUS.register(SkinEffectEventHandler.class);
-        
+
         // Register recipe conflict resolver
         //MinecraftForge.EVENT_BUS.register(RecipeConflictResolver.class);
 

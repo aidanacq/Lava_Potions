@@ -3,7 +3,7 @@ package net.quoky.lava_potions.effect;
 import net.minecraft.world.effect.MobEffectCategory;
 
 /**
- * Effect that provides immunity to explosions and fall damage
+ * Effect that provides immunity to explosions, fall damage, and complete knockback immunity
  */
 public class NetheriteSkinEffect extends BaseSkinEffect {
     public NetheriteSkinEffect() {

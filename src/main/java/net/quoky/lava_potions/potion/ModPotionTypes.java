@@ -73,21 +73,21 @@ public class ModPotionTypes {
             new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9600)
         ));
     
-    public static final RegistryObject<Potion> FLAME_AURA = POTIONS.register("flame_aura",
+    public static final RegistryObject<Potion> HEAT = POTIONS.register("heat",
         () -> new Potion(
-            new MobEffectInstance(ModEffects.FLAME_AURA.get(), 3600),
+            new MobEffectInstance(ModEffects.HEAT.get(), 3600),
             new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600)
         ));
     
-    public static final RegistryObject<Potion> FLAME_AURA_LONG = POTIONS.register("flame_aura_long",
+    public static final RegistryObject<Potion> HEAT_LONG = POTIONS.register("heat_long",
         () -> new Potion(
-            new MobEffectInstance(ModEffects.FLAME_AURA.get(), 9600),
+            new MobEffectInstance(ModEffects.HEAT.get(), 9600),
             new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9600)
         ));
     
-    public static final RegistryObject<Potion> FLAME_AURA_STRONG = POTIONS.register("flame_aura_strong",
+    public static final RegistryObject<Potion> HEAT_STRONG = POTIONS.register("heat_strong",
         () -> new Potion(
-            new MobEffectInstance(ModEffects.FLAME_AURA.get(), 1800, 1),
+            new MobEffectInstance(ModEffects.HEAT.get(), 1800, 1),
             new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1800)
         ));
         
@@ -102,22 +102,22 @@ public class ModPotionTypes {
             new MobEffectInstance(ModEffects.FLAMMABILITY.get(), 9600)
         ));
         
-    // Register fire avatar potion (2 minutes normal, 4 minutes long, 1 minute strong)
-    public static final RegistryObject<Potion> FIRE_AVATAR = POTIONS.register("fire_avatar",
+    // Register pyromancy potion (2 minutes normal, 4 minutes long, 1 minute strong)
+    public static final RegistryObject<Potion> PYROMANCY = POTIONS.register("pyromancy",
         () -> new Potion(
-            new MobEffectInstance(ModEffects.FIRE_AVATAR.get(), 2400),
+            new MobEffectInstance(ModEffects.PYROMANCY.get(), 2400),
             new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 2400)
         ));
     
-    public static final RegistryObject<Potion> FIRE_AVATAR_LONG = POTIONS.register("fire_avatar_long",
+    public static final RegistryObject<Potion> PYROMANCY_LONG = POTIONS.register("pyromancy_long",
         () -> new Potion(
-            new MobEffectInstance(ModEffects.FIRE_AVATAR.get(), 4800),
+            new MobEffectInstance(ModEffects.PYROMANCY.get(), 4800),
             new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 4800)
         ));
     
-    public static final RegistryObject<Potion> FIRE_AVATAR_STRONG = POTIONS.register("fire_avatar_strong",
+    public static final RegistryObject<Potion> PYROMANCY_STRONG = POTIONS.register("pyromancy_strong",
         () -> new Potion(
-            new MobEffectInstance(ModEffects.FIRE_AVATAR.get(), 1200, 1),
+            new MobEffectInstance(ModEffects.PYROMANCY.get(), 1200, 1),
             new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1200)
         ));
     
@@ -171,9 +171,9 @@ public class ModPotionTypes {
                potion == OBSIDIAN_SKIN.get() || potion == OBSIDIAN_SKIN_LONG.get() || 
                potion == NETHERITE_SKIN.get() || potion == NETHERITE_SKIN_LONG.get() || 
                potion == GLASS_SKIN.get() || potion == GLASS_SKIN_LONG.get() ||
-               potion == FLAME_AURA.get() || potion == FLAME_AURA_LONG.get() || potion == FLAME_AURA_STRONG.get() ||
+               potion == HEAT.get() || potion == HEAT_LONG.get() || potion == HEAT_STRONG.get() ||
                potion == FLAMMABILITY.get() || potion == FLAMMABILITY_LONG.get() ||
-               potion == FIRE_AVATAR.get() || potion == FIRE_AVATAR_LONG.get() || potion == FIRE_AVATAR_STRONG.get() ||
+               potion == PYROMANCY.get() || potion == PYROMANCY_LONG.get() || potion == PYROMANCY_STRONG.get() ||
                potion == MAGMA_WALKER.get() || potion == MAGMA_WALKER_LONG.get() || potion == MAGMA_WALKER_STRONG.get();
     }
     
@@ -201,19 +201,19 @@ public class ModPotionTypes {
         POTION_TYPES.add(GLASS_SKIN.get());
         POTION_TYPES.add(GLASS_SKIN_LONG.get());
         
-        // Add all the flame aura potions
-        POTION_TYPES.add(FLAME_AURA.get());
-        POTION_TYPES.add(FLAME_AURA_LONG.get());
-        POTION_TYPES.add(FLAME_AURA_STRONG.get());
+        // Add all the heat potions
+        POTION_TYPES.add(HEAT.get());
+        POTION_TYPES.add(HEAT_LONG.get());
+        POTION_TYPES.add(HEAT_STRONG.get());
         
         // Add all the flammability potions
         POTION_TYPES.add(FLAMMABILITY.get());
         POTION_TYPES.add(FLAMMABILITY_LONG.get());
         
-        // Add all the fire avatar potions
-        POTION_TYPES.add(FIRE_AVATAR.get());
-        POTION_TYPES.add(FIRE_AVATAR_LONG.get());
-        POTION_TYPES.add(FIRE_AVATAR_STRONG.get());
+        // Add all the pyromancy potions
+        POTION_TYPES.add(PYROMANCY.get());
+        POTION_TYPES.add(PYROMANCY_LONG.get());
+        POTION_TYPES.add(PYROMANCY_STRONG.get());
         
         // Add all the magma walker potions
         POTION_TYPES.add(MAGMA_WALKER.get());

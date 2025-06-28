@@ -6,13 +6,15 @@
   "refmap": "lava_potions.refmap.json",
   "mixins": [
     "CreatePotionFluidHandlerMixin",
-    "CreatePotionFluidMixin"
+    "CreatePotionFluidMixin",
+    "LavaStriderMixin"
   ],
   "client": [
-    "CreatePotionFluidTypeMixin"
+    "CreatePotionFluidTypeMixin",
+    "LavaVisionMixin"
   ],
   "server": [],
   "injectors": {
     "defaultRequire": 1
   }
-} 
+}

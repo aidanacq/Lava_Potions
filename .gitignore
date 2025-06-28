@@ -24,8 +24,11 @@ lava_potions-0.1.0-1.20.1.jar
 .cursor
 plan.md
 creating_potions.md
+using_mixins.md
 -p
 other_mods
+other_shaders
+files
 
 # Files from Forge MDK
 forge*changelog.txt

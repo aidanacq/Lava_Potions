@@ -12,4 +12,4 @@ public class GlassSkinEffect extends BaseSkinEffect {
     public GlassSkinEffect() {
         super(MobEffectCategory.HARMFUL, 0xc2f3ff); // Tint color
     }
-} 
+}

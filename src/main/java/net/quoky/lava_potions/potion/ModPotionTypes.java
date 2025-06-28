@@ -19,129 +19,139 @@ import net.quoky.lava_potions.effect.ModEffects;
 
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModPotionTypes {
-    public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTIONS, Lava_Potions.MOD_ID);
-    
+    public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTIONS,
+            Lava_Potions.MOD_ID);
+
     public static final RegistryObject<Potion> LAVA_BOTTLE = POTIONS.register("lava_bottle", Potion::new);
     public static final RegistryObject<Potion> AWKWARD_LAVA = POTIONS.register("awkward_lava", Potion::new);
-    
+
     // Register obsidian skin potion (2 minutes normal, 4 minutes extended)
     public static final RegistryObject<Potion> OBSIDIAN_SKIN = POTIONS.register("obsidian_skin",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.OBSIDIAN_SKIN.get(), 2400),
-            new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2400, 0),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 2400),
-            new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 2400, 0)
-            
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.OBSIDIAN_SKIN.get(), 2400),
+                    new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 2400, 0),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 2400),
+                    new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 2400, 0)
+
+            ));
+
     public static final RegistryObject<Potion> OBSIDIAN_SKIN_LONG = POTIONS.register("obsidian_skin_long",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.OBSIDIAN_SKIN.get(), 4800),
-            new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 4800, 0),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 4800),
-            new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 4800, 0)
-            
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.OBSIDIAN_SKIN.get(), 4800),
+                    new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 4800, 0),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 4800),
+                    new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 4800, 0)
+
+            ));
+
     // Register netherite skin potion (45 seconds normal, 1:30 minutes extended)
     public static final RegistryObject<Potion> NETHERITE_SKIN = POTIONS.register("netherite_skin",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.NETHERITE_SKIN.get(), 900),
-            new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 900, 3),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 900),
-            new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900, 0)
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.NETHERITE_SKIN.get(), 900),
+                    new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 900, 3),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 900),
+                    new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 900, 0)));
+
     public static final RegistryObject<Potion> NETHERITE_SKIN_LONG = POTIONS.register("netherite_skin_long",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.NETHERITE_SKIN.get(), 1800),
-            new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1800, 3),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1800),
-            new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 1800, 0)
-        ));
-        
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.NETHERITE_SKIN.get(), 1800),
+                    new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1800, 3),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1800),
+                    new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 1800, 0)));
+
     // Register glass skin potion
     public static final RegistryObject<Potion> GLASS_SKIN = POTIONS.register("glass_skin",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.GLASS_SKIN.get(), 3600),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600)
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.GLASS_SKIN.get(), 3600),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600)));
+
     public static final RegistryObject<Potion> GLASS_SKIN_LONG = POTIONS.register("glass_skin_long",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.GLASS_SKIN.get(), 9600),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9600)
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.GLASS_SKIN.get(), 9600),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9600)));
+
     public static final RegistryObject<Potion> HEAT = POTIONS.register("heat",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.HEAT.get(), 3600),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600)
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.HEAT.get(), 3600),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600)));
+
     public static final RegistryObject<Potion> HEAT_LONG = POTIONS.register("heat_long",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.HEAT.get(), 9600),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9600)
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.HEAT.get(), 9600),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9600)));
+
     public static final RegistryObject<Potion> HEAT_STRONG = POTIONS.register("heat_strong",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.HEAT.get(), 1800, 1),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1800)
-        ));
-        
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.HEAT.get(), 1800, 1),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1800)));
+
     // Register flammability potion (3 minutes normal, 8 minutes extended)
     public static final RegistryObject<Potion> FLAMMABILITY = POTIONS.register("flammability",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.FLAMMABILITY.get(), 3600)
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.FLAMMABILITY.get(), 3600)));
+
     public static final RegistryObject<Potion> FLAMMABILITY_LONG = POTIONS.register("flammability_long",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.FLAMMABILITY.get(), 9600)
-        ));
-        
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.FLAMMABILITY.get(), 9600)));
+
     // Register pyromancy potion (2 minutes normal, 4 minutes long, 1 minute strong)
     public static final RegistryObject<Potion> PYROMANCY = POTIONS.register("pyromancy",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.PYROMANCY.get(), 2400),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 2400)
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.PYROMANCY.get(), 2400),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 2400)));
+
     public static final RegistryObject<Potion> PYROMANCY_LONG = POTIONS.register("pyromancy_long",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.PYROMANCY.get(), 4800),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 4800)
-        ));
-    
-    public static final RegistryObject<Potion> PYROMANCY_STRONG = POTIONS.register("pyromancy_strong",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.PYROMANCY.get(), 1200, 1),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1200)
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.PYROMANCY.get(), 4800),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 4800)));
+
+    public static final RegistryObject<Potion> PYROMANCY_STRONG = POTIONS.register("strong_pyromancy",
+            () -> new Potion("pyromancy", new MobEffectInstance(ModEffects.PYROMANCY.get(), 1800, 1, false, true, true),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1800, 0, false, true, true)));
+
     // Register magma walker potion (3 minutes normal, 8 minutes extended)
     public static final RegistryObject<Potion> MAGMA_WALKER = POTIONS.register("magma_walker",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.MAGMA_WALKER.get(), 3600),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600)
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.MAGMA_WALKER.get(), 3600),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600)));
+
     public static final RegistryObject<Potion> MAGMA_WALKER_LONG = POTIONS.register("magma_walker_long",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.MAGMA_WALKER.get(), 9600),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9600)
-        ));
-        
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.MAGMA_WALKER.get(), 9600),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9600)));
+
     public static final RegistryObject<Potion> MAGMA_WALKER_STRONG = POTIONS.register("magma_walker_strong",
-        () -> new Potion(
-            new MobEffectInstance(ModEffects.MAGMA_WALKER.get(), 1800, 1),
-            new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1800)
-        ));
-    
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.MAGMA_WALKER.get(), 1800, 1),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1800)));
+
+    // Register lava vision potion (3 minutes normal, 8 minutes extended)
+    public static final RegistryObject<Potion> LAVA_VISION = POTIONS.register("lava_vision",
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.LAVA_VISION.get(), 3600),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600)));
+
+    public static final RegistryObject<Potion> LAVA_VISION_LONG = POTIONS.register("long_lava_vision",
+            () -> new Potion(
+                    new MobEffectInstance(ModEffects.LAVA_VISION.get(), 9600),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9600)));
+
+    public static final RegistryObject<Potion> LAVA_STRIDER = POTIONS.register("lava_strider",
+            () -> new Potion(new MobEffectInstance(ModEffects.LAVA_STRIDER.get(), 3600, 0, false, true, true),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 3600, 0, false, true, true)));
+
+    public static final RegistryObject<Potion> LAVA_STRIDER_LONG = POTIONS.register("long_lava_strider",
+            () -> new Potion("lava_strider",
+                    new MobEffectInstance(ModEffects.LAVA_STRIDER.get(), 9600, 0, false, true, true),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9600, 0, false, true, true)));
+
+    public static final RegistryObject<Potion> LAVA_STRIDER_STRONG = POTIONS.register("strong_lava_strider",
+            () -> new Potion("lava_strider",
+                    new MobEffectInstance(ModEffects.LAVA_STRIDER.get(), 1800, 1, false, true, true),
+                    new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 1800, 0, false, true, true)));
+
     public static final List<Potion> POTION_TYPES = new ArrayList<>();
-    
+
     public static Potion getPotionTypeFromId(String id) {
         ResourceLocation resourceLocation = ResourceLocation.tryParse(id);
         if (resourceLocation != null) {
@@ -152,83 +162,95 @@ public class ModPotionTypes {
         }
         return LAVA_BOTTLE.get();
     }
-    
+
     public static String getPotionTypeId(Potion potion) {
         ResourceLocation resourceLocation = ForgeRegistries.POTIONS.getKey(potion);
         return resourceLocation != null ? resourceLocation.toString() : Lava_Potions.MOD_ID + ":lava_bottle";
     }
-    
+
     public static boolean isBaseLavaBottle(Potion potion) {
         return potion == LAVA_BOTTLE.get();
     }
-    
+
     public static boolean isAwkwardLava(Potion potion) {
         return potion == AWKWARD_LAVA.get();
     }
-    
+
     public static boolean isLavaPotion(Potion potion) {
-        return isBaseLavaBottle(potion) || isAwkwardLava(potion) || 
-               potion == OBSIDIAN_SKIN.get() || potion == OBSIDIAN_SKIN_LONG.get() || 
-               potion == NETHERITE_SKIN.get() || potion == NETHERITE_SKIN_LONG.get() || 
-               potion == GLASS_SKIN.get() || potion == GLASS_SKIN_LONG.get() ||
-               potion == HEAT.get() || potion == HEAT_LONG.get() || potion == HEAT_STRONG.get() ||
-               potion == FLAMMABILITY.get() || potion == FLAMMABILITY_LONG.get() ||
-               potion == PYROMANCY.get() || potion == PYROMANCY_LONG.get() || potion == PYROMANCY_STRONG.get() ||
-               potion == MAGMA_WALKER.get() || potion == MAGMA_WALKER_LONG.get() || potion == MAGMA_WALKER_STRONG.get();
+        return isBaseLavaBottle(potion) || isAwkwardLava(potion) ||
+                potion == OBSIDIAN_SKIN.get() || potion == OBSIDIAN_SKIN_LONG.get() ||
+                potion == NETHERITE_SKIN.get() || potion == NETHERITE_SKIN_LONG.get() ||
+                potion == GLASS_SKIN.get() || potion == GLASS_SKIN_LONG.get() ||
+                potion == HEAT.get() || potion == HEAT_LONG.get() || potion == HEAT_STRONG.get() ||
+                potion == FLAMMABILITY.get() || potion == FLAMMABILITY_LONG.get() ||
+                potion == PYROMANCY.get() || potion == PYROMANCY_LONG.get() || potion == PYROMANCY_STRONG.get() ||
+                potion == MAGMA_WALKER.get() || potion == MAGMA_WALKER_LONG.get() || potion == MAGMA_WALKER_STRONG.get()
+                ||
+                potion == LAVA_VISION.get() || potion == LAVA_VISION_LONG.get() ||
+                potion == LAVA_STRIDER.get() || potion == LAVA_STRIDER_LONG.get() || potion == LAVA_STRIDER_STRONG.get();
     }
-    
+
     public static boolean isBasicLavaPotion(Potion potion) {
         return isBaseLavaBottle(potion) || isAwkwardLava(potion);
     }
-    
+
     public static boolean isEffectLavaPotion(Potion potion) {
         return isLavaPotion(potion) && !isBasicLavaPotion(potion);
     }
-    
+
     private static void initPotionTypes() {
         POTION_TYPES.add(LAVA_BOTTLE.get());
         POTION_TYPES.add(AWKWARD_LAVA.get());
-        
+
         // Add all the obsidian skin potions
         POTION_TYPES.add(OBSIDIAN_SKIN.get());
         POTION_TYPES.add(OBSIDIAN_SKIN_LONG.get());
-        
+
         // Add all the netherite skin potions
         POTION_TYPES.add(NETHERITE_SKIN.get());
         POTION_TYPES.add(NETHERITE_SKIN_LONG.get());
-        
+
         // Add all the glass skin potions
         POTION_TYPES.add(GLASS_SKIN.get());
         POTION_TYPES.add(GLASS_SKIN_LONG.get());
-        
+
         // Add all the heat potions
         POTION_TYPES.add(HEAT.get());
         POTION_TYPES.add(HEAT_LONG.get());
         POTION_TYPES.add(HEAT_STRONG.get());
-        
+
         // Add all the flammability potions
         POTION_TYPES.add(FLAMMABILITY.get());
         POTION_TYPES.add(FLAMMABILITY_LONG.get());
-        
+
         // Add all the pyromancy potions
         POTION_TYPES.add(PYROMANCY.get());
         POTION_TYPES.add(PYROMANCY_LONG.get());
         POTION_TYPES.add(PYROMANCY_STRONG.get());
-        
+
         // Add all the magma walker potions
         POTION_TYPES.add(MAGMA_WALKER.get());
         POTION_TYPES.add(MAGMA_WALKER_LONG.get());
         POTION_TYPES.add(MAGMA_WALKER_STRONG.get());
-        
+
+        // Add all the lava vision potions
+        POTION_TYPES.add(LAVA_VISION.get());
+        POTION_TYPES.add(LAVA_VISION_LONG.get());
+
+        // Add all the lava strider potions
+        POTION_TYPES.add(LAVA_STRIDER.get());
+        POTION_TYPES.add(LAVA_STRIDER_LONG.get());
+        POTION_TYPES.add(LAVA_STRIDER_STRONG.get());
+
         Lava_Potions.LOGGER.info("Initialized {} lava potion types", POTION_TYPES.size());
     }
-    
+
     public static void register(IEventBus eventBus) {
         POTIONS.register(eventBus);
     }
-    
+
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(ModPotionTypes::initPotionTypes);
     }
-} 
+}

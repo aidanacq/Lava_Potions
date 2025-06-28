@@ -10,28 +10,27 @@ import net.quoky.lava_potions.Lava_Potions;
  */
 public class ModPackets {
     private static final String PROTOCOL_VERSION = "1";
-    
+
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-        ResourceLocation.fromNamespaceAndPath(Lava_Potions.MOD_ID, "main"),
-        () -> PROTOCOL_VERSION,
-        PROTOCOL_VERSION::equals,
-        PROTOCOL_VERSION::equals
-    );
-    
+            ResourceLocation.fromNamespaceAndPath(Lava_Potions.MOD_ID, "main"),
+            () -> PROTOCOL_VERSION,
+            PROTOCOL_VERSION::equals,
+            PROTOCOL_VERSION::equals);
+
     private static int packetId = 0;
-    
+
     /**
      * Register all network packets
      */
     public static void register() {
         INSTANCE.messageBuilder(ShootFireballPacket.class, nextId())
-            .encoder(ShootFireballPacket::encode)
-            .decoder(ShootFireballPacket::decode)
-            .consumerMainThread(ShootFireballPacket::handle)
-            .add();
+                .encoder(ShootFireballPacket::encode)
+                .decoder(ShootFireballPacket::decode)
+                .consumerMainThread(ShootFireballPacket::handle)
+                .add();
     }
-    
+
     private static int nextId() {
         return packetId++;
     }
-} 
+}

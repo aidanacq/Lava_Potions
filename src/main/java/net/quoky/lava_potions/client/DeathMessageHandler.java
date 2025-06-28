@@ -14,7 +14,7 @@ import net.quoky.lava_potions.event.DecayableMagmaBlockEventHandler;
  */
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class DeathMessageHandler {
-    
+
     /**
      * Handle player respawn to clear any stored death messages
      */
@@ -26,7 +26,7 @@ public class DeathMessageHandler {
             DecayableMagmaBlockEventHandler.clearDeathMessages();
         }
     }
-    
+
     /**
      * Handle player logout to clear stored death messages
      */
@@ -35,4 +35,4 @@ public class DeathMessageHandler {
         // Clear all stored death messages when player logs out
         DecayableMagmaBlockEventHandler.clearDeathMessages();
     }
-} 
+}

@@ -17,8 +17,8 @@ public class ModTags {
      */
     public static class Blocks {
         // Tag for blocks that require pickaxe
-        public static final TagKey<Block> MINEABLE_WITH_PICKAXE = 
-                BlockTags.create(new ResourceLocation("minecraft", "mineable/with_pickaxe"));
+        public static final TagKey<Block> MINEABLE_WITH_PICKAXE = BlockTags
+                .create(new ResourceLocation("minecraft", "mineable/with_pickaxe"));
 
         /**
          * Creates a block tag with the mod ID namespace
@@ -42,4 +42,4 @@ public class ModTags {
             return ItemTags.create(new ResourceLocation(Lava_Potions.MOD_ID, name));
         }
     }
-} 
+}

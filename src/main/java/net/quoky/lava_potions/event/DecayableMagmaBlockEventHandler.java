@@ -21,13 +21,13 @@ import java.util.UUID;
  */
 @Mod.EventBusSubscriber(modid = Lava_Potions.MOD_ID)
 public class DecayableMagmaBlockEventHandler {
-    
+
     // Store custom death messages for players
     private static final Map<UUID, Component> customDeathMessages = new HashMap<>();
-    
+
     // Track recent attackers for death messages
     private static final Map<UUID, DamageSource> recentAttackers = new HashMap<>();
-    
+
     /**
      * Track attackers for death messages
      */
@@ -35,13 +35,13 @@ public class DecayableMagmaBlockEventHandler {
     public static void onLivingAttack(LivingAttackEvent event) {
         LivingEntity victim = event.getEntity();
         DamageSource source = event.getSource();
-        
+
         // Only track if the victim is a player and the attacker is another entity
         if (victim instanceof Player player && source.getEntity() != null) {
             recentAttackers.put(player.getUUID(), source);
         }
     }
-    
+
     /**
      * Handle death messages for hot floor deaths
      */
@@ -49,26 +49,26 @@ public class DecayableMagmaBlockEventHandler {
     public static void onLivingDeath(LivingDeathEvent event) {
         LivingEntity entity = event.getEntity();
         DamageSource source = event.getSource();
-        
+
         // Check if the death was caused by hot floor damage
         if (entity instanceof Player player && source.is(DamageTypes.HOT_FLOOR)) {
             // Get the custom death message
             Component deathMessage = getDeathMessage(player);
-            
+
             // Store the custom death message for this player
             customDeathMessages.put(player.getUUID(), deathMessage);
-            
+
             // Clear the attacker memory for this player
             recentAttackers.remove(player.getUUID());
         }
     }
-    
+
     /**
      * Get death message for player killed by hot floor
      */
     private static Component getDeathMessage(Player player) {
         DamageSource recentAttacker = recentAttackers.get(player.getUUID());
-        
+
         if (recentAttacker != null && recentAttacker.getEntity() != null) {
             String attackerName = recentAttacker.getEntity().getName().getString();
             return Component.translatable("death.lava_potions.hot_floor_with_attacker", player.getName(), attackerName);
@@ -76,14 +76,14 @@ public class DecayableMagmaBlockEventHandler {
             return Component.translatable("death.lava_potions.hot_floor", player.getName());
         }
     }
-    
+
     /**
      * Get custom death message for a player
      */
     public static Component getCustomDeathMessage(UUID playerUUID) {
         return customDeathMessages.remove(playerUUID);
     }
-    
+
     /**
      * Clear all stored death messages
      */
@@ -91,4 +91,4 @@ public class DecayableMagmaBlockEventHandler {
         customDeathMessages.clear();
         recentAttackers.clear();
     }
-} 
+}

@@ -44,22 +44,23 @@ public class ShootFireballPacket {
      */
     public void handle(Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
-        
+
         // Ensure we're on the server side
         if (context.getDirection().getReceptionSide().isServer()) {
             context.enqueueWork(() -> {
                 ServerPlayer player = context.getSender();
-                if (player == null) return;
-                
+                if (player == null)
+                    return;
+
                 // Verify player has Pyromancy effect and empty main hand
                 if (!player.hasEffect(ModEffects.PYROMANCY.get()) ||
-                    !player.getMainHandItem().isEmpty()) {
+                        !player.getMainHandItem().isEmpty()) {
                     return;
                 }
-                
+
                 UUID playerId = player.getUUID();
                 long currentTime = System.currentTimeMillis();
-                
+
                 // Check cooldown
                 if (lastFireballTime.containsKey(playerId)) {
                     long timeSinceLastShot = currentTime - lastFireballTime.get(playerId);
@@ -67,17 +68,17 @@ public class ShootFireballPacket {
                         return; // Still on cooldown
                     }
                 }
-                
+
                 // Update last shot time
                 lastFireballTime.put(playerId, currentTime);
-                
+
                 int amplifier = player.getEffect(ModEffects.PYROMANCY.get()).getAmplifier();
-                
+
                 // Shoot the fireball
                 shootFireball(player, amplifier);
             });
         }
-        
+
         context.setPacketHandled(true);
     }
 
@@ -92,17 +93,18 @@ public class ShootFireballPacket {
         // Calculate fireball spawn position (at player eye level)
         Vec3 eyePos = player.getEyePosition();
         Vec3 lookVec = player.getLookAngle();
-        
+
         // Spawn fireball slightly in front of player to avoid collision
         Vec3 spawnPos = eyePos.add(lookVec.scale(1.0));
-        
+
         // Create large fireball (like ghast)
         // The last parameter is the explosion power: Tier I = 1, Tier II = 2
         int explosionPower = amplifier == 0 ? 1 : 2;
-        LargeFireball fireball = new LargeFireball(serverLevel, player, lookVec.x, lookVec.y, lookVec.z, explosionPower);
+        LargeFireball fireball = new LargeFireball(serverLevel, player, lookVec.x, lookVec.y, lookVec.z,
+                explosionPower);
         fireball.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
-        
+
         // Spawn the fireball
         serverLevel.addFreshEntity(fireball);
     }
-} 
+}

@@ -27,7 +27,7 @@ public class FireOverlayHandler {
         if (event.getOverlayType() == RenderBlockScreenEffectEvent.OverlayType.FIRE) {
             // Get the player instance from Minecraft client
             Player player = Minecraft.getInstance().player;
-            
+
             // Check if player exists and has fire resistance effect
             if (player != null && player.hasEffect(MobEffects.FIRE_RESISTANCE)) {
                 // Cancel the fire overlay rendering
@@ -35,4 +35,4 @@ public class FireOverlayHandler {
             }
         }
     }
-} 
+}

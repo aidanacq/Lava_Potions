@@ -2,6 +2,8 @@
   "block.lava_potions.lava_cauldron": "Lava Cauldron",
   "block.lava_potions.decayable_magma_block": "Decayable Magma Block",
 
+  "item.lava_potions.strider_hide": "Strider Hide",
+
   "creativetab.lava_potions": "Lava Potions",
 
   "potion.lava_potions.lava_bottle": "Lava Bottle",
@@ -31,6 +33,9 @@
   "potion.lava_potions.magma_walker_long": "Potion of Magma Walker",
   "potion.lava_potions.magma_walker_strong": "Potion of Magma Walker",
   
+  "potion.lava_potions.lava_vision": "Potion of Lava Vision",
+  "potion.lava_potions.long_lava_vision": "Potion of Lava Vision",
+  
   "splash_potion.lava_potions.lava_bottle": "Splash Lava Bottle",
   "splash_potion.lava_potions.awkward_lava": "Awkward Splash Lava Potion",
   
@@ -57,6 +62,9 @@
   "splash_potion.lava_potions.magma_walker": "Splash Potion of Magma Walker",
   "splash_potion.lava_potions.magma_walker_long": "Splash Potion of Magma Walker",
   "splash_potion.lava_potions.magma_walker_strong": "Splash Potion of Magma Walker",
+  
+  "splash_potion.lava_potions.lava_vision": "Splash Potion of Lava Vision",
+  "splash_potion.lava_potions.long_lava_vision": "Splash Potion of Lava Vision",
   
   "lingering_potion.lava_potions.lava_bottle": "Lingering Lava Bottle",
   "lingering_potion.lava_potions.awkward_lava": "Awkward Lingering Lava Potion",
@@ -85,6 +93,9 @@
   "lingering_potion.lava_potions.magma_walker_long": "Lingering Potion of Magma Walker",
   "lingering_potion.lava_potions.magma_walker_strong": "Lingering Potion of Magma Walker",
   
+  "lingering_potion.lava_potions.lava_vision": "Lingering Potion of Lava Vision",
+  "lingering_potion.lava_potions.long_lava_vision": "Lingering Potion of Lava Vision",
+  
   "item.minecraft.potion.effect.lava_bottle": "Lava Bottle",
   "item.minecraft.potion.effect.awkward_lava": "Awkward Lava Potion",
   
@@ -111,6 +122,9 @@
   "item.minecraft.potion.effect.magma_walker": "Potion of Magma Walker",
   "item.minecraft.potion.effect.magma_walker_long": "Potion of Magma Walker",
   "item.minecraft.potion.effect.magma_walker_strong": "Potion of Magma Walker",
+  
+  "item.minecraft.potion.effect.lava_vision": "Potion of Lava Vision",
+  "item.minecraft.potion.effect.long_lava_vision": "Potion of Lava Vision",
   
   "item.minecraft.splash_potion.effect.lava_bottle": "Splash Lava Bottle",
   "item.minecraft.splash_potion.effect.awkward_lava": "Awkward Splash Lava Potion",
@@ -140,6 +154,9 @@
   
   "item.minecraft.splash_potion.effect.magma_walker_strong": "Splash Potion of Magma Walker",
   
+  "item.minecraft.splash_potion.effect.lava_vision": "Splash Potion of Lava Vision",
+  "item.minecraft.splash_potion.effect.long_lava_vision": "Splash Potion of Lava Vision",
+  
   "item.minecraft.lingering_potion.effect.lava_bottle": "Lingering Lava Bottle",
   "item.minecraft.lingering_potion.effect.awkward_lava": "Awkward Lingering Lava Potion",
   
@@ -166,6 +183,9 @@
   "item.minecraft.lingering_potion.effect.magma_walker": "Lingering Potion of Magma Walker",
   "item.minecraft.lingering_potion.effect.magma_walker_long": "Lingering Potion of Magma Walker",
   "item.minecraft.lingering_potion.effect.magma_walker_strong": "Lingering Potion of Magma Walker",
+  
+  "item.minecraft.lingering_potion.effect.lava_vision": "Lingering Potion of Lava Vision",
+  "item.minecraft.lingering_potion.effect.long_lava_vision": "Lingering Potion of Lava Vision",
   
   "item.minecraft.tipped_arrow.effect.lava_bottle": "Arrow of Lava",
   "item.minecraft.tipped_arrow.effect.awkward_lava": "Awkward Arrow of Lava",
@@ -194,6 +214,9 @@
   "item.minecraft.tipped_arrow.effect.magma_walker_long": "Arrow of Magma Walker",
   "item.minecraft.tipped_arrow.effect.magma_walker_strong": "Arrow of Magma Walker",
   
+  "item.minecraft.tipped_arrow.effect.lava_vision": "Arrow of Lava Vision",
+  "item.minecraft.tipped_arrow.effect.long_lava_vision": "Arrow of Lava Vision",
+  
   "fluid.create.potion.lava_potions.lava_bottle": "Lava Bottle",
   "fluid.create.potion.lava_potions.awkward_lava": "Awkward Lava Potion",
   
@@ -221,6 +244,9 @@
   "fluid.create.potion.lava_potions.magma_walker_long": "Potion of Magma Walker",
   "fluid.create.potion.lava_potions.magma_walker_strong": "Potion of Magma Walker",
   
+  "fluid.create.potion.lava_potions.lava_vision": "Potion of Lava Vision",
+  "fluid.create.potion.lava_potions.long_lava_vision": "Potion of Lava Vision",
+  
   "effect.lava_potions.obsidian_skin": "Obsidian Skin",
   "effect.lava_potions.netherite_skin": "Netherite Skin",
   "effect.lava_potions.glass_skin": "Glass Skin",
@@ -228,9 +254,86 @@
   "effect.lava_potions.flammability": "Flammability",
   "effect.lava_potions.pyromancy": "Pyromancy",
   "effect.lava_potions.magma_walker": "Magma Walker",
+  "effect.lava_potions.lava_vision": "Lava Vision",
   
   "entity.lava_potions.thrown_lava_potion": "Thrown Lava Potion",
   
   "death.lava_potions.hot_floor": "%1$s discovered the floor was lava",
-  "death.lava_potions.hot_floor_with_attacker": "%1$s walked into danger zone due to %2$s"
+  "death.lava_potions.hot_floor_with_attacker": "%1$s walked into danger zone due to %2$s",
+
+  "item.minecraft.tipped_arrow.effect.long_lava_vision": "Arrow of Lava Vision",
+  "effect.lava_potions.pyromancy": "Pyromancy",
+  "item.minecraft.potion.effect.pyromancy": "Potion of Pyromancy",
+  "item.minecraft.splash_potion.effect.pyromancy": "Splash Potion of Pyromancy",
+  "item.minecraft.lingering_potion.effect.pyromancy": "Lingering Potion of Pyromancy",
+  "item.minecraft.tipped_arrow.effect.pyromancy": "Arrow of Pyromancy",
+  "item.minecraft.potion.effect.pyromancy_long": "Potion of Pyromancy",
+  "item.minecraft.splash_potion.effect.pyromancy_long": "Splash Potion of Pyromancy",
+  "item.minecraft.lingering_potion.effect.pyromancy_long": "Lingering Potion of Pyromancy",
+  "item.minecraft.tipped_arrow.effect.pyromancy_long": "Arrow of Pyromancy",
+  "item.minecraft.potion.effect.strong_pyromancy": "Potion of Pyromancy",
+  "item.minecraft.splash_potion.effect.strong_pyromancy": "Splash Potion of Pyromancy",
+  "item.minecraft.lingering_potion.effect.strong_pyromancy": "Lingering Potion of Pyromancy",
+  "item.minecraft.tipped_arrow.effect.strong_pyromancy": "Arrow of Pyromancy",
+
+  "effect.lava_potions.lava_strider": "Lava Strider",
+  "item.minecraft.potion.effect.lava_strider": "Potion of Lava Strider",
+  "item.minecraft.splash_potion.effect.lava_strider": "Splash Potion of Lava Strider",
+  "item.minecraft.lingering_potion.effect.lava_strider": "Lingering Potion of Lava Strider",
+  "item.minecraft.tipped_arrow.effect.lava_strider": "Arrow of Lava Strider",
+  "item.minecraft.potion.effect.long_lava_strider": "Potion of Lava Strider",
+  "item.minecraft.splash_potion.effect.long_lava_strider": "Splash Potion of Lava Strider",
+  "item.minecraft.lingering_potion.effect.long_lava_strider": "Lingering Potion of Lava Strider",
+  "item.minecraft.tipped_arrow.effect.long_lava_strider": "Arrow of Lava Strider",
+  "item.minecraft.potion.effect.strong_lava_strider": "Potion of Lava Strider",
+  "item.minecraft.splash_potion.effect.strong_lava_strider": "Splash Potion of Lava Strider",
+  "item.minecraft.lingering_potion.effect.strong_lava_strider": "Lingering Potion of Lava Strider",
+  "item.minecraft.tipped_arrow.effect.strong_lava_strider": "Arrow of Lava Strider",
+
+  "item.minecraft.tipped_arrow.effect.heat_strong": "Arrow of Heat",
+  "item.minecraft.tipped_arrow.effect.heat_long": "Arrow of Heat",
+  
+  "item.minecraft.tipped_arrow.effect.flammability": "Arrow of Flammability",
+  "item.minecraft.tipped_arrow.effect.flammability_long": "Arrow of Flammability",
+  
+  "item.minecraft.tipped_arrow.effect.pyromancy": "Arrow of Pyromancy",
+  "item.minecraft.tipped_arrow.effect.pyromancy_long": "Arrow of Pyromancy",
+  "item.minecraft.tipped_arrow.effect.pyromancy_strong": "Arrow of Pyromancy",
+  
+  "item.minecraft.tipped_arrow.effect.magma_walker": "Arrow of Magma Walker",
+  "item.minecraft.tipped_arrow.effect.magma_walker_long": "Arrow of Magma Walker",
+  "item.minecraft.tipped_arrow.effect.magma_walker_strong": "Arrow of Magma Walker",
+  
+  "item.minecraft.tipped_arrow.effect.lava_vision": "Arrow of Lava Vision",
+  "item.minecraft.tipped_arrow.effect.long_lava_vision": "Arrow of Lava Vision",
+
+  "item.minecraft.tipped_arrow.effect.lava_strider": "Arrow of Lava Strider",
+  "item.minecraft.tipped_arrow.effect.long_lava_strider": "Arrow of Lava Strider",
+  "item.minecraft.tipped_arrow.effect.strong_lava_strider": "Arrow of Lava Strider",
+
+  "potion.lava_potions.lava_strider": "Potion of Lava Strider",
+  "potion.lava_potions.long_lava_strider": "Potion of Lava Strider",
+  "potion.lava_potions.strong_lava_strider": "Potion of Lava Strider",
+
+  "splash_potion.lava_potions.lava_strider": "Splash Potion of Lava Strider",
+  "splash_potion.lava_potions.long_lava_strider": "Splash Potion of Lava Strider",
+  "splash_potion.lava_potions.strong_lava_strider": "Splash Potion of Lava Strider",
+
+  "lingering_potion.lava_potions.lava_strider": "Lingering Potion of Lava Strider",
+  "lingering_potion.lava_potions.long_lava_strider": "Lingering Potion of Lava Strider",
+  "lingering_potion.lava_potions.strong_lava_strider": "Lingering Potion of Lava Strider",
+
+  "item.minecraft.potion.effect.lava_strider": "Potion of Lava Strider",
+  "item.minecraft.potion.effect.long_lava_strider": "Potion of Lava Strider",
+  "item.minecraft.potion.effect.strong_lava_strider": "Potion of Lava Strider",
+
+  "item.minecraft.splash_potion.effect.lava_strider": "Splash Potion of Lava Strider",
+  "item.minecraft.splash_potion.effect.long_lava_strider": "Splash Potion of Lava Strider",
+  "item.minecraft.splash_potion.effect.strong_lava_strider": "Splash Potion of Lava Strider",
+
+  "item.minecraft.lingering_potion.effect.lava_strider": "Lingering Potion of Lava Strider",
+  "item.minecraft.lingering_potion.effect.long_lava_strider": "Lingering Potion of Lava Strider",
+  "item.minecraft.lingering_potion.effect.strong_lava_strider": "Lingering Potion of Lava Strider",
+
+  "effect.lava_potions.lava_strider": "Lava Strider"
 }

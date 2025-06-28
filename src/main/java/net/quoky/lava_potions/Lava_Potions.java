@@ -4,9 +4,13 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,7 +21,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.quoky.lava_potions.block.ModBlocks;
 import net.quoky.lava_potions.effect.ModEffects;
 import net.quoky.lava_potions.entity.ModEntityTypes;
-import net.quoky.lava_potions.fluid.ModFluids;
+
 import net.quoky.lava_potions.item.ModCreativeTabs;
 import net.quoky.lava_potions.item.ModItems;
 import net.quoky.lava_potions.potion.ModPotionTypes;
@@ -25,6 +29,7 @@ import net.quoky.lava_potions.util.CreateCompat;
 import net.quoky.lava_potions.util.LavaBottleHandler;
 import net.quoky.lava_potions.network.ModPackets;
 import net.quoky.lava_potions.effect.SkinEffectEventHandler;
+import net.quoky.lava_potions.fluid.ModFluids;
 
 /**
  * Main mod class for Lava Potions
@@ -67,6 +72,9 @@ public class Lava_Potions {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
+        // Register entity attribute modification event
+        modEventBus.addListener(this::onEntityAttributeModification);
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
@@ -80,7 +88,7 @@ public class Lava_Potions {
         MinecraftForge.EVENT_BUS.register(SkinEffectEventHandler.class);
 
         // Register recipe conflict resolver
-        //MinecraftForge.EVENT_BUS.register(RecipeConflictResolver.class);
+        // MinecraftForge.EVENT_BUS.register(RecipeConflictResolver.class);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -102,8 +110,16 @@ public class Lava_Potions {
      */
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().toString().contains("brewing") ||
-            event.getTabKey().toString().contains("potion")) {
+                event.getTabKey().toString().contains("potion")) {
         }
+    }
+
+    /**
+     * Entity attribute modification event handler - adds swim speed attribute to players
+     */
+    private void onEntityAttributeModification(EntityAttributeModificationEvent event) {
+        // Add swim speed attribute to players so LavaStriderEffect can modify it
+        event.add(EntityType.PLAYER, ForgeMod.SWIM_SPEED.get());
     }
 
     /**

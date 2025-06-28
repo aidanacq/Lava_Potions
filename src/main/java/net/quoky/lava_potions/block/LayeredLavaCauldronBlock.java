@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class LayeredLavaCauldronBlock extends LayeredCauldronBlock {
-    
+
     public LayeredLavaCauldronBlock(Properties properties) {
         super(properties, precipitation -> precipitation == net.minecraft.world.level.biome.Biome.Precipitation.RAIN, CauldronInteraction.LAVA);
     }

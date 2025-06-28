@@ -22,7 +22,7 @@ public class ProperBrewingRecipe extends BrewingRecipe {
         this.input = input;
         this.ingredient = ingredient;
         this.output = output;
-        
+
         // Ensure the output has texture metadata if it's a lava potion
         ensureTextureMetadata(output);
     }
@@ -46,7 +46,7 @@ public class ProperBrewingRecipe extends BrewingRecipe {
             }
         }
     }
-    
+
     /**
      * Ensures that lava potions have texture metadata in their NBT
      * This helps Create mod recognize and render them correctly
@@ -54,14 +54,16 @@ public class ProperBrewingRecipe extends BrewingRecipe {
     private void ensureTextureMetadata(ItemStack potionStack) {
         try {
             Potion potion = PotionUtils.getPotion(potionStack);
-            if (potion == null) return;
-            
+            if (potion == null)
+                return;
+
             // Only process lava potions
-            if (!ModPotionTypes.isLavaPotion(potion)) return;
-            
+            if (!ModPotionTypes.isLavaPotion(potion))
+                return;
+
             CompoundTag tag = potionStack.getOrCreateTag();
             CompoundTag lavaData = new CompoundTag();
-            
+
             // For awkward lava or base lava potion - use vanilla lava texture
             if (potion == ModPotionTypes.AWKWARD_LAVA.get() || ModPotionTypes.isBaseLavaBottle(potion)) {
                 lavaData.putString("StillTexture", "minecraft:block/lava_still");
@@ -72,15 +74,15 @@ public class ProperBrewingRecipe extends BrewingRecipe {
                 lavaData.putString("StillTexture", "lava_potions:block/gray_lava_still");
                 lavaData.putString("FlowingTexture", "lava_potions:block/gray_lava_flow");
             }
-            
+
             // Store the texture data
             tag.put("LavaPotionData", lavaData);
             potionStack.setTag(tag);
-            
-            Lava_Potions.LOGGER.debug("Added texture metadata to lava potion: {}", 
-                ForgeRegistries.POTIONS.getKey(potion));
+
+            Lava_Potions.LOGGER.debug("Added texture metadata to lava potion: {}",
+                    ForgeRegistries.POTIONS.getKey(potion));
         } catch (Exception e) {
             Lava_Potions.LOGGER.warn("Error adding texture metadata to potion: {}", e.getMessage());
         }
     }
-} 
+}

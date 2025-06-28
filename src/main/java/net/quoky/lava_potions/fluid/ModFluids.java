@@ -31,75 +31,73 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Custom fluid system that creates a new fluid with ID 'create:potion/lava_potions/awkward_lava'
- * This fluid uses the same NBT system as Create's potion fluid but with a custom namespace
+ * Custom fluid system that creates a new fluid with ID
+ * 'create:potion/lava_potions/awkward_lava'
+ * This fluid uses the same NBT system as Create's potion fluid but with a
+ * custom namespace
  */
 public class ModFluids {
     private static final boolean CREATE_LOADED = ModList.get().isLoaded("create");
-    
-    public static final DeferredRegister<FluidType> FLUID_TYPES = 
-        DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, "create");
-        
-    public static final DeferredRegister<net.minecraft.world.level.material.Fluid> FLUIDS = 
-        DeferredRegister.create(ForgeRegistries.FLUIDS, "create");
-    
+
+    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister
+            .create(ForgeRegistries.Keys.FLUID_TYPES, "create");
+
+    public static final DeferredRegister<net.minecraft.world.level.material.Fluid> FLUIDS = DeferredRegister
+            .create(ForgeRegistries.FLUIDS, "create");
+
     // Custom fluid type for lava potions
     public static final RegistryObject<FluidType> LAVA_POTION_FLUID_TYPE = FLUID_TYPES.register(
-        "potion/lava_potions/awkward_lava", 
-        () -> new LavaPotionFluidType(
-            FluidType.Properties.create()
-                .descriptionId("fluid.create.potion")
-                .canSwim(false)
-                .canDrown(false)
-                .pathType(null)
-                .adjacentPathType(null)
-                .canConvertToSource(false)
-                .canHydrate(false)
-                .lightLevel(15) // Lava-like light level
-                .density(1000)
-                .temperature(1300)
-                .viscosity(1000),
-            ResourceLocation.fromNamespaceAndPath("create", "fluid/potion_still"),
-            ResourceLocation.fromNamespaceAndPath("create", "fluid/potion_flow")
-        )
-    );
-    
+            "potion/lava_potions/awkward_lava",
+            () -> new LavaPotionFluidType(
+                    FluidType.Properties.create()
+                            .descriptionId("fluid.create.potion")
+                            .canSwim(false)
+                            .canDrown(false)
+                            .pathType(null)
+                            .adjacentPathType(null)
+                            .canConvertToSource(false)
+                            .canHydrate(false)
+                            .lightLevel(15) // Lava-like light level
+                            .density(1000)
+                            .temperature(1300)
+                            .viscosity(1000),
+                    ResourceLocation.fromNamespaceAndPath("create", "fluid/potion_still"),
+                    ResourceLocation.fromNamespaceAndPath("create", "fluid/potion_flow")));
+
     // Source and flowing variants
     public static final RegistryObject<LavaPotionFluid> LAVA_POTION_SOURCE = FLUIDS.register(
-        "potion/lava_potions/awkward_lava",
-        () -> new LavaPotionFluid.Source()
-    );
-    
+            "potion/lava_potions/awkward_lava",
+            () -> new LavaPotionFluid.Source());
+
     public static final RegistryObject<LavaPotionFluid> LAVA_POTION_FLOWING = FLUIDS.register(
-        "potion/lava_potions/awkward_lava_flowing", 
-        () -> new LavaPotionFluid.Flowing()
-    );
-    
+            "potion/lava_potions/awkward_lava_flowing",
+            () -> new LavaPotionFluid.Flowing());
+
     /**
      * Custom fluid that mimics Create's PotionFluid but with custom namespace
      */
     public static class LavaPotionFluid extends VirtualFluid {
-        
+
         public static class Source extends LavaPotionFluid {
             public Source() {
                 super(createProperties(), true);
             }
         }
-        
+
         public static class Flowing extends LavaPotionFluid {
             public Flowing() {
                 super(createProperties(), false);
             }
         }
-        
+
         private static ForgeFlowingFluid.Properties createProperties() {
             return new ForgeFlowingFluid.Properties(LAVA_POTION_FLUID_TYPE, LAVA_POTION_SOURCE, LAVA_POTION_FLOWING);
         }
-        
+
         protected LavaPotionFluid(ForgeFlowingFluid.Properties properties, boolean source) {
             super(properties, source);
         }
-        
+
         /**
          * Create a FluidStack with the custom lava potion fluid
          */
@@ -107,16 +105,16 @@ public class ModFluids {
             FluidStack fluidStack = new FluidStack(LAVA_POTION_SOURCE.get(), amount);
             addPotionToFluidStack(fluidStack, potion);
             writeEnumToNBT(fluidStack.getOrCreateTag(), "Bottle", bottleType);
-            
+
             // Add lava-specific metadata but don't override textures to avoid atlas issues
             CompoundTag tag = fluidStack.getOrCreateTag();
             tag.putBoolean("BehaveLikeLava", true);
             tag.putBoolean("PreventPlacement", true);
             tag.putString("FluidNamespace", "create:potion/lava_potions/awkward_lava");
-            
+
             return fluidStack;
         }
-        
+
         /**
          * Create a FluidStack with custom effects
          */
@@ -125,7 +123,7 @@ public class ModFluids {
             appendEffects(fluidStack, customEffects);
             return fluidStack;
         }
-        
+
         /**
          * Add potion data to fluid stack (copied from Create's implementation)
          */
@@ -138,7 +136,7 @@ public class ModFluids {
             fs.getOrCreateTag().putString("Potion", resourcelocation.toString());
             return fs;
         }
-        
+
         /**
          * Append custom effects (copied from Create's implementation)
          */
@@ -152,14 +150,14 @@ public class ModFluids {
             compoundnbt.put("CustomPotionEffects", listnbt);
             return fs;
         }
-        
+
         /**
          * Helper method to write enum to NBT (replaces NBTHelper.writeEnum)
          */
         private static void writeEnumToNBT(CompoundTag tag, String key, Enum<?> enumValue) {
             tag.putString(key, enumValue.name());
         }
-        
+
         /**
          * Helper method to read enum from NBT (replaces NBTHelper.readEnum)
          */
@@ -174,25 +172,26 @@ public class ModFluids {
             }
         }
     }
-    
+
     /**
      * Custom fluid type that handles NBT data like Create's PotionFluidType
      */
     public static class LavaPotionFluidType extends FluidType {
         private final ResourceLocation stillTexture;
         private final ResourceLocation flowingTexture;
-        
-        public LavaPotionFluidType(Properties properties, ResourceLocation stillTexture, ResourceLocation flowingTexture) {
+
+        public LavaPotionFluidType(Properties properties, ResourceLocation stillTexture,
+                ResourceLocation flowingTexture) {
             super(properties);
             this.stillTexture = stillTexture;
             this.flowingTexture = flowingTexture;
         }
-        
+
         public boolean canEntityWalkOnFluid(FluidStack stack, Entity entity) {
             // Allow entities to walk on the fluid like lava (returns false so they sink)
             return false;
         }
-        
+
         @Override
         public void setItemMovement(ItemEntity entity) {
             // Apply lava-like movement effects to items floating in the fluid
@@ -202,11 +201,11 @@ public class ModFluids {
                 // Set entity on fire for 15 seconds like lava
                 entity.setSecondsOnFire(15);
             }
-            
+
             // Apply movement slowdown like lava
             entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.5D, 0.8D, 0.5D));
         }
-        
+
         @Override
         public boolean move(FluidState state, LivingEntity entity, Vec3 movementVector, double gravity) {
             // Apply lava damage to living entities in the fluid
@@ -216,11 +215,11 @@ public class ModFluids {
                 // Set entity on fire for 15 seconds like lava
                 entity.setSecondsOnFire(15);
             }
-            
+
             // Return false to use default water-like movement behavior
             return false;
         }
-        
+
         @Override
         public void initializeClient(java.util.function.Consumer<IClientFluidTypeExtensions> consumer) {
             consumer.accept(new IClientFluidTypeExtensions() {
@@ -229,60 +228,61 @@ public class ModFluids {
                     // Use vanilla lava texture for awkward lava
                     return ResourceLocation.fromNamespaceAndPath("minecraft", "block/lava_still");
                 }
-                
+
                 @Override
                 public ResourceLocation getFlowingTexture() {
                     // Use vanilla lava texture for awkward lava
                     return ResourceLocation.fromNamespaceAndPath("minecraft", "block/lava_flow");
                 }
-                
+
                 @Override
                 public ResourceLocation getStillTexture(FluidStack stack) {
                     // Always return lava texture for our custom fluid
                     return getStillTexture();
                 }
-                
+
                 @Override
                 public ResourceLocation getFlowingTexture(FluidStack stack) {
                     // Always return lava texture for our custom fluid
                     return getFlowingTexture();
                 }
-                
+
                 @Override
                 public int getTintColor(FluidStack stack) {
-                    // Always return pure white (no tint) for awkward lava to show natural lava color
+                    // Always return pure white (no tint) for awkward lava to show natural lava
+                    // color
                     return 0xFFFFFFFF;
                 }
             });
         }
-        
+
         @Override
         public String getDescriptionId(FluidStack stack) {
             CompoundTag tag = stack.getOrCreateTag();
             try {
                 // Use Create's PotionFluidHandler to get the correct item type
                 Class<?> handlerClass = Class.forName("com.simibubi.create.content.fluids.potion.PotionFluidHandler");
-                java.lang.reflect.Method itemFromBottleTypeMethod = handlerClass.getMethod("itemFromBottleType", 
-                    Class.forName("com.simibubi.create.content.fluids.potion.PotionFluid$BottleType"));
-                
-                PotionFluid.BottleType bottleType = LavaPotionFluid.readEnumFromNBT(tag, "Bottle", PotionFluid.BottleType.class);
+                java.lang.reflect.Method itemFromBottleTypeMethod = handlerClass.getMethod("itemFromBottleType",
+                        Class.forName("com.simibubi.create.content.fluids.potion.PotionFluid$BottleType"));
+
+                PotionFluid.BottleType bottleType = LavaPotionFluid.readEnumFromNBT(tag, "Bottle",
+                        PotionFluid.BottleType.class);
                 ItemLike itemFromBottleType = (ItemLike) itemFromBottleTypeMethod.invoke(null, bottleType);
-                
+
                 return PotionUtils.getPotion(tag).getName(
-                    itemFromBottleType.asItem().getDescriptionId() + ".effect."
-                );
+                        itemFromBottleType.asItem().getDescriptionId() + ".effect.");
             } catch (Exception e) {
                 return "fluid.create.potion";
             }
         }
-        
+
         public int getTintColor(FluidStack stack) {
             CompoundTag tag = stack.getOrCreateTag();
             int color = PotionUtils.getColor(PotionUtils.getAllEffects(tag)) | 0xff000000;
             return color;
         }
     }
-    
+
     /**
      * Register fluid system only if Create mod is loaded
      */
@@ -295,4 +295,4 @@ public class ModFluids {
             Lava_Potions.LOGGER.info("Create mod not detected - skipping custom fluid registration");
         }
     }
-} 
+}

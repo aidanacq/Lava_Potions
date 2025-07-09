@@ -99,8 +99,8 @@ public class MagmaWalkerEffect extends MobEffect {
                 BlockState aboveState = level.getBlockState(abovePos);
 
                 // Check if position matches our criteria: lava block with air above
-                if (blockState.is(Blocks.LAVA) && aboveState.isAir()) {
-                    // Replace lava with decayable magma block
+                if (blockState.is(Blocks.LAVA) && blockState.getFluidState().isSource() && aboveState.isAir()) {
+                    // Replace lava source with decayable magma block
                     level.setBlock(checkPos, magmaBlockState, 3);
                 }
             }
@@ -144,10 +144,6 @@ public class MagmaWalkerEffect extends MobEffect {
 
         if (spawnRightFoot) {
             // Spawn flame particle from right foot using server method
-            double rightVelX = (player.getRandom().nextDouble() - 0.5) * 0.02;
-            double rightVelY = player.getRandom().nextDouble() * 0.02 + 0.01;
-            double rightVelZ = (player.getRandom().nextDouble() - 0.5) * 0.02;
-
             serverLevel.sendParticles(ParticleTypes.FLAME,
                     rightFootX + (player.getRandom().nextDouble() - 0.5) * 0.08,
                     rightFootY + (player.getRandom().nextDouble() - 0.5) * 0.08,
@@ -159,10 +155,6 @@ public class MagmaWalkerEffect extends MobEffect {
                     0.0); // Speed (we'll use velocity instead)
         } else {
             // Spawn flame particle from left foot using server method
-            double leftVelX = (player.getRandom().nextDouble() - 0.5) * 0.02;
-            double leftVelY = player.getRandom().nextDouble() * 0.02 + 0.01;
-            double leftVelZ = (player.getRandom().nextDouble() - 0.5) * 0.02;
-
             serverLevel.sendParticles(ParticleTypes.FLAME,
                     leftFootX + (player.getRandom().nextDouble() - 0.5) * 0.08,
                     leftFootY + (player.getRandom().nextDouble() - 0.5) * 0.08,

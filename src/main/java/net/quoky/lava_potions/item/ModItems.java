@@ -27,6 +27,10 @@ public class ModItems {
     public static final RegistryObject<Item> STRIDER_HIDE = ITEMS.register("strider_hide",
             () -> new Item(new Item.Properties().fireResistant()));
 
+    // Register the potion bag item
+    public static final RegistryObject<Item> POTION_BAG = ITEMS.register("potion_bag",
+            () -> new PotionBagItem(new Item.Properties().fireResistant().stacksTo(1)));
+
     // Register all items
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

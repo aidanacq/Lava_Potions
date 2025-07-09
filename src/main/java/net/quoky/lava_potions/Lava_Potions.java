@@ -24,6 +24,7 @@ import net.quoky.lava_potions.entity.ModEntityTypes;
 
 import net.quoky.lava_potions.item.ModCreativeTabs;
 import net.quoky.lava_potions.item.ModItems;
+import net.quoky.lava_potions.item.ModMenuTypes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
 import net.quoky.lava_potions.util.CreateCompat;
 import net.quoky.lava_potions.util.LavaBottleHandler;
@@ -53,6 +54,9 @@ public class Lava_Potions {
 
         // Register items
         ModItems.register(modEventBus);
+
+        // Register menu types
+        ModMenuTypes.register(modEventBus);
 
         // Register effects
         ModEffects.register(modEventBus);
@@ -139,5 +143,7 @@ public class Lava_Potions {
         public static void onClientSetup(FMLClientSetupEvent event) {
             LOGGER.info("Lava Potions client setup");
         }
+
+
     }
 }

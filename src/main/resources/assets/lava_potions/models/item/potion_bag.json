@@ -1,3 +1,14 @@
 {
-  "parent": "builtin/entity"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "lava_potions:item/potion_bag_closed"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0
+      },
+      "model": "lava_potions:item/potion_bag_open"
+    }
+  ]
 } 

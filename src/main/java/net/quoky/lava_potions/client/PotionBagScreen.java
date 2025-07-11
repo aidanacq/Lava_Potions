@@ -39,6 +39,18 @@ public class PotionBagScreen extends AbstractContainerScreen<PotionBagMenu> {
         
         // Render the custom overlay
         guiGraphics.blit(OVERLAY_TEXTURE, x, y, 0, 0, this.imageWidth, this.imageHeight);
+
+        // Render slot overlays for filled slots
+        boolean[] slotStates = PotionBagItem.getSlotStates(menu.getPotionBag());
+        for (int i = 0; i < slotStates.length; i++) {
+            if (slotStates[i]) {
+                // Slot positions: 5 slots in a row, starting at (44, 20) in the GUI
+                int slotX = x + 44 + i * 18;
+                int slotY = y + 20;
+                ResourceLocation overlayTexture = new ResourceLocation(Lava_Potions.MOD_ID, "textures/item/potion_bag_slot_" + (i + 1) + ".png");
+                guiGraphics.blit(overlayTexture, slotX, slotY, 0, 0, 16, 16, 16, 16);
+            }
+        }
     }
 
     @Override

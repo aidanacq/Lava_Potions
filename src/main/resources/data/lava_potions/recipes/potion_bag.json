@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "s s",
+    "hhh",
+    "hhh"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:string"
+    },
+    "h": {
+      "item": "lava_potions:strider_hide"
+    }
+  },
+  "result": {
+    "item": "lava_potions:potion_bag",
+    "count": 1
+  }
+}

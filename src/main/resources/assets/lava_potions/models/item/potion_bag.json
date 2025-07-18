@@ -6,9 +6,227 @@
   "overrides": [
     {
       "predicate": {
-        "lava_potions:is_open": 1.0
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 0.0
       },
-      "model": "lava_potions:item/potion_bag_open"
+      "model": "lava_potions:item/potion_bag_open_empty"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 1.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_1"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 2.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_2"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 3.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_3"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 4.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_4"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 5.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_5"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 6.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_6"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 7.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_7"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 8.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_8"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 9.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_9"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 10.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_10"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 11.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_11"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 12.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_12"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 13.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_13"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 14.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_14"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 15.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_15"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 16.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_16"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 17.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_17"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 18.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_18"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 19.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_19"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 20.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_20"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 21.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_21"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 22.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_22"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 23.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_23"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 24.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_24"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 25.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_25"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 26.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_26"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 27.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_27"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 28.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_28"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 29.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_29"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 30.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_30"
+    },
+    {
+      "predicate": {
+        "lava_potions:is_open": 1.0,
+        "lava_potions:slot_mask": 31.0
+      },
+      "model": "lava_potions:item/potion_bag_open_mask_31"
     }
   ]
 } 

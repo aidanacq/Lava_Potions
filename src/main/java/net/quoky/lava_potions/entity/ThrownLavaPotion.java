@@ -386,6 +386,12 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
                     || basePotion == ModPotionTypes.LAVA_VISION_LONG.get()) {
                 cloudColor = 0x00ca98; // Green
             }
+            // Lava Strider
+            else if (basePotion == ModPotionTypes.LAVA_STRIDER.get()
+                    || basePotion == ModPotionTypes.LAVA_STRIDER_LONG.get()
+                    || basePotion == ModPotionTypes.LAVA_STRIDER_STRONG.get()) {
+                cloudColor = 0x005ff4; // Blue
+            }
 
             // For effect potions, use vanilla particle effect with correct tint
             cloud.setParticle(ParticleTypes.ENTITY_EFFECT);
@@ -442,10 +448,7 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
                             0);
                 }
             } else if (ModPotionTypes.isEffectLavaPotion(basePotion)) {
-                // Effect potions: specific particle effects
-                this.level().addParticle(ParticleTypes.EXPLOSION,
-                        this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
-
+                // Effect potions: specific particle effects (no explosion particle)
                 // Create a smaller burst of flame particles mixed with potion-colored particles
                 // for effect potions
                 // Get color based on potion type
@@ -534,10 +537,6 @@ public class ThrownLavaPotion extends ThrowableItemProjectile {
 
                 // Create 20 potion-colored particles
                 for (int i = 0; i < 20; i++) {
-                    double offsetX = this.random.nextGaussian() * 0.15;
-                    double offsetY = this.random.nextGaussian() * 0.15;
-                    double offsetZ = this.random.nextGaussian() * 0.15;
-
                     this.level().addParticle(
                             ParticleTypes.ENTITY_EFFECT,
                             this.getX(),

@@ -198,6 +198,35 @@ public class ModPotionTypes {
         return isLavaPotion(potion) && !isBasicLavaPotion(potion);
     }
 
+    // Returns the Lava Potion for a given MobEffect, or null if not a Lava Potion effect
+    public static Potion getPotionForEffect(net.minecraft.world.effect.MobEffect effect) {
+        if (effect == ModEffects.OBSIDIAN_SKIN.get()) return OBSIDIAN_SKIN.get();
+        if (effect == ModEffects.NETHERITE_SKIN.get()) return NETHERITE_SKIN.get();
+        if (effect == ModEffects.GLASS_SKIN.get()) return GLASS_SKIN.get();
+        if (effect == ModEffects.HEAT.get()) return HEAT.get();
+        if (effect == ModEffects.FLAMMABILITY.get()) return FLAMMABILITY.get();
+        if (effect == ModEffects.PYROMANCY.get()) return PYROMANCY.get();
+        if (effect == ModEffects.MAGMA_WALKER.get()) return MAGMA_WALKER.get();
+        if (effect == ModEffects.LAVA_VISION.get()) return LAVA_VISION.get();
+        if (effect == ModEffects.LAVA_STRIDER.get()) return LAVA_STRIDER.get();
+        // Add long/strong variants if needed
+        return null;
+    }
+
+    // Returns the color for a Lava Potion, or -1 if not found
+    public static int getPotionColor(Potion potion) {
+        if (potion == OBSIDIAN_SKIN.get() || potion == OBSIDIAN_SKIN_LONG.get()) return 0x8e5de3;
+        if (potion == NETHERITE_SKIN.get() || potion == NETHERITE_SKIN_LONG.get()) return 0xa47e75;
+        if (potion == GLASS_SKIN.get() || potion == GLASS_SKIN_LONG.get()) return 0xc2f3ff;
+        if (potion == HEAT.get() || potion == HEAT_LONG.get() || potion == HEAT_STRONG.get()) return 0xf7a236;
+        if (potion == FLAMMABILITY.get() || potion == FLAMMABILITY_LONG.get()) return 0xffec99;
+        if (potion == PYROMANCY.get() || potion == PYROMANCY_LONG.get() || potion == PYROMANCY_STRONG.get()) return 0xe5291f;
+        if (potion == MAGMA_WALKER.get() || potion == MAGMA_WALKER_LONG.get() || potion == MAGMA_WALKER_STRONG.get()) return 0xd05c00;
+        if (potion == LAVA_VISION.get() || potion == LAVA_VISION_LONG.get()) return 0x00ca98;
+        if (potion == LAVA_STRIDER.get() || potion == LAVA_STRIDER_LONG.get() || potion == LAVA_STRIDER_STRONG.get()) return 0x005ff4;
+        return -1;
+    }
+
     private static void initPotionTypes() {
         POTION_TYPES.add(LAVA_BOTTLE.get());
         POTION_TYPES.add(AWKWARD_LAVA.get());

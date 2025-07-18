@@ -6,14 +6,11 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
-import net.quoky.lava_potions.Lava_Potions;
-import net.quoky.lava_potions.item.PotionBagItem;
 import net.quoky.lava_potions.item.PotionBagMenu;
 
 public class PotionBagScreen extends AbstractContainerScreen<PotionBagMenu> {
     private static final ResourceLocation HOPPER_TEXTURE = new ResourceLocation("minecraft", "textures/gui/container/hopper.png");
-    private static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation(Lava_Potions.MOD_ID, "textures/gui/potion_bag_overlay.png");
+    private static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation("lava_potions", "textures/gui/potion_bag_overlay.png");
 
     public PotionBagScreen(PotionBagMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -37,27 +34,13 @@ public class PotionBagScreen extends AbstractContainerScreen<PotionBagMenu> {
         // Render the vanilla hopper texture
         guiGraphics.blit(HOPPER_TEXTURE, x, y, 0, 0, this.imageWidth, this.imageHeight);
         
-        // Render the custom overlay
+        // Render the custom overlay on top
         guiGraphics.blit(OVERLAY_TEXTURE, x, y, 0, 0, this.imageWidth, this.imageHeight);
-
-        // Render slot overlays for filled slots
-        boolean[] slotStates = PotionBagItem.getSlotStates(menu.getPotionBag());
-        for (int i = 0; i < slotStates.length; i++) {
-            if (slotStates[i]) {
-                // Slot positions: 5 slots in a row, starting at (44, 20) in the GUI
-                int slotX = x + 44 + i * 18;
-                int slotY = y + 20;
-                ResourceLocation overlayTexture = new ResourceLocation(Lava_Potions.MOD_ID, "textures/item/potion_bag_slot_" + (i + 1) + ".png");
-                guiGraphics.blit(overlayTexture, slotX, slotY, 0, 0, 16, 16, 16, 16);
-            }
-        }
     }
 
     @Override
     public void onClose() {
         super.onClose();
-        // Mark the bag as closed when the screen is closed
-        ItemStack potionBag = this.menu.getPotionBag();
-        PotionBagItem.setOpen(potionBag, false);
+        // The menu's removed() method will handle closing the bag
     }
 } 

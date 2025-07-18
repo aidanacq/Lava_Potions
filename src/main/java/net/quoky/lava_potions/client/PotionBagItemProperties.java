@@ -19,8 +19,14 @@ public class PotionBagItemProperties {
     }
 
     public static void registerItemProperties() {
+        // Register the open/closed property
         ResourceLocation isOpenProperty = ResourceLocation.fromNamespaceAndPath(Lava_Potions.MOD_ID, "is_open");
         ItemProperties.register(ModItems.POTION_BAG.get(), isOpenProperty,
                 (stack, level, entity, seed) -> PotionBagItem.isOpen(stack) ? 1.0F : 0.0F);
+
+        // Register the slot mask property for open bags
+        ResourceLocation slotMaskProperty = ResourceLocation.fromNamespaceAndPath(Lava_Potions.MOD_ID, "slot_mask");
+        ItemProperties.register(ModItems.POTION_BAG.get(), slotMaskProperty,
+                (stack, level, entity, seed) -> PotionBagItem.isOpen(stack) ? (float) PotionBagItem.getSlotMask(stack) : 0.0F);
     }
 } 

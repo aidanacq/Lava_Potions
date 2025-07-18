@@ -198,6 +198,7 @@ public class ModCreativeTabs {
 
                         // Items
                         output.accept(ModItems.STRIDER_HIDE.get());
+                        output.accept(ModItems.POTION_BAG.get());
                     })
                     .build());
 

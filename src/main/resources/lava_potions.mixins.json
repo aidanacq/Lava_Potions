@@ -7,7 +7,8 @@
   "mixins": [
     "CreatePotionFluidHandlerMixin",
     "CreatePotionFluidMixin",
-    "LavaStriderMixin"
+    "LavaStriderMixin",
+    "PotionUtilsMixin"
   ],
   "client": [
     "CreatePotionFluidTypeMixin",

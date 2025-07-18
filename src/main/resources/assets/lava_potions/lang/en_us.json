@@ -3,6 +3,9 @@
   "block.lava_potions.decayable_magma_block": "Decayable Magma Block",
 
   "item.lava_potions.strider_hide": "Strider Hide",
+  "item.lava_potions.potion_bag": "Potion Bag",
+
+  "container.lava_potions.potion_bag": "Potion Bag",
 
   "creativetab.lava_potions": "Lava Potions",
 

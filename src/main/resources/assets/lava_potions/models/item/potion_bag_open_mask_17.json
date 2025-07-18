@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "lava_potions:item/potion_bag_open",
+    "layer1": "lava_potions:item/potion_bag_slot_1",
+    "layer2": "lava_potions:item/potion_bag_slot_5"
+  }
+} 

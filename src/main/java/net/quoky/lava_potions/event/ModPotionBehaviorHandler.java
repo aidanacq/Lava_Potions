@@ -32,6 +32,8 @@ import net.quoky.lava_potions.effect.ModEffects;
 import net.quoky.lava_potions.entity.ThrownLavaPotion;
 import net.quoky.lava_potions.potion.BrewingRecipes;
 import net.quoky.lava_potions.potion.ModPotionTypes;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.quoky.lava_potions.item.PotionBagItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -187,6 +189,14 @@ public class ModPotionBehaviorHandler {
                     }
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onItemToss(ItemTossEvent event) {
+        ItemStack tossed = event.getEntity().getItem();
+        if (tossed.getItem() instanceof PotionBagItem && PotionBagItem.isOpen(tossed)) {
+            PotionBagItem.setOpen(tossed, false);
         }
     }
 
